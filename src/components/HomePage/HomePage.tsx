@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Card } from '@blueprintjs/core';
 import classNames from 'classnames';
+import Snowfall from 'react-snowfall'
 
 import { ReactComponent as Logo } from 'svg/logo.svg';
 
@@ -8,6 +9,7 @@ import styles from './HomePage.module.scss';
 
 export const HomePage: FC = () => (
   <div className={classNames(styles.root, 'bp3-dark')}>
+    <Snowfall />
     <Card
       className={classNames(styles.card, 'bp3-popover-wrapper', 'bp3-text-large')}
       elevation={4}
