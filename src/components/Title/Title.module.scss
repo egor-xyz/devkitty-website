@@ -1,0 +1,49 @@
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 40px;
+  font-weight: 300;
+  @media all and (max-width: 930px){
+    font-size: 20px;
+  }
+}
+.logo {
+  height: 60px;
+  margin-right: 10px;
+  @media all and (max-width: 930px){
+    display: none;
+  }
+}
+.titleName {
+  display: flex;
+  align-items: center;
+  height: 49px;
+  overflow: hidden;
+  position: relative;
+  @media all and (max-width: 930px){
+    height: 29px;
+  }
+}
+@keyframes flip4 {
+  0% { transform: translate3d(0, -40%, 0); }
+  5% { transform: translate3d(0, -20%, 0); }
+  25% { transform: translate3d(0, -20%, 0); }
+  30% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, 0, 0); }
+  55% { transform: translate3d(0, 20%, 0); }
+  75% { transform: translate3d(0, 20%, 0); }
+  80% { transform: translate3d(0, 40%, 0); }
+  99.99% { transform: translate3d(0, 40%, 0); }
+  100% { transform: translate3d(0, -40%, 0); }
+}
+.flip {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: flex;
+  transform: translate3d(0, -40%, 0);
+  justify-content: flex-start;
+  flex-direction: column;
+  animation: flip4 10s cubic-bezier(0.23, 1, 0.32, 1.2) infinite;
+}
