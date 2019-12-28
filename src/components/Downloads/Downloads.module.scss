@@ -1,0 +1,59 @@
+@import 'src/variables';
+
+.root {
+  min-height: calc(100vh - #{$headerHeight});
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  background-color: $appBlue;
+  box-shadow: 0 -2px 6px 0 rgba(0,0,0,.12), inset 0 1px 0 0 #dadce0;
+  @media all and (max-width: 799px) {
+    display: none;
+  }
+}
+.wrap {
+  text-align: center;
+}
+.image {
+  margin-top: -70px;
+  display: block;
+  height: 450px;
+  image-rendering: -webkit-optimize-contrast;
+}
+.logo {
+  margin-top: -70px;
+  height: 100px;
+}
+.title {
+  color: #fff;
+  font-size: 40px;
+  font-weight: 300;
+}
+.version {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 300;
+  span {
+    margin-left: 10px;
+  }
+}
+.actions {
+  text-align: center;
+}
+.system {
+  display: inline-flex;
+  flex-direction: column;
+  & + & {
+    margin-left: 50px;
+  }
+}
+.btn {
+  min-width: 300px;
+  margin-top: 20px;
+}
