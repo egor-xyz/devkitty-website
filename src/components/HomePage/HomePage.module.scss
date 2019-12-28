@@ -1,0 +1,30 @@
+.root {
+  width: 100vw;
+  height: 100vh;
+  background-color: #30404d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.logo {
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 100px;
+  height: 100px;
+}
+.card {
+  position: relative;
+  max-width: 80vw;
+}
+.image {
+  width: 600px;
+}
+.title {
+  margin: 0;
+}
+.text {
+  font-size: 40px;
+  margin-top: -30px;
+}
