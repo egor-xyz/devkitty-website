@@ -9,10 +9,15 @@
 }
 .logo {
   position: absolute;
-  top: -50px;
-  left: -50px;
   width: 100px;
   height: 100px;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  @media all and (max-width: 780px) {
+    width: 50px;
+    height: 50px;
+  }
 }
 .card {
   position: relative;
@@ -20,11 +25,21 @@
 }
 .image {
   width: 600px;
+  @media all and (max-width: 780px) {
+    width: 70vw;
+  }
 }
 .title {
   margin: 0;
+  @media all and (max-width: 780px) {
+    font-size: 14px;
+  }
 }
 .text {
   font-size: 40px;
   margin-top: -30px;
+  @media all and (max-width: 780px) {
+    font-size: 14px;
+    margin-top: 0;
+  }
 }
