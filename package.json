@@ -1,0 +1,55 @@
+{
+  "name": "devkitty",
+  "version": "1.1.20",
+  "private": false,
+  "homepage": "https://devkitty.app/",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "dependencies": {
+    "@blueprintjs/core": "3.30.0",
+    "@testing-library/jest-dom": "5.11.1",
+    "@testing-library/react": "10.4.7",
+    "@testing-library/user-event": "12.0.11",
+    "@types/classnames": "2.2.10",
+    "@types/jest": "26.0.5",
+    "@types/lodash": "4.14.157",
+    "@types/node": "14.0.23",
+    "@types/node-sass": "4.11.1",
+    "@types/react": "16.9.43",
+    "@types/react-dom": "16.9.8",
+    "axios": "0.19.2",
+    "classnames": "2.2.6",
+    "clsx": "^1.1.1",
+    "csscomb": "^4.3.0",
+    "framer-motion": "^2.3.0",
+    "gh-pages": "3.1.0",
+    "lodash": "4.17.19",
+    "node-sass": "4.14.1",
+    "normalize.css": "8.0.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-scripts": "3.4.1",
+    "react-snowfall": "1.0.2",
+    "typescript": "3.9.7"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
