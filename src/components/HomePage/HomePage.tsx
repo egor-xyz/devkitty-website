@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { AnchorButton, Card } from '@blueprintjs/core';
 import classNames from 'classnames';
-import Snowfall from 'react-snowfall'
 import axios from 'axios';
 import find from 'lodash/find';
 
@@ -35,7 +34,6 @@ export default class HomePage extends Component<{}, State> {
     const { version, downloadLink } = this.state;
     return (
       <div className={classNames(styles.root, 'bp3-dark')}>
-        <Snowfall />
         <Card
           className={classNames(styles.card, 'bp3-popover-wrapper', 'bp3-text-large')}
           elevation={4}
