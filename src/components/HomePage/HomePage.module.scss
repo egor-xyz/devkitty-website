@@ -24,8 +24,8 @@
   max-width: 80vw;
 }
 .image {
-  width: 600px;
-  @media all and (max-width: 780px) {
+  width: 812px;
+  @media all and (max-width: 1080px) {
     width: 70vw;
   }
 }
@@ -42,4 +42,8 @@
     font-size: 14px;
     margin-top: 0;
   }
+}
+.btnDesc {
+  font-size: 12px;
+  margin-top: 5px;
 }
