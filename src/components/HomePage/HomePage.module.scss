@@ -24,23 +24,31 @@
   max-width: 80vw;
 }
 .image {
-  //width: 812px;
+  object-fit: cover;
+  margin: -20px auto -40px;
+  max-height: 60vh;
   @media all and (max-width: 1180px) {
-    width: 70vw;
+    width: 60vw;
+    margin-bottom: 0;
   }
 }
 .title {
   margin: 0;
   @media all and (max-width: 780px) {
-    font-size: 14px;
+    font-size: 24px;
   }
 }
-.text {
+.action {
   font-size: 40px;
-  margin-top: -50px;
+  margin: 20px;
   @media all and (max-width: 1180px) {
-    font-size: 14px;
-    margin-top: 0;
+    margin: 10px auto 20px;
+    font-size: 12px;
+  }
+}
+.btn {
+  @media all and (max-width: 1180px) {
+    font-size: 12px !important;
   }
 }
 .btnDesc {
