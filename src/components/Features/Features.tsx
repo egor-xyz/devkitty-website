@@ -42,7 +42,7 @@ export const Features: FC = () => {
       className={css.block}
     >
       <div className={css.title}>Git Branch Manager</div>
-      <div className={css.titleDesc}>One screen git tool for multiple projects</div>
+      <div className={css.titleDesc}>Manage your projects with ease</div>
 
       {gbmFeatures.map(({icon, title}, index) => (
         <div
