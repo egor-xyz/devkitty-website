@@ -1,7 +1,6 @@
 @import 'src/variables';
 
 .root {
-  min-width: $websiteMinWidth;
   min-height: calc(100vh - #{$headerHeight});
   position: relative;
   text-align: left;
@@ -9,6 +8,9 @@
 }
 .imagePadding {
   padding-top: 750px;
+  @media all and (max-width: 799px) {
+    display: none;
+  }
 }
 .image {
   width: 100vw;
@@ -20,6 +22,17 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  @media all and (max-width: 799px) {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-top: $headerHeight;
+    height: auto;
+    padding: 45px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   img {
     position: relative;
     width: calc(100% - 20px);
@@ -31,6 +44,13 @@
 }
 .block {
   padding: 150px 0 200px 50%;
+  @media all and (max-width: 799px) {
+    padding: 0 20px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 .title {
   font-size: 40px;
@@ -55,6 +75,10 @@
   font-size: 18px;
   @media all and (max-width: 930px){
     font-size: 13px;
+  }
+  @media all and (max-width: 799px) {
+    min-width: 80vw;
+    text-align: left;
   }
 }
 .icon {

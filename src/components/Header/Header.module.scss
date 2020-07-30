@@ -29,11 +29,14 @@
   margin-left: 110px;
   font-size: 24px;
   letter-spacing: -0.5px;
+  @media all and (max-width: 799px) {
+    font-size: 16px;
+  }
 }
 .menu {
   margin-left: 48px;
   font-size: 13px;
-  @media all and (max-width: 699px){
+  @media all and (max-width: 799px) {
     display: none;
   }
   ul {

@@ -18,13 +18,23 @@ export const Features: FC = () => {
 
   const opacity = useTransform(scrollYProgress, [.2, .27], [0, 1])
 
+  let style = {};
+  let style2 = {};
+  if (window.innerWidth >= 800) {
+    style = {
+      width: width,
+      scale,
+    }
+    style2 = {
+      opacity,
+    }
+  }
+
+
   return (<div className={css.root}>
     <MotionDiv
       className={css.image}
-      style={{
-        width: width,
-        scale,
-      }}
+      style={style}
     >
       <img
         src="/images/gbm-main-shadow.png"
@@ -35,13 +45,7 @@ export const Features: FC = () => {
     <div className={css.imagePadding}/>
 
     <MotionDiv
-      initial={{
-        opacity: 0,
-        y: -20,
-      }}
-      style={{
-        opacity,
-      }}
+      style={style2}
       id='features'
       className={css.block}
     >
