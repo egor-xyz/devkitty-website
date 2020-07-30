@@ -5,28 +5,31 @@ import { motion, useTransform, useViewportScroll } from 'framer-motion';
 
 import css from './Features.module.scss';
 
-const MotionImg = motion.img;
 const MotionDiv = motion.div;
 
 export const Features: FC = () => {
   const {scrollYProgress} = useViewportScroll()
-  const xPosAnim = useTransform(scrollYProgress, [0, .2], ['-50%', '-100%'])
-  const scale = useTransform(scrollYProgress, [0, .2], [1, .6])
+
+  const imageTiming = [0, .2];
+
+  const width = useTransform(scrollYProgress, imageTiming, ['100vw', '50vw'])
+  const scale = useTransform(scrollYProgress, imageTiming, [1, .7])
+
   const opacity = useTransform(scrollYProgress, [.2, .27], [0, 1])
+
   return (<div className={css.root}>
-    <MotionImg
-      initial={{
-        y: '-50%',
-        x: '-50%',
-      }}
+    <MotionDiv
       className={css.image}
       style={{
-        x: xPosAnim,
-        scale
+        width: width,
+        scale,
       }}
-      src="/images/gbm-main-shadow.png"
-      alt="app screenshot"
-    />
+    >
+      <img
+        src="/images/gbm-main-shadow.png"
+        alt="app screenshot"
+      />
+    </MotionDiv>
 
     <div className={css.imagePadding}/>
 

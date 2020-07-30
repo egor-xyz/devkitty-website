@@ -1,6 +1,7 @@
 @import 'src/variables';
 
 .root {
+  min-width: $websiteMinWidth;
   min-height: calc(100vh - #{$headerHeight});
   position: relative;
   display: flex;

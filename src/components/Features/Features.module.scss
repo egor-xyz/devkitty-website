@@ -1,6 +1,7 @@
 @import 'src/variables';
 
 .root {
+  min-width: $websiteMinWidth;
   min-height: calc(100vh - #{$headerHeight});
   position: relative;
   text-align: left;
@@ -10,13 +11,22 @@
   padding-top: 750px;
 }
 .image {
-  width: 80vw;
-  max-width: 912px;
+  width: 100vw;
+  height: calc(100vh - #{$headerHeight});
   position: fixed;
-  top: 50%;
-  left: 50%;
-  display: block;
-  object-fit: contain;
+  top: $headerHeight;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  img {
+    width: calc(100% - 20px);
+    max-width: 912px;
+    display: block;
+    object-fit: contain;
+    transform: translate3d(0, 0, 0);
+  }
 }
 .block {
   padding: 150px 0 200px 50%;
@@ -24,18 +34,27 @@
 .title {
   font-size: 40px;
   font-weight: 300;
+  @media all and (max-width: 930px){
+    font-size: 20px;
+  }
 }
 .titleDesc {
- font-size: 24px;
-  font-weight: 300;
   margin-top: 10px;
+  font-size: 24px;
+  font-weight: 300;
+  @media all and (max-width: 930px){
+    font-size: 16px;
+  }
 }
 .text {
-  align-items: center;
-  display: flex;
   max-width: 40vw;
-  font-size: 18px;
+  display: flex;
+  align-items: center;
   margin-top: 40px;
+  font-size: 18px;
+  @media all and (max-width: 930px){
+    font-size: 13px;
+  }
 }
 .icon {
   margin-right: 15px;
@@ -45,6 +64,6 @@
 :global {
   #page2 {
     background-color: $appBlue;
-    box-shadow: 0 -2px 6px 0 rgba(0,0,0,0.12), inset 0 1px 0 0 #dadce0;
+    box-shadow: 0 -2px 6px 0 rgba(0,0,0,.12), inset 0 1px 0 0 #dadce0;
   }
 }
