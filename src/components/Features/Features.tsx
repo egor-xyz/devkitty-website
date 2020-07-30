@@ -59,7 +59,7 @@ export const Features: FC = () => {
         >
           <Icon
             className={css.icon}
-            iconSize={30}
+            iconSize={28}
             icon={icon}
           />
           <span>{title}</span>
