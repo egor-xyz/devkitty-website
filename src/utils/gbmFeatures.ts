@@ -10,35 +10,35 @@ type GbmFeatures = {
 export const gbmFeatures: GbmFeatures = [
   {
     icon: 'projects',
-    title: 'Easy manage multiple projects'
+    title: 'Manage multiple projects'
   },
   {
     icon: 'git-new-branch',
-    title: 'Quick checkout between branches with stash or create new branch'
+    title: 'Quick checkout between branches with stash or create new branches'
   },
   {
     icon: 'refresh',
-    title: 'Auto fetch for all projects'
+    title: 'Auto fetch projects'
   },
   {
     icon: 'arrow-down',
-    title: 'Easy pull latest changes from remote'
+    title: 'Easily sync projects with their remote'
   },
   {
     icon: 'git-pull',
-    title: 'Easy create pull requests'
+    title: 'Create and view pull requests'
   },
   {
     icon: 'clipboard',
-    title: 'Easy copy branch name'
+    title: 'Quickly copy branch names'
   },
   {
     icon: 'git-repo',
-    title: 'Open on GitHub, Bitbucket, GitLab and etc...'
+    title: 'Open on GitHub, Bitbucket, GitLab...'
   },
   {
     icon: 'code',
-    title: 'Open on your favorite IDE or any code editor'
+    title: 'Integration with your favorite IDE or code editor'
   },
   {
     icon: 'console',
