@@ -1,0 +1,68 @@
+@import "src/variables";
+
+.root {
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: height .4s;
+  z-index: 100;
+  min-width: $websiteMinWidth;
+}
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.12), inset 0 -1px 0 0 #dadce0;
+  height: $headerHeight;
+  position: relative;
+}
+.logo {
+  position: absolute;
+  top: 100%;
+  left: 24px;
+  transform: translateY(-50%);
+  height: 70px;
+}
+.logoText {
+  margin-left: 110px;
+  font-size: 24px;
+  letter-spacing: -0.5px;
+}
+.menu {
+  margin-left: 48px;
+  font-size: 13px;
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    position: relative;
+    width: auto;
+  }
+  a {
+    text-decoration: none;
+    text-transform: none;
+    border: none;
+    font-weight: 600;
+    border-radius: 2px;
+    cursor: pointer;
+    outline: none;
+    background: none;
+    padding: 0 20px;
+    bottom: auto;
+    color: #5f6368;
+    margin: 0;
+    position: static;
+    &:hover {
+      color: #000;
+    }
+  }
+}

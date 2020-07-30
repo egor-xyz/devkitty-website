@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import { HomePage } from 'components';
+import { App } from 'components';
 
 import 'normalize.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
-import './index.css';
+import './JetBrains-Mono.css';
+import './index.scss';
 
-ReactDOM.render(<HomePage />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

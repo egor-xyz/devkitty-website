@@ -1,0 +1,14 @@
+@import 'src/variables';
+
+.root {
+  position: relative;
+}
+.anchor {
+  display: block;
+  position: relative;
+  top: -$headerHeight;
+  visibility: hidden;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
