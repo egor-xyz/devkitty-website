@@ -16,7 +16,7 @@ export const Features: FC = () => {
 
   const scale = useTransform(scrollYProgress, [.21, .4], [1, .7])
 
-  const opacity = useTransform(scrollYProgress, [.2, .27], [0, 1])
+  const opacity = useTransform(scrollYProgress, [.18, .25], [0, 1])
 
   let style = {};
   let style2 = {};
