@@ -13,7 +13,8 @@ export const Features: FC = () => {
   const imageTiming = [0, .2];
 
   const width = useTransform(scrollYProgress, imageTiming, ['100vw', '50vw'])
-  const scale = useTransform(scrollYProgress, imageTiming, [1, .7])
+
+  const scale = useTransform(scrollYProgress, [.21, .4], [1, .7])
 
   const opacity = useTransform(scrollYProgress, [.2, .27], [0, 1])
 
