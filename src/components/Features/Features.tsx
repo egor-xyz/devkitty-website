@@ -6,6 +6,7 @@ import { motion, useTransform, useViewportScroll } from 'framer-motion';
 import css from './Features.module.scss';
 
 const MotionDiv = motion.div;
+const MotionImg = motion.img;
 
 export const Features: FC = () => {
   const {scrollYProgress} = useViewportScroll()
@@ -31,9 +32,12 @@ export const Features: FC = () => {
       className={css.image}
       style={style}
     >
-      <img
-        src="/images/gbm-main-shadow.png"
+      <MotionImg
+        src="/images/gbm-main.png"
         alt="app screenshot"
+        animate={{
+          scale: [0, 1]
+        }}
       />
     </MotionDiv>
 
