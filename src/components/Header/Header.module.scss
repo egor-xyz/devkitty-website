@@ -50,7 +50,6 @@
     display: flex;
     align-items: center;
     height: 100%;
-    position: relative;
     width: auto;
   }
   a {
@@ -68,7 +67,13 @@
     margin: 0;
     position: static;
     &:hover {
+      text-decoration: none;
       color: #000;
+    }
+    &.blue {
+      position: absolute;
+      right: 24px;
+      box-shadow: none;
     }
   }
 }
