@@ -9,14 +9,10 @@ const MotionDiv = motion.div;
 
 export const Features: FC = () => {
   const {scrollYProgress} = useViewportScroll()
-
   const imageTiming = [0, .2];
-
   const width = useTransform(scrollYProgress, imageTiming, ['100vw', '50vw'])
-
-  const scale = useTransform(scrollYProgress, [.21, .4], [1, .7])
-
-  const opacity = useTransform(scrollYProgress, [.18, .34], [0, 1])
+  const scale = useTransform(scrollYProgress, imageTiming, [1, .7])
+  const opacity = useTransform(scrollYProgress, [.18, .31], [0, 1])
 
   let style = {};
   let style2 = {};
@@ -29,7 +25,6 @@ export const Features: FC = () => {
       opacity,
     }
   }
-
 
   return (<div className={css.root}>
     <MotionDiv
@@ -52,17 +47,24 @@ export const Features: FC = () => {
       <div className={css.title}>Git Branch Manager</div>
       <div className={css.titleDesc}>Manage your projects with ease</div>
 
-      {gbmFeatures.map(({icon, title}, index) => (
+      {gbmFeatures.map(({icon, title, transition = {}, animate = {}, initial = {}}, index) => (
         <div
           key={index}
-          className={css.text}
+          className={css.featureItem}
         >
-          <Icon
-            className={css.icon}
-            iconSize={28}
-            icon={icon}
-          />
-          <span>{title}</span>
+          <MotionDiv
+            className={css.iconWrap}
+            transition={transition}
+            initial={initial as any}
+            animate={animate}
+          >
+            <Icon
+              className={css.icon}
+              iconSize={28}
+              icon={icon}
+            />
+          </MotionDiv>
+          <span className={css.featureText}>{title}</span>
         </div>
       ))}
     </MotionDiv>
