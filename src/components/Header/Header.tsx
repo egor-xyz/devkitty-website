@@ -13,15 +13,7 @@ export const Header: FC = () => (
         <ul>
           <li><a href='/#'>Home</a></li>
           <li><a href='#features'>Features</a></li>
-          <li>
-            <AnchorButton
-              icon={'download'}
-              intent={'primary'}
-              className={css.blue}
-              href='#downloads'
-              text={'Download'}
-            />
-          </li>
+          <li><a href='#downloads'>Download</a></li>
         </ul>
       </nav>
     </div>
