@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { ReactComponent as Logo } from 'assets/svg/logo.svg';
 
 import css from './Header.module.scss';
-import { AnchorButton } from '@blueprintjs/core';
 
 export const Header: FC = () => (
   <div className={css.root}>
