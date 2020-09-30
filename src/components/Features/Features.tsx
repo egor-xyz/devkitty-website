@@ -48,8 +48,8 @@ export const Features: FC = () => {
       id='features'
       className={css.block}
     >
-      <div className={css.title}>Git Branch Manager</div>
-      <div className={css.titleDesc}>Manage your projects with ease</div>
+      <div className={css.title}>devkitty</div>
+      <div className={css.titleDesc}>Swiss army knife for developers</div>
 
       {gbmFeatures.map(({icon, title, transition = {}, animate = {}, initial = {}}, index) => (
         <div

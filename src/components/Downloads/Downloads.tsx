@@ -36,7 +36,7 @@ export class Downloads extends Component<{}, State> {
     return (
       <div className={css.root}>
         <div className={css.wrap}>
-          <div className={css.title}>Git Branch Manager</div>
+          <div className={css.title}>devkitty</div>
           <div className={css.version}>
             <Icon icon={'confirm'}/>
             <span>{version ?? 'Loading...'}</span>
@@ -53,7 +53,7 @@ export class Downloads extends Component<{}, State> {
                 className={css.btn}
                 icon={'download'}
                 large={true}
-                text={'GBM for MacOS'}
+                text={'devkitty for MacOS'}
               >
               </AnchorButton>
             </div>
@@ -68,7 +68,7 @@ export class Downloads extends Component<{}, State> {
                 className={css.btn}
                 large={true}
                 icon={'download'}
-                text={'GBM for Windows 10'}
+                text={'devkitty for Windows 10'}
               />
             </div>
           </div>

@@ -1,6 +1,6 @@
 {
   "short_name": "GBM site",
-  "name": "Git Branch Manager WebSite",
+  "name": "devkitty.app",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
