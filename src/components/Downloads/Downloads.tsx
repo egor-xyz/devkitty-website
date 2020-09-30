@@ -4,7 +4,6 @@ import { ReactComponent as Windows } from 'assets/svg/windows.svg';
 
 import css from './Downloads.module.scss';
 import { AnchorButton, Icon } from '@blueprintjs/core';
-import { getAppVersions } from 'utils';
 
 interface State {
   loading: boolean;
@@ -13,26 +12,12 @@ interface State {
   winURL?: string,
 }
 
+const version = '1.0.29';
+
 export class Downloads extends Component<{}, State> {
-  state: State = {
-    loading: true
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = async () => {
-    const res = await getAppVersions();
-    if (!res) return;
-    this.setState({
-      ...res,
-      loading: false,
-    });
-  }
-
   render() {
-    const {loading, macURL, winURL, version} = this.state;
+    const macURL = `https://github.com/egor-xyz/devkitty.app/releases/download/v${version}/GBM.setup.${version}.dmg`;
+    const winURL = `https://github.com/egor-xyz/devkitty.app/releases/download/v${version}/Git-Branch-Manager-Setup-${version}.exe`;
     return (
       <div className={css.root}>
         <div className={css.wrap}>
@@ -49,7 +34,6 @@ export class Downloads extends Component<{}, State> {
               />
               <AnchorButton
                 href={macURL}
-                loading={loading}
                 className={css.btn}
                 icon={'download'}
                 large={true}
@@ -64,7 +48,6 @@ export class Downloads extends Component<{}, State> {
               />
               <AnchorButton
                 href={winURL}
-                loading={loading}
                 className={css.btn}
                 large={true}
                 icon={'download'}
