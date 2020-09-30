@@ -4,6 +4,7 @@ import { Icon } from '@blueprintjs/core';
 import { motion, useTransform, useViewportScroll } from 'framer-motion';
 
 import css from './Features.module.scss';
+import ParticlesBg from 'particles-bg';
 
 const MotionDiv = motion.div;
 const MotionImg = motion.img;
@@ -72,5 +73,12 @@ export const Features: FC = () => {
         </div>
       ))}
     </MotionDiv>
+
+    <ParticlesBg
+      type="circle"
+      color={'#ee5100'}
+      num={4}
+      bg={true}
+    />
   </div>);
 }
