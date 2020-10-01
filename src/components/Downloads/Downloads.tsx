@@ -12,12 +12,12 @@ interface State {
   winURL?: string,
 }
 
-const version = '1.0.29';
+const version = '1.1.1';
 
 export class Downloads extends Component<{}, State> {
   render() {
-    const macURL = `https://github.com/egor-xyz/devkitty.app/releases/download/v${version}/GBM.setup.${version}.dmg`;
-    const winURL = `https://github.com/egor-xyz/devkitty.app/releases/download/v${version}/Git-Branch-Manager-Setup-${version}.exe`;
+    const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/devkitty.setup.${version}.dmg`;
+    const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/devkitty-Setup-${version}.exe`;
     return (
       <div className={css.root}>
         <div className={css.wrap}>
