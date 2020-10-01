@@ -16,8 +16,8 @@ const version = '1.1.1';
 
 export class Downloads extends Component<{}, State> {
   render() {
-    const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/devkitty.setup.${version}.dmg`;
-    const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/devkitty-Setup-${version}.exe`;
+    const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty.setup.${version}.dmg`;
+    const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty-Setup-${version}.exe`;
     return (
       <div className={css.root}>
         <div className={css.wrap}>
