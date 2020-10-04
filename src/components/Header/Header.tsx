@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import { ReactComponent as Logo } from 'assets/svg/Logo.svg';
 
 import css from './Header.module.scss';
+import { DevKittyLogo } from 'assets/svg';
 
 export const Header: FC = () => (
   <div className={css.root}>
     <div className={css.wrap}>
-      <Logo className={css.logo}/>
+      <DevKittyLogo className={css.logo}/>
 
       <div className={css.logoText}>devkitty.app</div>
       <nav className={css.menu}>

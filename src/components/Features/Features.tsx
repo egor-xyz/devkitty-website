@@ -4,6 +4,7 @@ import { Icon } from '@blueprintjs/core';
 import { motion, useTransform, useViewportScroll } from 'framer-motion';
 
 import css from './Features.module.scss';
+import { DevKittyLogo } from 'assets/svg';
 
 const MotionDiv = motion.div;
 const MotionImg = motion.img;
@@ -48,7 +49,10 @@ export const Features: FC = () => {
       id='features'
       className={css.block}
     >
-      <div className={css.title}>devkitty</div>
+      <div className={css.title}>
+        <DevKittyLogo className={css.logo} />
+        <div>devkitty</div>
+      </div>
       <div className={css.titleDesc}>Swiss army knife for developers</div>
 
       {gbmFeatures.map(({icon, title, transition = {}, animate = {}, initial = {}}, index) => (

@@ -60,10 +60,20 @@
   }
 }
 .title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   font-size: 40px;
   font-weight: 300;
   @media all and (max-width: 930px){
     font-size: 20px;
+  }
+}
+.logo {
+  height: 60px;
+  margin-right: 10px;
+  @media all and (max-width: 930px){
+    display: none;
   }
 }
 .titleDesc {
@@ -71,7 +81,8 @@
   font-size: 24px;
   font-weight: 300;
   @media all and (max-width: 930px){
-    font-size: 16px;
+    font-size: 15px;
+    margin-bottom: 10px;
   }
 }
 .featureItem {
