@@ -15,7 +15,7 @@ interface State {
 
 const version = process.env.REACT_APP_VERSION;
 const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty.setup.${version}.dmg`;
-const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty-${version}-win.zip`;
+const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty-Setup-${version}.exe`;
 
 export const Downloads = () => {
   if (!version) return null;
