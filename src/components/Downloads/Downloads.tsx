@@ -15,7 +15,7 @@ interface State {
 
 const version = process.env.REACT_APP_VERSION;
 const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty.setup.${version}.dmg`;
-const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty-Setup-${version}.exe`;
+// const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty-Setup-${version}.exe`;
 
 export const Downloads = () => {
   if (!version) return null;
@@ -29,32 +29,32 @@ export const Downloads = () => {
       </div>
       <div className={css.actions}>
         <div className={css.system}>
-          <Apple
-            height={50}
-            fill={'#fff'}
-          />
+          {/*<Apple*/}
+          {/*  height={50}*/}
+          {/*  fill={'#fff'}*/}
+          {/*/>*/}
           <AnchorButton
             href={macURL}
             className={css.btn}
             icon={'download'}
             large={true}
-            text={'devkitty for MacOS'}
+            text={'Download (macOS)'}
           >
           </AnchorButton>
         </div>
-        <div className={css.system}>
-          <Windows
-            height={50}
-            fill={'#fff'}
-          />
-          <AnchorButton
-            href={winURL}
-            className={css.btn}
-            large={true}
-            icon={'download'}
-            text={'devkitty for Windows 10'}
-          />
-        </div>
+        {/*<div className={css.system}>*/}
+        {/*  <Windows*/}
+        {/*    height={50}*/}
+        {/*    fill={'#fff'}*/}
+        {/*  />*/}
+        {/*  <AnchorButton*/}
+        {/*    href={winURL}*/}
+        {/*    className={css.btn}*/}
+        {/*    large={true}*/}
+        {/*    icon={'download'}*/}
+        {/*    text={'devkitty for Windows 10'}*/}
+        {/*  />*/}
+        {/*</div>*/}
       </div>
     </div>
   </div>);
