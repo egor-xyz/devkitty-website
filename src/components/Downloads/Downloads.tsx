@@ -1,6 +1,6 @@
 import React from 'react';
-import { ReactComponent as Apple } from 'assets/svg/apple.svg';
-import { ReactComponent as Windows } from 'assets/svg/windows.svg';
+// import { ReactComponent as Apple } from 'assets/svg/apple.svg';
+// import { ReactComponent as Windows } from 'assets/svg/windows.svg';
 
 import css from './Downloads.module.scss';
 import { AnchorButton, Icon } from '@blueprintjs/core';
