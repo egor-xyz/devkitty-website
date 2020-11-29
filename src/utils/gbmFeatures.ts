@@ -17,6 +17,21 @@ export const gbmFeatures: GbmFeatures = [
     title: 'Manage multiple projects',
   },
   {
+    icon: 'play',
+    title: 'Manage Jenkins Jobs',
+    transition: {
+      loop: Infinity,
+      duration: 6,
+      ease: 'linear',
+    },
+    initial: {
+      opacity: 0,
+    },
+    animate: {
+      opacity: [1, 1, 0, 0, 1, 1, 0, 0, 1, 1],
+    },
+  },
+  {
     icon: 'git-new-branch',
     title: 'Quick checkout between branches with stash or create new branches'
   },

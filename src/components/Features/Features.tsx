@@ -53,7 +53,18 @@ export const Features: FC = () => {
         <DevKittyLogo className={css.logo} />
         <div>devkitty</div>
       </div>
-      <div className={css.titleDesc}>Swiss army knife for developers</div>
+
+      <div className={css.titleDesc}>
+        Swiss army knife for developers
+      </div>
+
+      <div className={css.modules}>
+        Git (GitHub, GitLab, Bitbucket...)
+        <span>|</span>
+        Jenkins
+        <span>|</span>
+        Google Translate API
+      </div>
 
       {gbmFeatures.map(({icon, title, transition = {}, animate = {}, initial = {}}, index) => (
         <div

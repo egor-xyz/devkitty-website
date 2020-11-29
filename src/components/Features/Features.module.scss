@@ -77,12 +77,23 @@
   }
 }
 .titleDesc {
-  margin: 10px auto 40px;
+  margin: 10px auto 0;
   font-size: 24px;
   font-weight: 300;
   @media all and (max-width: 930px){
     font-size: 15px;
     margin-bottom: 10px;
+  }
+}
+.modules {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 300;
+  font-size: 12px;
+  margin: 10px auto 40px;
+  span {
+    display: inline-block;
+    margin: 0 5px;
+    opacity: .3;
   }
 }
 .featureItem {
