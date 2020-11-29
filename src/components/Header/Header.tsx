@@ -25,7 +25,7 @@ export const Header: FC = () => (
             y: '10px',
           }}
           animate={{
-            opacity: [.5, 0, .5],
+            opacity: [.5, 0, 0, 0, .5],
           }}
         >ty</MotionSpan>
       </div>
