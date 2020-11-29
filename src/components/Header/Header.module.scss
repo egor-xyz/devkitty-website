@@ -26,9 +26,13 @@
   width: 70px;
 }
 .logoText {
+  font-family: 'JetBrains Mono', monospace;
   margin-left: 110px;
   font-size: 24px;
   letter-spacing: -0.5px;
+  span {
+    opacity: .5;
+  }
   @media all and (max-width: 799px) {
     font-size: 16px;
   }
@@ -71,9 +75,8 @@
       color: #000;
     }
     &.blue {
-      position: absolute;
-      right: 24px;
-      box-shadow: none;
+      color: #106ba3;
+      font-weight: 800;
     }
   }
 }
