@@ -34,7 +34,7 @@ export const Features: FC = () => {
       style={style}
     >
       <MotionImg
-        src="/images/gbm-main.png"
+        srcSet="/images/gbm-main.png 4x"
         alt="app screenshot"
         animate={{
           scale: [0, 1]

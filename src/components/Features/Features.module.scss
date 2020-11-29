@@ -43,7 +43,7 @@
     position: relative;
     display: block;
     object-fit: contain;
-    transform: translate3d(0, 0, 0);
+    image-rendering: -webkit-optimize-contrast;
   }
 }
 .block {
