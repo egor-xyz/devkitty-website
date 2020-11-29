@@ -7,17 +7,23 @@ import css from './Header.module.scss';
 
 const MotionSpan = motion.span;
 
+const dot = [.5, 0];
+const dashe = [.5, .5, .5, 0];
+const pause = [0, 0];
+
 export const Header: FC = () => (
   <div className={css.root}>
     <div className={css.wrap}>
       <DevKittyLogo className={css.logo}/>
 
-      <div className={css.logoText}>
+      <a
+        href='/#'
+        className={css.logoText}>
         devkit
         <MotionSpan
           transition={{
             loop: Infinity,
-            duration: 2,
+            duration: 7,
             ease: 'linear',
           }}
           initial={{
@@ -25,10 +31,18 @@ export const Header: FC = () => (
             y: '10px',
           }}
           animate={{
-            opacity: [.5, 0, 0, 0, .5],
+            // •••• •• −−••−− => HI!
+            opacity: [
+              ...dot, ...dot, ...dot, ...dot,
+              ...pause,
+              ...dot, ...dot,
+              ...pause,
+              ...dashe, ...dashe, ...dot, ...dot, ...dashe, ...dashe,
+              ...pause, ...pause, ...pause, ...pause,
+            ],
           }}
         >ty</MotionSpan>
-      </div>
+      </a>
       <nav className={css.menu}>
         <ul>
           <li><a href='/#'>Home</a></li>

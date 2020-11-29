@@ -30,6 +30,11 @@
   margin-left: 110px;
   font-size: 24px;
   letter-spacing: -0.5px;
+  text-decoration: none;
+  color: initial !important;
+  &:hover {
+    text-decoration: none;
+  }
   span {
     opacity: .5;
   }
