@@ -22,7 +22,7 @@
     "@types/node-sass": "4.11.1",
     "@types/react": "16.9.43",
     "@types/react-dom": "16.9.8",
-    "axios": "0.19.2",
+    "axios": "0.21.1",
     "classnames": "2.2.6",
     "csscomb": "^4.3.0",
     "framer-motion": "^2.3.0",
