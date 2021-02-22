@@ -11,6 +11,8 @@ const dot = [.5, 0];
 const dashe = [.5, .5, .5, 0];
 const pause = [0, 0];
 
+const version = process.env.REACT_APP_VERSION;
+
 export const Header: FC = () => (
   <div className={css.root}>
     <div className={css.wrap}>
@@ -50,7 +52,7 @@ export const Header: FC = () => (
           <li>
             <a href='#downloads'
                className={css.blue}
-            >Download</a>
+            >Download ({version})</a>
           </li>
         </ul>
       </nav>
