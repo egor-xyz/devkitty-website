@@ -61,6 +61,8 @@ export const Features: FC = () => {
       <div className={css.modules}>
         Git (GitHub, GitLab, Bitbucket...)
         <span>|</span>
+        GitHub Gist
+        <span>|</span>
         Jenkins
         <span>|</span>
         Google Translate API
