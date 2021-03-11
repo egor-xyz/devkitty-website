@@ -1,2 +1,8 @@
 # devkitty.app
-1
+Swiss army knife for developers
+  
+## Features    
+- Git (GitHub, GitLab, Bitbucket...)
+- GitHub Gist
+- Jenkins
+- Google Translate API
