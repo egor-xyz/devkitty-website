@@ -6,15 +6,15 @@ import css from './Downloads.module.scss';
 import { AnchorButton, Icon } from '@blueprintjs/core';
 import { DevKittyLogo } from 'assets/svg';
 
+import { version } from 'version';
+
 interface State {
   loading: boolean;
   version?: string,
   macURL?: string,
   winURL?: string,
 }
-
-const version = process.env.REACT_APP_VERSION;
-const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty.setup.${version}.dmg`;
+const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/${version}/Devkitty.setup.${version}.dmg`;
 // const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty-Setup-${version}.exe`;
 
 export const Downloads = () => {

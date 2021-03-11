@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { motion } from 'framer-motion';
 
 import { DevKittyLogo } from 'assets/svg';
+import { version } from 'version';
 
 import css from './Header.module.scss';
 
@@ -10,8 +11,6 @@ const MotionSpan = motion.span;
 const dot = [.5, 0];
 const dashe = [.5, .5, .5, 0];
 const pause = [0, 0];
-
-const version = process.env.REACT_APP_VERSION;
 
 export const Header: FC = () => (
   <div className={css.root}>

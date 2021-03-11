@@ -1,0 +1,29 @@
+name: Devkitty Auto Deploy
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  change:
+    name: Change app version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+      - name: Update version
+        run: echo "export const version = '${{ steps.get_version.outputs.VERSION }}';" > src/version.ts
+
+      - name: Push changes
+        run: |
+          git config --global user.name 'Egor Stronhin'
+          git config --global user.email 'egor-xyz@users.noreply.github.com'
+          git commit -am "Publish release ${{ steps.get_version.outputs.VERSION }}"
+          git push origin HEAD:master
