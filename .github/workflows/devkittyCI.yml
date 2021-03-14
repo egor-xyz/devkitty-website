@@ -33,6 +33,9 @@ jobs:
           git commit -am "Publish release ${{ steps.get_version.outputs.VERSION }}"
           git push origin HEAD:master
 
+      - name: Install packages
+        run: npm ci
+
       - name: Build
         run: npm run build
 
