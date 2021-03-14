@@ -14,7 +14,7 @@ interface State {
   macURL?: string,
   winURL?: string,
 }
-const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/${version}/Devkitty.setup.${version}.dmg`;
+const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/${version}/Devkitty.setup.${version.replace('v', '')}.dmg`;
 // const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty-Setup-${version}.exe`;
 
 export const Downloads = () => {
