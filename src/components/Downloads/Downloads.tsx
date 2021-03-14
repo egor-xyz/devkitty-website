@@ -1,7 +1,4 @@
 import React from 'react';
-// import { ReactComponent as Apple } from 'assets/svg/apple.svg';
-// import { ReactComponent as Windows } from 'assets/svg/windows.svg';
-
 import css from './Downloads.module.scss';
 import { AnchorButton, Icon } from '@blueprintjs/core';
 import { DevKittyLogo } from 'assets/svg';
@@ -15,10 +12,8 @@ interface State {
   winURL?: string,
 }
 
-// const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty-Setup-${version}.exe`;
 export const Downloads = () => {
   const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/${version}/Devkitty.setup.${version.replace('v', '')}.dmg`;
-  console.log(macURL, 'macURL');
   return (<div className={css.root}>
     <div className={css.wrap}>
       <DevKittyLogo className={css.logo} />
@@ -29,10 +24,6 @@ export const Downloads = () => {
       </div>
       <div className={css.actions}>
         <div className={css.system}>
-          {/*<Apple*/}
-          {/*  height={50}*/}
-          {/*  fill={'#fff'}*/}
-          {/*/>*/}
           <AnchorButton
             href={macURL}
             className={css.btn}
@@ -42,19 +33,6 @@ export const Downloads = () => {
           >
           </AnchorButton>
         </div>
-        {/*<div className={css.system}>*/}
-        {/*  <Windows*/}
-        {/*    height={50}*/}
-        {/*    fill={'#fff'}*/}
-        {/*  />*/}
-        {/*  <AnchorButton*/}
-        {/*    href={winURL}*/}
-        {/*    className={css.btn}*/}
-        {/*    large={true}*/}
-        {/*    icon={'download'}*/}
-        {/*    text={'devkitty for Windows 10'}*/}
-        {/*  />*/}
-        {/*</div>*/}
       </div>
     </div>
   </div>);
