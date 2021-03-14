@@ -13,7 +13,7 @@ interface State {
 }
 
 export const Downloads = () => {
-  const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/${version}/Devkitty.setup.${version.replace('v', '')}.dmg`;
+  const macURL = `https://github.com/devkitty-app/website/releases/download/${version}/Devkitty.setup.${version.replace('v', '')}.dmg`;
   return (<div className={css.root}>
     <div className={css.wrap}>
       <DevKittyLogo className={css.logo} />
