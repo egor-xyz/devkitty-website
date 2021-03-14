@@ -2,7 +2,7 @@ import axios from 'axios';
 import { GitResponse } from 'utils';
 import find from 'lodash/find';
 
-const GIT_PATH = 'https://api.github.com/repos/egor-xyz/gbm-site/releases/latest';
+const GIT_PATH = 'https://api.github.com/repos/devkitty-app/website/releases/latest';
 
 export const getAppVersions = async () => {
   const res = await axios.get<null, GitResponse>(GIT_PATH);
