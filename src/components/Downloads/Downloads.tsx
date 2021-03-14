@@ -14,11 +14,11 @@ interface State {
   macURL?: string,
   winURL?: string,
 }
-const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/${version}/Devkitty.setup.${version.replace('v', '')}.dmg`;
-// const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty-Setup-${version}.exe`;
 
+// const winURL = `https://github.com/egor-xyz/devkitty-app/releases/download/v${version}/Devkitty-Setup-${version}.exe`;
 export const Downloads = () => {
-  if (!version) return null;
+  const macURL = `https://github.com/egor-xyz/devkitty-app/releases/download/${version}/Devkitty.setup.${version.replace('v', '')}.dmg`;
+  console.log(macURL, 'macURL');
   return (<div className={css.root}>
     <div className={css.wrap}>
       <DevKittyLogo className={css.logo} />
