@@ -51,7 +51,16 @@ export const Features: FC = () => {
     >
       <div className={css.title}>
         <DevKittyLogo className={css.logo} />
-        <div>devkitty</div>
+        <div className={css.titleName}>
+          <span>devkit</span>
+          <div className={css.flip}>
+            <div>&nbsp;:&nbsp;GitHub</div>
+            <div>&nbsp;:&nbsp;Jenkins</div>
+            <div>&nbsp;:&nbsp;Git</div>
+            <div>ty</div>
+            <div>&nbsp</div>
+          </div>
+        </div>
       </div>
 
       <div className={css.titleDesc}>
