@@ -74,6 +74,9 @@
   height: 49px;
   overflow: hidden;
   position: relative;
+  @media all and (max-width: 930px){
+    height: 29px;
+  }
 }
 @keyframes flip4 {
   0% { transform: translate3d(0, -40%, 0); }
