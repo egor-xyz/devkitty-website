@@ -1,1 +1,1 @@
-export const version = 'refs/heads/master';
+export const version = 'v1.1.25';
