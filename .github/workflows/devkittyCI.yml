@@ -2,6 +2,7 @@ name: Devkitty Auto Deploy
 
 on:
   push:
+    branches: [ master ]
     tags:
       - 'v*'
 
