@@ -22,7 +22,7 @@ export const Features: React.FC = () => {
   if (window.innerWidth >= 800) {
     style = {
       scale,
-      width: width
+      width
     };
     style2 = {
       opacity

@@ -1,4 +1,3 @@
-import React from 'react';
 import { AnchorButton, Icon } from '@blueprintjs/core';
 
 import { DevKittyLogo } from 'assets/svg';

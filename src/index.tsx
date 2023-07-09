@@ -1,10 +1,9 @@
-import ReactDOM from 'react-dom';
-import { polyfill } from 'smoothscroll-polyfill';
 import 'smoothscroll-anchor-polyfill';
 
-import { App } from 'components';
+import { createRoot } from 'react-dom/client';
+import { polyfill } from 'smoothscroll-polyfill';
 
-import * as serviceWorker from './serviceWorker';
+import { App } from 'components';
 
 import 'normalize.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
@@ -13,6 +12,8 @@ import './index.scss';
 
 polyfill();
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(<App />);
 
-serviceWorker.register();
+
