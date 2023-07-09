@@ -7,8 +7,8 @@ import { version } from 'version';
 import css from './Downloads.module.scss';
 
 export const Downloads = () => {
-  const macURLIntel = `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty-darwin-arm64-${version.replace('v', '')}.zip`;
-  const macURLApple = `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty-darwin-x64-${version.replace('v', '')}.zip`;
+  const macURLIntel = `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty-darwin-x64-${version.replace('v', '')}.zip`;
+  const macURLApple = `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty-darwin-arm64-${version.replace('v', '')}.zip`;
 
   return (<div className={css.root}>
     <div className={css.wrap}>
