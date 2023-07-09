@@ -7,7 +7,8 @@ import { version } from 'version';
 import css from './Downloads.module.scss';
 
 export const Downloads = () => {
-  const macURL = `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty.setup.${version.replace('v', '')}.dmg`;
+  const macURL = `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty-mac-arm64-x64-${version.replace('v', '')}.zip`;
+
   return (<div className={css.root}>
     <div className={css.wrap}>
       <img
