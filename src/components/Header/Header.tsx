@@ -41,7 +41,7 @@ export const Header: FC = () => (
           transition={{
             duration: 7,
             ease: 'linear',
-            loop: Infinity
+            repeat: Infinity
           }}
         >ty</MotionSpan>
       </a>

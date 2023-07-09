@@ -1,9 +1,9 @@
-import React from 'react';
 import { Icon } from '@blueprintjs/core';
-import { motion, useTransform, useViewportScroll } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import React from 'react';
 
-import { gbmFeatures } from 'utils';
 import { Title } from 'components/Title';
+import { features } from 'utils';
 
 import css from './Features.module.scss';
 
@@ -11,7 +11,7 @@ const MotionDiv = motion.div;
 const MotionImg = motion.img;
 
 export const Features: React.FC = () => {
-  const { scrollYProgress } = useViewportScroll();
+  const { scrollYProgress } = useScroll();
   const imageTiming = [0, .2];
   const width = useTransform(scrollYProgress, imageTiming, ['100vw', '50vw']);
   const scale = useTransform(scrollYProgress, imageTiming, [1, .7]);
@@ -56,18 +56,15 @@ export const Features: React.FC = () => {
       </div>
 
       <div className={css.modules}>
-        Git (GitHub, GitLab, Bitbucket...)
-        <span>|</span>
-        Jenkins
-        <span>|</span>
-        Google Translate API
+        Your favorite tools in one place
       </div>
 
-      {gbmFeatures.map(({ icon, title, transition = {}, animate = {}, initial = {} }, index) => (
+      {features.map(({ icon, title, transition = {}, animate = {}, initial = {} }, index) => (
         <div
           className={css.featureItem}
           key={index}
         >
+          {/* infinity animation */}
           <MotionDiv
             animate={animate}
             className={css.iconWrap}

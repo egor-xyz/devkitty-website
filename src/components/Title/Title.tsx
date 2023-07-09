@@ -12,7 +12,7 @@ export const Title: FC = () => (
       <div className={css.flip}>
         <div>:Git</div>
         <div>ty</div>
-        <div>:Jenkins</div>
+        <div>:Github</div>
         <div>ty</div>
         <div>&nbsp</div>
       </div>
