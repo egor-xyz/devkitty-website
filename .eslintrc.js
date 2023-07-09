@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['react-app', '@egor.xyz'],
+  extends: ['react-app', '@egor.xyz', 'prettier'],
   globals: {
     JSX: true
   },

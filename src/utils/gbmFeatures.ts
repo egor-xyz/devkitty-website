@@ -11,7 +11,7 @@ type GbmFeatures = {
   transition?: Transition;
 }[]
 
-export const gbmFeatures: GbmFeatures = [
+export const features: GbmFeatures = [
   {
     icon: 'projects',
     title: 'Manage multiple projects'
@@ -24,16 +24,16 @@ export const gbmFeatures: GbmFeatures = [
     initial: {
       opacity: 0
     },
-    title: 'Manage Jenkins Jobs',
+    title: 'Fast tools to manage your projects',
     transition: {
       duration: 6,
       ease: 'linear',
-      loop: Infinity
+      repeat: Infinity
     }
   },
   {
     icon: 'git-new-branch',
-    title: 'Quick checkout between branches with stash or create new branches'
+    title: 'Quick checkout between branches'
   },
   {
     animate: {
@@ -47,12 +47,12 @@ export const gbmFeatures: GbmFeatures = [
     transition: {
       duration: 2,
       ease: 'linear',
-      loop: Infinity
+      repeat: Infinity
     }
   },
   {
     icon: 'git-pull',
-    title: 'Create and view pull requests'
+    title: '[Soon] View pull requests'
   },
   {
     icon: 'clipboard',
@@ -72,12 +72,12 @@ export const gbmFeatures: GbmFeatures = [
     transition: {
       duration: 1.5,
       ease: 'linear',
-      loop: Infinity
+      repeat: Infinity
     }
   },
   {
     icon: 'git-repo',
-    title: 'Open on GitHub, Bitbucket, GitLab...'
+    title: '[soon] View Github actions'
   },
   {
     icon: 'code',
@@ -92,11 +92,11 @@ export const gbmFeatures: GbmFeatures = [
       opacity: 0,
       y: '10px'
     },
-    title: 'Open in iTerm (MacOS only)',
+    title: 'Integration with your favorite terminal',
     transition: {
       duration: 3,
       ease: 'linear',
-      loop: Infinity
+      repeat: Infinity
     }
   },
   {

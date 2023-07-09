@@ -1,6 +1,6 @@
 # devkitty.app website
 
-Git (GitHub, GitLab, Bitbucket) | Jenkins | Google Translate API
+Your favorite tools in one place
 
 [![devkitty](public/images/GitHub-App-Demo.png)](https://devkitty.app/)
 
@@ -9,13 +9,11 @@ Git (GitHub, GitLab, Bitbucket) | Jenkins | Google Translate API
 Swiss army knife for developers
 
 - Manage multiple projects
-- Manage Jenkins Jobs
-- Quick checkout between branches with stash or create new branches
+- Quick checkout between branches
 - Auto fetch projects
-- Create and view pull requests
+- [soon] View pull requests
 - Quickly copy branch names
 - Easily sync projects with their remote
-- Open on GitHub, Bitbucket, GitLab...
+- [soon] Github Actions
 - Integration with your favorite IDE or code editor
-- Open in iTerm (MacOS only)
-- Reveal in Finder/File Explorer
+- Integration with your favorite terminal
