@@ -26,18 +26,18 @@ export const Downloads = () => {
           <div className={css.system}>
             <AnchorButton
               className={css.btn}
-              href={download.intel()}
+              href={download.apple()}
               icon={'download'}
               large={true}
-              text={'Download (Intel)'}
+              text={'Download (Apple)'}
             />
 
             <AnchorButton
               className={css.btn}
-              href={download.apple()}
+              href={download.intel()}
               icon={'download'}
               large={true}
-              text={'Download (Apple Silicon)'}
+              text={'Download (Intel)'}
             />
           </div>
         </div>
