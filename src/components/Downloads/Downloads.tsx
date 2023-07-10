@@ -1,6 +1,6 @@
 import { AnchorButton, Icon } from '@blueprintjs/core';
 
-import { DevKittyLogo } from 'assets/svg';
+import { DevkittyLogo } from 'assets/svg';
 import { useVersion } from 'store/useVersions';
 
 import css from './Downloads.module.scss';
@@ -16,7 +16,7 @@ export const Downloads = () => {
           className={css.image}
           src="/images/GitHub-App-Demo.png"
         />
-        <DevKittyLogo className={css.logo} />
+        <DevkittyLogo className={css.logo} />
         <div className={css.title}>devkitty</div>
         <div className={css.version}>
           <Icon icon={'confirm'} />

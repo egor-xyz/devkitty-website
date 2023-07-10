@@ -2,7 +2,7 @@
 import type { FC } from 'react';
 import { motion } from 'framer-motion';
 
-import { DevKittyLogo } from 'assets/svg';
+import { DevkittyLogo } from 'assets/svg';
 import { useVersion } from 'store/useVersions';
 
 import css from './Header.module.scss';
@@ -19,7 +19,7 @@ export const Header: FC = () => {
   return (
     <div className={css.root}>
       <div className={css.wrap}>
-        <DevKittyLogo className={css.logo} />
+        <DevkittyLogo className={css.logo} />
 
         <a
           className={css.logoText}
