@@ -22,6 +22,7 @@
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-github-btn": "^1.4.0",
     "smoothscroll-anchor-polyfill": "^1.3.4",
     "smoothscroll-polyfill": "^0.4.4",
     "typescript": "^5.1.6",
