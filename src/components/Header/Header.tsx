@@ -75,6 +75,7 @@ export const Header: FC = () => {
         <div className={css.github}>
           <GitHubButton
             aria-label="Star egor-xyz/devkitty on GitHub"
+            data-icon="octicon-star"
             data-show-count="true"
             data-size="large"
             href="https://github.com/egor-xyz/devkitty"
