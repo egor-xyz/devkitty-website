@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-max-depth */
 import type { FC } from 'react';
 import { motion } from 'framer-motion';
+import GitHubButton from 'react-github-btn';
 
 import { DevkittyLogo } from 'assets/svg';
 import { useVersion } from 'store/useVersions';
@@ -72,16 +73,14 @@ export const Header: FC = () => {
         </nav>
 
         <div className={css.github}>
-          <a
+          <GitHubButton
             aria-label="Star egor-xyz/devkitty on GitHub"
-            className="github-button"
-            data-icon="octicon-star"
             data-show-count="true"
             data-size="large"
             href="https://github.com/egor-xyz/devkitty"
           >
             Star
-          </a>
+          </GitHubButton>
         </div>
       </div>
     </div>
