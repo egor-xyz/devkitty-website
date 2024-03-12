@@ -9,12 +9,12 @@ type GbmFeatures = {
   initial?: AnimationControls | TargetAndTransition | VariantLabels | boolean;
   title: string;
   transition?: Transition;
-}[]
+}[];
 
 export const features: GbmFeatures = [
   {
     icon: 'projects',
-    title: 'Manage multiple projects'
+    title: 'Manage multiple GitHub repositories'
   },
   {
     animate: {
@@ -24,7 +24,7 @@ export const features: GbmFeatures = [
     initial: {
       opacity: 0
     },
-    title: 'Fast tools to manage your projects',
+    title: 'View GitHub Actions',
     transition: {
       duration: 6,
       ease: 'linear',
@@ -33,7 +33,7 @@ export const features: GbmFeatures = [
   },
   {
     icon: 'git-new-branch',
-    title: 'Quick checkout between branches'
+    title: 'Quick checkout between branches with stash'
   },
   {
     animate: {
@@ -52,11 +52,7 @@ export const features: GbmFeatures = [
   },
   {
     icon: 'git-pull',
-    title: '[Soon] View pull requests'
-  },
-  {
-    icon: 'clipboard',
-    title: 'Quickly copy branch names'
+    title: 'Remotely reset any branch'
   },
   {
     animate: {
@@ -74,10 +70,6 @@ export const features: GbmFeatures = [
       ease: 'linear',
       repeat: Infinity
     }
-  },
-  {
-    icon: 'git-repo',
-    title: '[soon] View Github actions'
   },
   {
     icon: 'code',
@@ -98,9 +90,5 @@ export const features: GbmFeatures = [
       ease: 'linear',
       repeat: Infinity
     }
-  },
-  {
-    icon: 'folder-open',
-    title: 'Reveal in Finder/File Explorer'
   }
 ];
