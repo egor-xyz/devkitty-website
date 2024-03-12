@@ -6,5 +6,5 @@ export interface GitResponse {
   data: {
     assets: File[];
     name: string;
-  }
+  };
 }
