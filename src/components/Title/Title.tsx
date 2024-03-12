@@ -1,6 +1,5 @@
 import { FC } from 'react';
-
-import { DevkittyLogo } from 'assets/svg';
+import DevkittyLogo from 'assets/svg/devKitty.svg?react';
 
 import css from './Title.module.scss';
 

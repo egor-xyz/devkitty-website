@@ -4,7 +4,7 @@ import { AnimationControls, TargetAndTransition, Transition, VariantLabels } fro
 type GbmFeatures = {
   animate?: AnimationControls | TargetAndTransition | VariantLabels | boolean;
   desc?: string;
-  icon: IconName,
+  icon: IconName;
   image?: string;
   initial?: AnimationControls | TargetAndTransition | VariantLabels | boolean;
   title: string;

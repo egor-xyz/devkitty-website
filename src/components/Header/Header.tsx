@@ -2,8 +2,8 @@
 import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import GitHubButton from 'react-github-btn';
+import DevkittyLogo from 'assets/svg/devKitty.svg?react';
 
-import { DevkittyLogo } from 'assets/svg';
 import { useVersion } from 'store/useVersions';
 
 import css from './Header.module.scss';
@@ -24,7 +24,7 @@ export const Header: FC = () => {
 
         <a
           className={css.logoText}
-          href="/#"
+          href='/#'
         >
           devkit
           <MotionSpan
@@ -56,15 +56,15 @@ export const Header: FC = () => {
         <nav className={css.menu}>
           <ul>
             <li>
-              <a href="/#">Home</a>
+              <a href='/#'>Home</a>
             </li>{' '}
             <li>
-              <a href="#features">Features</a>
+              <a href='#features'>Features</a>
             </li>{' '}
             <li>
               <a
                 className={css.blue}
-                href="#downloads"
+                href='#downloads'
               >
                 Download ({version})
               </a>
@@ -74,11 +74,11 @@ export const Header: FC = () => {
 
         <div className={css.github}>
           <GitHubButton
-            aria-label="Star egor-xyz/devkitty on GitHub"
-            data-icon="octicon-star"
-            data-show-count="true"
-            data-size="large"
-            href="https://github.com/egor-xyz/devkitty"
+            aria-label='Star egor-xyz/devkitty on GitHub'
+            data-icon='octicon-star'
+            data-show-count='true'
+            data-size='large'
+            href='https://github.com/egor-xyz/devkitty'
           >
             Star
           </GitHubButton>
