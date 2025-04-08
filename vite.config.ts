@@ -11,7 +11,8 @@ export default defineConfig({
     svgr(),
     checker({
       eslint: {
-        lintCommand: 'eslint "./src/**/*.{ts,tsx}"'
+        lintCommand: 'eslint',
+        useFlatConfig: true,
       },
       typescript: true
     })

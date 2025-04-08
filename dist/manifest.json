@@ -1,0 +1,8 @@
+{
+  "short_name": "Devkitty",
+  "name": "Devkitty",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#fff",
+  "background_color": "transparent"
+}

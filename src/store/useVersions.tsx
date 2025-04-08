@@ -1,6 +1,5 @@
-import { create } from 'zustand';
-
 import { version } from 'version';
+import { create } from 'zustand';
 
 type State = {
   download: {

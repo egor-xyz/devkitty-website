@@ -1,9 +1,9 @@
-/* eslint-disable react/jsx-max-depth */
+ 
 import type { FC } from 'react';
+
+import DevkittyLogo from 'assets/svg/devKitty.svg?react';
 import { motion } from 'framer-motion';
 import GitHubButton from 'react-github-btn';
-import DevkittyLogo from 'assets/svg/devKitty.svg?react';
-
 import { useVersion } from 'store/useVersions';
 
 import css from './Header.module.scss';
@@ -53,14 +53,17 @@ export const Header: FC = () => {
             ty
           </MotionSpan>
         </a>
+
         <nav className={css.menu}>
           <ul>
             <li>
               <a href='/#'>Home</a>
             </li>{' '}
+
             <li>
               <a href='#features'>Features</a>
             </li>{' '}
+
             <li>
               <a
                 className={css.blue}

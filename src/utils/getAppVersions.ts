@@ -1,7 +1,6 @@
 import axios from 'axios';
 import find from 'lodash/find';
-
-import { GitResponse } from 'utils';
+import { type GitResponse } from 'utils';
 
 const GIT_PATH = 'https://api.github.com/repos/egor-xyz/devkitty/releases/latest';
 
