@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/egor-xyz/devkitty-website/compare/v1.4.1...v1.4.2) (2025-04-08)
+
+
+### Bug Fixes
+
+* blueprint ([3120f11](https://github.com/egor-xyz/devkitty-website/commit/3120f111ff3446a6ccb88a915d5cb6d2986a3bc2))
+
 ## [1.4.1](https://github.com/egor-xyz/devkitty-website/compare/v1.4.0...v1.4.1) (2025-04-08)
 
 
