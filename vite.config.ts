@@ -12,7 +12,7 @@ export default defineConfig({
     checker({
       eslint: {
         lintCommand: 'eslint',
-        useFlatConfig: true,
+        useFlatConfig: true
       },
       typescript: true
     })
