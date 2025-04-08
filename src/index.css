@@ -1,1 +1,6 @@
 @import 'tailwindcss';
+
+:root {
+  --header-height: 56px;
+  --app-blue: #4a8dcb;
+}
