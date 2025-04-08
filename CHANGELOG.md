@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/egor-xyz/devkitty-website/compare/v1.8.0...v1.9.0) (2025-04-08)
+
+
+### Features
+
+* convex db ([7c4021f](https://github.com/egor-xyz/devkitty-website/commit/7c4021f4d7d3f11f7ef7a6ddb6e1a385904c81cb))
+
 # [1.8.0](https://github.com/egor-xyz/devkitty-website/compare/v1.7.0...v1.8.0) (2025-04-08)
 
 
