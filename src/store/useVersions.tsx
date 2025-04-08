@@ -1,18 +1,20 @@
-import { version } from 'version';
 import { create } from 'zustand';
 
 type State = {
   download: {
-    apple: () => string;
-    intel: () => string;
+    apple: () => string | undefined;
+    intel: () => string | undefined;
   };
-  version: string;
+  setVersion: (version: string) => void;
+  version?: string;
 };
 
-export const useVersion = create<State>((_, get) => ({
+export const useVersion = create<State>((set, get) => ({
   download: {
     apple: () => {
       const { version } = get();
+      if (!version) return;
+
       return `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty-darwin-arm64-${version.replace(
         'v',
         ''
@@ -20,11 +22,12 @@ export const useVersion = create<State>((_, get) => ({
     },
     intel: () => {
       const { version } = get();
+      if (!version) return;
       return `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty-darwin-x64-${version.replace(
         'v',
         ''
       )}.zip`;
     }
   },
-  version
+  setVersion: (version: string) => set({ version })
 }));

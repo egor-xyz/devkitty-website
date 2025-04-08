@@ -62,14 +62,16 @@ export const Header: FC = () => {
             <li>
               <a href='#features'>Features</a>
             </li>{' '}
-            <li>
-              <a
-                className={css.blue}
-                href='#downloads'
-              >
-                Download ({version})
-              </a>
-            </li>
+            {version && (
+              <li>
+                <a
+                  className={css.blue}
+                  href='#downloads'
+                >
+                  Download ({version})
+                </a>
+              </li>
+            )}
           </ul>
         </nav>
 

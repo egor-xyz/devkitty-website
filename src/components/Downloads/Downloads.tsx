@@ -22,25 +22,27 @@ export const Downloads = () => {
           <span>{version}</span>
         </div>
 
-        <div className='mt-4'>
-          <div className='flex flex-col gap-2'>
-            <AnchorButton
-              className='w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-700 font-medium py-2 rounded hover:bg-gray-100'
-              href={download.apple()}
-              icon={'download'}
-              size='large'
-              text={'Download (Apple)'}
-            />
+        {version && (
+          <div className='mt-4'>
+            <div className='flex flex-col gap-2'>
+              <AnchorButton
+                className='w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-700 font-medium py-2 rounded hover:bg-gray-100'
+                href={download.apple()}
+                icon={'download'}
+                size='large'
+                text={'Download (Apple)'}
+              />
 
-            <AnchorButton
-              className='w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-700 font-medium py-2 rounded hover:bg-gray-100'
-              href={download.intel()}
-              icon={'download'}
-              size='large'
-              text={'Download (Intel)'}
-            />
+              <AnchorButton
+                className='w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-700 font-medium py-2 rounded hover:bg-gray-100'
+                href={download.intel()}
+                icon={'download'}
+                size='large'
+                text={'Download (Intel)'}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
