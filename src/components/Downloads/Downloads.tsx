@@ -6,10 +6,7 @@ export const Downloads = () => {
   const { download, version } = useVersion();
 
   return (
-    <div
-      className='hidden md:flex justify-center py-16 sticky top-0 bg-gradient-to-b from-blue-500 via-purple-500 to-orange-500'
-      style={{ height: 'calc(100vh - var(--header-height))' }}
-    >
+    <div className='hidden md:flex justify-center py-16 sticky top-0 bg-gradient-to-b from-blue-500 via-purple-500 to-orange-500 h-[calc(100vh-var(--header-height))]'>
       <div className='flex flex-col items-center w-full '>
         <img
           alt='devkitty'
