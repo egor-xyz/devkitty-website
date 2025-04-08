@@ -9,7 +9,6 @@ import css from './App.module.scss';
 export const App = () => {
   const { setVersion } = useVersion();
   const tasks = useQuery(api.tasks.get);
-  console.log('tasks', tasks?.version);
 
   useEffect(() => {
     if (tasks?.version) {
