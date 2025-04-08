@@ -36,9 +36,19 @@ export const Features = () => {
         <MotionImg
           alt='app screenshot'
           animate={{
-            scale: [0, 1]
+            opacity: 1,
+            scale: 0.9
+          }}
+          initial={{
+            opacity: 0,
+            scale: 0
           }}
           srcSet='/images/devkitty-main.png 4x'
+          transition={{
+            delay: 0.3,
+            duration: 3,
+            type: 'spring'
+          }}
         />
       </MotionDiv>
 
