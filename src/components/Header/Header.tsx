@@ -1,4 +1,4 @@
- 
+/* eslint-disable react/jsx-newline */
 import type { FC } from 'react';
 
 import DevkittyLogo from 'assets/svg/devKitty.svg?react';
@@ -11,7 +11,7 @@ import css from './Header.module.scss';
 const MotionSpan = motion.span;
 
 const dot = [0.5, 0];
-const dashe = [0.5, 0.5, 0.5, 0];
+const dashes = [0.5, 0.5, 0.5, 0];
 const pause = [0, 0];
 
 export const Header: FC = () => {
@@ -36,7 +36,7 @@ export const Header: FC = () => {
                 ...pause,
                 ...dot, ...dot,
                 ...pause,
-                ...dashe, ...dashe, ...dot, ...dot, ...dashe, ...dashe,
+                ...dashes, ...dashes, ...dot, ...dot, ...dashes, ...dashes,
                 ...pause, ...pause, ...pause, ...pause
               ]
             }}
@@ -59,11 +59,9 @@ export const Header: FC = () => {
             <li>
               <a href='/#'>Home</a>
             </li>{' '}
-
             <li>
               <a href='#features'>Features</a>
             </li>{' '}
-
             <li>
               <a
                 className={css.blue}

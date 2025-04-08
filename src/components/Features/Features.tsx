@@ -67,7 +67,7 @@ export const Features = () => {
               <Icon
                 className={css.icon}
                 icon={icon}
-                iconSize={28}
+                size={28}
               />
             </MotionDiv>
 
