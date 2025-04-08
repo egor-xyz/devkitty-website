@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/egor-xyz/devkitty-website/compare/v1.3.0...v1.4.0) (2025-04-08)
+
+
+### Features
+
+* add tailwind ([ec7cb41](https://github.com/egor-xyz/devkitty-website/commit/ec7cb4131279ec058e9e5583dc86111016935cf1))
+
 # [1.3.0](https://github.com/egor-xyz/devkitty-website/compare/v1.2.0...v1.3.0) (2025-04-08)
 
 
