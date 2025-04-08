@@ -38,6 +38,8 @@ jobs:
           pnpm install
 
       - name: Build
+        env:
+          VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
         run: |
           pnpm build
 
