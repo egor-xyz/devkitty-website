@@ -15,7 +15,6 @@ export const App = () => {
       setVersion(tasks.version);
     }
   }, [tasks, setVersion]);
-  
 
   return (
     <div className={css.root}>

@@ -18,7 +18,12 @@ export const Header: FC = () => {
   const { version } = useVersion();
 
   return (
-    <div className={css.root}>
+    <motion.div
+      animate={{ opacity: 1, y: 0 }}
+      className={css.root}
+      initial={{ opacity: 0, y: '-100%' }}
+      transition={{ delay: 1.5, duration: 0.7 }}
+    >
       <div className={css.wrap}>
         <DevkittyLogo className={css.logo} />
 
@@ -87,6 +92,6 @@ export const Header: FC = () => {
           </GitHubButton>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
