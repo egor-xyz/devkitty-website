@@ -1,7 +1,6 @@
 import { Icon } from '@blueprintjs/core';
-import { motion, useScroll, useTransform } from 'framer-motion';
-
 import { Title } from 'components/Title';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { features } from 'utils';
 
 import css from './Features.module.scss';
@@ -52,10 +51,9 @@ export const Features = () => {
       >
         <Title />
         <div className={css.titleDesc}>Your Daily GitHub Desktop Assistant</div>
-
         <div className={css.modules}>Your favorite tools in one place</div>
 
-        {features.map(({ icon, title, transition = {}, animate = {}, initial = {} }, index) => (
+        {features.map(({ animate = {}, icon, initial = {}, title, transition = {} }, index) => (
           <div
             className={css.featureItem}
             key={index}
@@ -63,7 +61,7 @@ export const Features = () => {
             <MotionDiv
               animate={animate}
               className={css.iconWrap}
-              initial={initial as any}
+              initial={initial as unknown as string}
               transition={transition}
             >
               <Icon
@@ -72,6 +70,7 @@ export const Features = () => {
                 iconSize={28}
               />
             </MotionDiv>
+
             <span className={css.featureText}>{title}</span>
           </div>
         ))}

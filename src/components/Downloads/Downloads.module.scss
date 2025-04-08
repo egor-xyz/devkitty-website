@@ -1,13 +1,13 @@
-@import 'src/variables';
+@use '../../variables' as vars;
 
 .root {
-  min-height: calc(100vh - #{$headerHeight});
+  min-height: calc(100vh - #{vars.$headerHeight});
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: left;
-  background-color: $appBlue;
+  background-color: vars.$appBlue;
   box-shadow: 0 -2px 6px 0 rgba(0,0,0,.12), inset 0 1px 0 0 #dadce0;
   @media all and (max-width: 799px) {
     display: none;

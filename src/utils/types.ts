@@ -1,8 +1,8 @@
-export interface File {
+export type File = {
   browser_download_url: string;
 }
 
-export interface GitResponse {
+export type GitResponse = {
   data: {
     assets: File[];
     name: string;

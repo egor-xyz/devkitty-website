@@ -1,7 +1,7 @@
-@import 'src/variables';
+@use '../../variables' as vars;
 
 .root {
-  min-height: calc(100vh - #{$headerHeight});
+  min-height: calc(100vh - #{vars.$headerHeight});
   position: relative;
   text-align: left;
 }
@@ -16,9 +16,9 @@
 }
 .image {
   width: 100vw;
-  height: calc(100vh - #{$headerHeight});
+  height: calc(100vh - #{vars.$headerHeight});
   position: fixed;
-  top: $headerHeight;
+  top: vars.$headerHeight;
   left: 0;
   display: flex;
   align-items: center;
@@ -32,7 +32,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: $headerHeight;
+    margin-top: vars.$headerHeight;
     padding: 45px 0 0;
   }
   img {
@@ -114,7 +114,7 @@
 
 :global {
   #page2 {
-    background-color: $appBlue;
+    background-color: vars.$appBlue;
     box-shadow: 0 -2px 6px 0 rgba(0, 0, 0, 0.12), inset 0 1px 0 0 #dadce0;
   }
 }

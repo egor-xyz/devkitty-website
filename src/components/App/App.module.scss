@@ -1,4 +1,5 @@
-@import 'src/variables';
+@use '../../variables' as vars;
+
 .root {
   scroll-behavior: smooth;
   --scroll-behavior: smooth;
@@ -6,7 +7,7 @@
 .anchor {
   display: block;
   position: relative;
-  top: -$headerHeight;
+  top: -(vars.$headerHeight);
   visibility: hidden;
   margin: 0;
   padding: 0;
