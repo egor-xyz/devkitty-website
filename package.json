@@ -1,7 +1,7 @@
 {
   "name": "devkitty-website",
   "description": "Your Daily GitHub Desktop Assistant",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": false,
   "type": "module",
   "homepage": "https://devkitty.app/",
