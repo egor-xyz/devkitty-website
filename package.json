@@ -21,6 +21,7 @@
     "@semantic-release/github": "^11.0.1",
     "@semantic-release/npm": "^12.0.1",
     "@semantic-release/release-notes-generator": "^14.0.3",
+    "@tailwindcss/vite": "^4.1.3",
     "axios": "^1.8.4",
     "clsx": "^2.1.1",
     "csscomb": "^4.3.0",
