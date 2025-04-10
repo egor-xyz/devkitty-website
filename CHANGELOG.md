@@ -1,3 +1,11 @@
+# [1.11.0](https://github.com/egor-xyz/devkitty-website/compare/v1.10.0...v1.11.0) (2025-04-10)
+
+
+### Features
+
+* small fixes ([5d83e09](https://github.com/egor-xyz/devkitty-website/commit/5d83e09c4b1d560ee908ca9ca91b33e06371fadf))
+* small fixes ([b3a0a86](https://github.com/egor-xyz/devkitty-website/commit/b3a0a8661f0e5a9da1b5b25c18cd0279c1d0ea2d))
+
 # [1.10.0](https://github.com/egor-xyz/devkitty-website/compare/v1.9.0...v1.10.0) (2025-04-08)
 
 
