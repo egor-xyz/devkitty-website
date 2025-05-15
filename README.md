@@ -1,5 +1,7 @@
 # devkitty.app website
 
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/egor-xyz/devkitty-website?utm_source=oss&utm_medium=github&utm_campaign=egor-xyz%2Fdevkitty-website&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+
 Your favorite tools in one place
 
 [![devkitty](public/images/GitHub-App-Demo.png)](https://devkitty.app/)
