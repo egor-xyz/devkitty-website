@@ -15,18 +15,18 @@ export const useVersion = create<State>((set, get) => ({
       const { version } = get();
       if (!version) return;
 
-      return `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty-darwin-arm64-${version.replace(
+      return `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty-${version.replace(
         'v',
         ''
-      )}.zip`;
+      )}-arm64-mac.zip`;
     },
     intel: () => {
       const { version } = get();
       if (!version) return;
-      return `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty-darwin-x64-${version.replace(
+      return `https://github.com/egor-xyz/devkitty/releases/download/${version}/Devkitty-${version.replace(
         'v',
         ''
-      )}.zip`;
+      )}-mac.zip`;
     }
   },
   setVersion: (version: string) => set({ version })
