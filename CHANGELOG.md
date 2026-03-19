@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/egor-xyz/devkitty-website/compare/v1.11.0...v1.11.1) (2026-03-19)
+
+
+### Bug Fixes
+
+* update download filenames to match new release naming ([44b38b1](https://github.com/egor-xyz/devkitty-website/commit/44b38b1355f2af3d908608391a07c074d3112cc1))
+
 # [1.11.0](https://github.com/egor-xyz/devkitty-website/compare/v1.10.0...v1.11.0) (2025-04-10)
 
 
