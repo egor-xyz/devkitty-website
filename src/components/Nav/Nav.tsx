@@ -1,6 +1,7 @@
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { type FC, useState } from 'react';
 import { useVersion } from 'store/useVersions';
+import { scrollToId } from 'utils';
 
 import { AppIcon } from '../CatMark';
 import { GitHub } from '../icons';
@@ -42,6 +43,7 @@ export const Nav: FC = () => {
           <a
             className='transition-colors hover:text-ink'
             href='#features'
+            onClick={scrollToId('features')}
           >
             Features
           </a>
@@ -49,6 +51,7 @@ export const Nav: FC = () => {
           <a
             className='transition-colors hover:text-ink'
             href='#download'
+            onClick={scrollToId('download')}
           >
             Download{version ? ` ${version}` : ''}
           </a>
