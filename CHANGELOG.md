@@ -1,3 +1,16 @@
+# [1.13.0](https://github.com/egor-xyz/devkitty-website/compare/v1.12.0...v1.13.0) (2026-08-25)
+
+
+### Bug Fixes
+
+* drop stray top-left aurora, animate title gradient ([dbd6bda](https://github.com/egor-xyz/devkitty-website/commit/dbd6bda22b2eff592175676140104dfd8f37d0b2))
+* smooth-scroll nav links without adding hash to URL ([0fd617d](https://github.com/egor-xyz/devkitty-website/commit/0fd617d68dc50b580ab070935a4f59a94cb19a50))
+
+
+### Features
+
+* sunset redesign focused on app features ([11269a3](https://github.com/egor-xyz/devkitty-website/commit/11269a32c1cd72d0d632a85de93d3d8676ba8c4e))
+
 # [1.12.0](https://github.com/egor-xyz/devkitty-website/compare/v1.11.1...v1.12.0) (2026-08-25)
 
 
