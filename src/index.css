@@ -87,11 +87,16 @@ h1, h2, h3 {
 }
 
 .gradient-text {
-  background: linear-gradient(105deg, #ffffff 0%, #ffd9c9 20%, #f7b6e0 42%, #c98cf2 64%, #a855c9 82%, #e0895f 100%);
+  background: linear-gradient(105deg, #ffffff 0%, #ffd9c9 16%, #f7b6e0 32%, #c98cf2 50%, #a855c9 66%, #e0895f 84%, #ffffff 100%);
+  background-size: 220% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+  animation: title-flow 9s linear infinite;
+}
+@keyframes title-flow {
+  to { background-position: 220% center; }
 }
 
 /* Wordmark shimmer — same technique as the app: a solid silver word with a

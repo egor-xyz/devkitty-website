@@ -26,11 +26,6 @@ export const App = () => {
         className='pointer-events-none fixed inset-0 -z-10 overflow-hidden'
       >
         <span
-          className='aurora left-[-6%] top-[12%] h-[460px] w-[560px] bg-grape opacity-30'
-          style={{ animation: 'drift 20s ease-in-out infinite' }}
-        />
-
-        <span
           className='aurora right-[-8%] top-[42%] h-[440px] w-[520px] bg-coral opacity-25'
           style={{ animation: 'drift-2 24s ease-in-out infinite' }}
         />
