@@ -1,12 +1,12 @@
 import { type IconName } from '@blueprintjs/icons';
-import { type AnimationControls, type TargetAndTransition, type Transition, type VariantLabels } from 'framer-motion';
+import { type LegacyAnimationControls, type TargetAndTransition, type Transition, type VariantLabels } from 'framer-motion';
 
 type GbmFeatures = {
-  animate?: AnimationControls | boolean | TargetAndTransition | VariantLabels;
+  animate?: boolean | LegacyAnimationControls | TargetAndTransition | VariantLabels;
   desc?: string;
   icon: IconName;
   image?: string;
-  initial?: AnimationControls | boolean | TargetAndTransition | VariantLabels;
+  initial?: boolean | LegacyAnimationControls | TargetAndTransition | VariantLabels;
   title: string;
   transition?: Transition;
 }[];
