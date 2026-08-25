@@ -28,12 +28,7 @@ export const Hero: FC = () => (
       className='pointer-events-none absolute inset-0'
     >
       <span
-        className='aurora left-[-8%] top-[2%] h-[420px] w-[520px] bg-grape'
-        style={{ animation: 'drift 16s ease-in-out infinite' }}
-      />
-
-      <span
-        className='aurora right-[-6%] top-[-6%] h-[380px] w-[460px] bg-coral'
+        className='aurora right-[-6%] top-[-6%] h-[380px] w-[460px] bg-coral opacity-40'
         style={{ animation: 'drift-2 20s ease-in-out infinite' }}
       />
 
