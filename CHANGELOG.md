@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/egor-xyz/devkitty-website/compare/v1.11.1...v1.12.0) (2026-08-25)
+
+
+### Features
+
+* sunset redesign focused on app features ([#47](https://github.com/egor-xyz/devkitty-website/issues/47)) ([89ea3b3](https://github.com/egor-xyz/devkitty-website/commit/89ea3b36ab5b8d42e6818d8b222ced4db278ab52))
+
 ## [1.11.1](https://github.com/egor-xyz/devkitty-website/compare/v1.11.0...v1.11.1) (2026-03-19)
 
 
