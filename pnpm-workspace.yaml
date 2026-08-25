@@ -1,0 +1,11 @@
+# pnpm 11 settings file (not a monorepo — no `packages:` key).
+# Default release-age cooldown rejects very recently published packages;
+# disabled so latest deps install and CI release works.
+minimumReleaseAge: 0
+
+# Dependencies allowed to run install/build scripts (pnpm 11 blocks by default).
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  core-js: true
+  esbuild: true
