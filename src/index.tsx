@@ -3,12 +3,9 @@ import { App } from 'components';
 import { ConvexProvider, ConvexReactClient } from 'convex/react';
 import { createRoot } from 'react-dom/client';
 import 'normalize.css';
-import '@blueprintjs/core/lib/css/blueprint.css';
 import { polyfill } from 'smoothscroll-polyfill';
 
-import './JetBrains-Mono.css';
 import './index.css';
-import './index.scss';
 
 polyfill();
 
