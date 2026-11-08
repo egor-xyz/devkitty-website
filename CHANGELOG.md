@@ -1,3 +1,10 @@
+# [1.20.0](https://github.com/egor-xyz/devkitty-website/compare/v1.19.2...v1.20.0) (2026-11-08)
+
+
+### Features
+
+* no background music; the sound button mutes effects, on by default ([#61](https://github.com/egor-xyz/devkitty-website/issues/61)) ([111f1a7](https://github.com/egor-xyz/devkitty-website/commit/111f1a7f6abd7620fe93a8be9c3cf39c2b28ae4f))
+
 ## [1.19.2](https://github.com/egor-xyz/devkitty-website/compare/v1.19.1...v1.19.2) (2026-11-08)
 
 
