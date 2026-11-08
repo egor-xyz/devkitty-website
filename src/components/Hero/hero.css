@@ -26,7 +26,10 @@ h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(
 h1 .swap { display: inline-grid; }
 @media (min-width: 821px) { h1 .ln { display: block; white-space: nowrap; } }
 h1 .swap > span { grid-area: 1 / 1; transition: opacity .6s, transform .8s cubic-bezier(.22,1,.36,1), filter .6s; }
-h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); background: linear-gradient(95deg, #6B1418, #B83A16 35%, #FF6A3D 60%, #4A1230); -webkit-background-clip: text; background-clip: text; color: transparent; }
+h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+/* each line gets its own full gradient (not one box cut by the shorter line); it drifts slowly */
+h1 .after .ln { width: fit-content; background: linear-gradient(95deg, #6B1418, #B83A16 25%, #FF6A3D 50%, #B83A16 75%, #4A1230) 0 50% / 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-box-decoration-break: clone; box-decoration-break: clone; animation: h-glow 7s ease-in-out infinite alternate; }
+h1 .after .ln + .ln { animation-delay: -1.2s; }
 &.lit h1 .before { opacity: 0; transform: translateY(-18px); filter: blur(6px); }
 &.lit h1 .after { opacity: 1; transform: none; filter: none; }
 .side { display: flex; flex-direction: column; gap: 16px; }
@@ -228,6 +231,7 @@ h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); backgrou
   .hero *, .hero *::before, .hero *::after { animation: none !important; transition-duration: 0.01ms !important; }
 }
 
+@keyframes h-glow { to { background-position: 100% 50%; } }
 @keyframes h-sheen { to { background-position: 200% 0; } }
 @keyframes h-beacon { 0% { box-shadow: 5px 5px 0 var(--ink), 0 0 0 0 rgba(255,106,61,.55); } 100% { box-shadow: 5px 5px 0 var(--ink), 0 0 0 22px rgba(255,106,61,0); } }
 @keyframes h-eq { to { height: 12px; } }
