@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/egor-xyz/devkitty-website/compare/v1.15.1...v1.16.0) (2026-11-08)
+
+
+### Features
+
+* cosy terminal slogan in link preview and meta tags ([#52](https://github.com/egor-xyz/devkitty-website/issues/52)) ([680883a](https://github.com/egor-xyz/devkitty-website/commit/680883a52c96f989954eed7db4eca1bb7f762ffe))
+
 ## [1.15.1](https://github.com/egor-xyz/devkitty-website/compare/v1.15.0...v1.15.1) (2026-11-08)
 
 
