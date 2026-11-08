@@ -1,3 +1,10 @@
+## [1.18.1](https://github.com/egor-xyz/devkitty-website/compare/v1.18.0...v1.18.1) (2026-11-08)
+
+
+### Bug Fixes
+
+* rename the Hero palette category to Terminal ([#57](https://github.com/egor-xyz/devkitty-website/issues/57)) ([00c8263](https://github.com/egor-xyz/devkitty-website/commit/00c82630f0171ab3c060ea99882826189d6e758f))
+
 # [1.18.0](https://github.com/egor-xyz/devkitty-website/compare/v1.17.0...v1.18.0) (2026-11-08)
 
 
