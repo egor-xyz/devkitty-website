@@ -120,15 +120,12 @@ h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); backgrou
 
 .plant .leaves { transform-origin: 112px 474px; }
 .plant.h .leaves { animation: h-sway 1.4s ease-in-out 2; }
-.spbug, .spsilk { opacity: 0; pointer-events: none; }
-.spsilk { transform-origin: 134px 356px; }
+.spbug { opacity: 0; pointer-events: none; }
 .spbug.peek { opacity: 1; transition: opacity .25s; }
 .spbug .spl, .spbug .spr { transform-box: fill-box; transform-origin: 100% 50%; }
 .spbug .spr { transform-origin: 0% 50%; }
 .spbug.run .spl { animation: h-scuttle .1s ease-in-out infinite alternate; }
 .spbug.run .spr { animation: h-scuttle .1s ease-in-out infinite alternate-reverse; }
-.spbug.wig .spl { animation: h-scuttle .07s ease-in-out infinite alternate; }
-.spbug.wig .spr { animation: h-scuttle .07s ease-in-out infinite alternate-reverse; }
 
 .catpic { transform-origin: 1152px 150px; } .catpic.h { animation: h-wobble .9s ease-in-out; }
 .duck { transform-origin: 1052px 548px; }
@@ -193,6 +190,7 @@ h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); backgrou
 .moon.wince .moonbob { animation: h-shake .16s linear infinite; }
 &:not(.lit) .moon { cursor: default; }
 .dev .rage { display: none; } .dev.angry .rage { display: inline; } .dev.angry .kb, .dev.angry .bang { display: none; }
+.dev .spfriend { display: none; } .dev.spiderfriend .spfriend { display: inline; }
 .dev .spsay { display: none; } .dev.spider .spsay { display: inline; } .dev.spider .kb, .dev.spider .rage { display: none; }
 .dev .rageB, .dev.hey .rageA { display: none; } .dev.hey .rageB { display: inline; }
 .dev.angry .puff { animation: h-puff .9s ease-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
@@ -211,7 +209,7 @@ h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); backgrou
 .led { fill: #FFFFFF; transition: fill .2s; } .ledglow { opacity: .4; transition: opacity .2s; animation: h-ledpulse 3s ease-in-out infinite; }
 .stage:is(.outage, .shutdown, .intro):not(.boot-login, .rebooting) .led { fill: #6E6E73; } .stage:is(.outage, .shutdown, .intro):not(.boot-login, .rebooting) .ledglow { opacity: 0; animation: none; }
 &:not(.lit) .mini { cursor: default; }
-.notesfx { transition: opacity .6s; } .stage.intro .notesfx, .stage.outage .notesfx, .stage.shutdown .notesfx, .dev.panic .notesfx { opacity: 0; }
+.notesfx { transition: opacity .6s; } .stage.intro .notesfx, .stage.outage .notesfx, .stage.shutdown .notesfx, .dev.panic .notesfx, .dev.spiderfriend .notesfx { opacity: 0; }
 .notesfx text { animation: h-note 2.4s ease-out infinite; opacity: 0; }
 .notesfx text:nth-child(2) { animation-delay: .8s; } .notesfx text:nth-child(3) { animation-delay: 1.6s; }
 

@@ -432,32 +432,75 @@ export function mountHero(root: HTMLElement): () => void {
   }
 
   // ---------- the spider that lives in the plant ----------
-  // x/y are scene units (the body's centre); rot is the heading in degrees (0 = head up).
-  const SPIDER_MS = 4500;
-  const SPIDER_PATH: [number, number, number, number, number, string?][] = [
-    // [ms, x, y, rot, opacity, easing to the next key]
-    [0, 134, 364, 180, 0],
-    [150, 134, 364, 180, 1, 'ease-in-out'],
-    [850, 134, 472, 180, 1, 'ease-out'],
-    [1000, 182, 490, 90, 1, 'linear'],
-    [1450, 330, 490, 90, 1, 'linear'],
-    [1625, 397, 337, 60, 1, 'linear'],
-    [1800, 465, 250, 45, 1, 'linear'],
-    [1975, 532, 228, 30, 1, 'linear'],
-    [2150, 600, 270, 15, 1, 'linear'],
-    [2450, 600, 270, 15, 1, 'linear'],
-    [2625, 532, 280, -30, 1, 'linear'],
-    [2800, 465, 320, -50, 1, 'linear'],
-    [2975, 397, 390, -70, 1, 'linear'],
-    [3150, 330, 490, -90, 1, 'linear'],
-    [3700, 150, 490, -90, 1, 'ease-in-out'],
-    [4300, 126, 440, 0, 0, 'linear'],
-    [SPIDER_MS, 126, 440, 0, 0],
+  // Waypoints in scene units (the body's centre): out along the wall under the window, a loop on the screen
+  // (the dev panics), back along a lower line into the plant. LOOP_AT is the first waypoint of the loop.
+  const SPIDER_MS = 4800;
+  const SPIDER_SCARE_MS = 1600;
+  const SPIDER_LOOP_AT = 7;
+  const SPIDER_WAYPOINTS: [number, number][] = [
+    [116, 476], [158, 396], [232, 374], [306, 402], [392, 383], [441, 392], [478, 389],
+    [514, 383], [551, 340], [514, 297], [478, 315], [502, 358], [539, 383],
+    [441, 383], [355, 426], [281, 402], [201, 433], [140, 451], [116, 476],
   ];
+  // A Catmull-Rom curve through the waypoints, sampled into keyframes at constant speed. The body faces the
+  // direction of travel (rot: 0 = head up, 90 = head right), unwrapped so it never spins the long way round.
+  function spiderKeyframes() {
+    const pts = SPIDER_WAYPOINTS;
+    const SAMPLES = 8;
+    const pos: [number, number][] = [];
+    let loopIdx = 0;
+    for (let i = 0; i < pts.length - 1; i++) {
+      if (i === SPIDER_LOOP_AT) loopIdx = pos.length;
+      const p0 = pts[Math.max(i - 1, 0)];
+      const p1 = pts[i];
+      const p2 = pts[i + 1];
+      const p3 = pts[Math.min(i + 2, pts.length - 1)];
+      for (let k = 0; k < SAMPLES; k++) {
+        const t = k / SAMPLES;
+        const c = (a: number, b: number, d: number, e: number) =>
+          0.5 * (2 * b + (-a + d) * t + (2 * a - 5 * b + 4 * d - e) * t * t + (-a + 3 * b - 3 * d + e) * t * t * t);
+        pos.push([c(p0[0], p1[0], p2[0], p3[0]), c(p0[1], p1[1], p2[1], p3[1])]);
+      }
+    }
+    pos.push(pts[pts.length - 1]);
+    const len = [0];
+    for (let i = 1; i < pos.length; i++) len.push(len[i - 1] + Math.hypot(pos[i][0] - pos[i - 1][0], pos[i][1] - pos[i - 1][1]));
+    const total = len[len.length - 1];
+    let rot = 0;
+    const frames = pos.map(([x, y], i) => {
+      const [bx, by] = pos[Math.max(i - 1, 0)];
+      const [fx, fy] = pos[Math.min(i + 1, pos.length - 1)];
+      const heading = (Math.atan2(fx - bx, -(fy - by)) * 180) / Math.PI;
+      rot = i === 0 ? heading : rot + ((((heading - rot) % 360) + 540) % 360) - 180;
+      const ms = (len[i] / total) * SPIDER_MS;
+
+      return {
+        offset: ms / SPIDER_MS,
+        opacity: Math.max(0, Math.min(1, ms / 200, (SPIDER_MS - ms) / 250)),
+        transform: `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${rot.toFixed(1)}deg)`,
+      };
+    });
+
+    return { frames, loopMs: (len[loopIdx] / total) * SPIDER_MS };
+  }
+  // Visits are counted per session. If storage is blocked the count lives in memory.
+  const VISITS_KEY = 'devkitty.hero.spiderVisits';
+  let spiderVisitsMem = 0;
+  function spiderVisit() {
+    let n = spiderVisitsMem + 1;
+    try {
+      n = Math.max(n, (Number.parseInt(sessionStorage.getItem(VISITS_KEY) ?? '', 10) || 0) + 1);
+      sessionStorage.setItem(VISITS_KEY, String(n));
+    } catch {
+      // in-memory fallback below
+    }
+    spiderVisitsMem = n;
+
+    return n;
+  }
   function spiderRun() {
     if (playing.spider) return;
     const spiders = Array.from(la.querySelectorAll<SVGElement>('[data-spider]'));
-    const silks = Array.from(la.querySelectorAll<SVGElement>('[data-spider-silk]'));
     if (!spiders.length) return;
     const panicked = byI('dev').some((d) => d.classList.contains('panic'));
     if (panicked) return; // the mug spill or the cat has the dev's attention: the plant only sways
@@ -470,52 +513,20 @@ export function mountHero(root: HTMLElement): () => void {
         sp((n) => n.classList.remove('peek'));
         playing.spider = false;
       }, 1000);
+
       return;
     }
-    const anims: Animation[] = [];
-    spiders.forEach((n) =>
-      anims.push(
-        n.animate(
-          SPIDER_PATH.map(([t, x, y, rot, opacity, easing]) => ({
-            offset: t / SPIDER_MS,
-            opacity,
-            transform: `translate(${x}px, ${y}px) rotate(${rot}deg)`,
-            ...(easing ? { easing } : {}),
-          })),
-          { duration: SPIDER_MS, fill: 'both' }
-        )
-      )
-    );
-    // the silk line pays out while the spider drops, then fades once it lands
-    silks.forEach((n) =>
-      anims.push(
-        n.animate(
-          [
-            { offset: 0, opacity: 0, transform: 'scaleY(0)' },
-            { easing: 'ease-in-out', offset: 150 / SPIDER_MS, opacity: 1, transform: 'scaleY(0)' },
-            { offset: 850 / SPIDER_MS, opacity: 1, transform: 'scaleY(1)' },
-            { offset: 1000 / SPIDER_MS, opacity: 0, transform: 'scaleY(1)' },
-            { offset: 1, opacity: 0, transform: 'scaleY(1)' },
-          ],
-          { duration: SPIDER_MS, fill: 'both' }
-        )
-      )
-    );
-    const cls = (add: boolean, name: string) => sp((n) => n.classList.toggle(name, add));
-    later(() => cls(true, 'run'), 150);
-    later(() => {
-      cls(false, 'run');
-      cls(true, 'wig');
-      byI('dev').forEach((d) => d.classList.add('panic', 'spider'));
-    }, 2150);
-    later(() => {
-      cls(false, 'wig');
-      cls(true, 'run');
-    }, 2450);
-    later(() => byI('dev').forEach((d) => d.classList.remove('panic', 'spider')), 3750);
+    const visit = spiderVisit();
+    const friendly = visit >= 3; // the third time he knows the spider: a calm hello instead of a scare
+    const mood = friendly ? ['spiderfriend'] : ['panic', 'spider'];
+    const { frames, loopMs } = spiderKeyframes();
+    const anims = spiders.map((n) => n.animate(frames, { duration: SPIDER_MS, easing: 'linear', fill: 'both' }));
+    sp((n) => n.classList.add('run'));
+    later(() => byI('dev').forEach((d) => d.classList.add(...mood)), loopMs);
+    later(() => byI('dev').forEach((d) => d.classList.remove(...mood)), loopMs + SPIDER_SCARE_MS);
     later(() => {
       anims.forEach((a) => a.cancel());
-      sp((n) => n.classList.remove('run', 'wig'));
+      sp((n) => n.classList.remove('run'));
       playing.spider = false;
     }, SPIDER_MS);
   }
