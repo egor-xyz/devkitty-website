@@ -1,26 +1,21 @@
 import { type FC } from 'react';
-import { useVersion } from 'store/useVersions';
 
+import { useLatestRelease } from '../../lib/latestRelease';
 import { Apple } from '../icons';
 
 type Props = { size?: 'lg' | 'md' };
 
-const LATEST = 'https://github.com/egor-xyz/devkitty/releases/latest';
-
-/**
- * A single prominent Apple-silicon download, with Intel demoted to a small text
- * link beneath it. Wired to the existing version store (version from Convex).
- */
+/** One prominent Apple Silicon download, wired to the latest devkitty-releases zip. */
 export const DownloadButtons: FC<Props> = ({ size = 'md' }) => {
-  const { download, version } = useVersion();
+  const { build, version, zipUrl } = useLatestRelease();
   const pad = size === 'lg' ? 'h-14 px-8 text-[15px]' : 'h-12 px-6 text-sm';
 
   return (
     <div className='flex flex-col items-center gap-3'>
       <a
-        aria-label='Download Devkitty for Apple Silicon'
+        aria-label='Download Devkitty for Mac (Apple Silicon)'
         className={`btn-grape group inline-flex items-center gap-3 rounded-xl font-semibold transition-[filter,box-shadow] duration-200 hover:brightness-110 ${pad}`}
-        href={download.apple() ?? LATEST}
+        href={zipUrl}
       >
         <Apple className='h-5 w-5' />
 
@@ -30,15 +25,8 @@ export const DownloadButtons: FC<Props> = ({ size = 'md' }) => {
         </span>
       </a>
 
-      <p className='text-xs text-ink-mute'>
-        <a
-          className='underline decoration-white/25 underline-offset-4 transition-colors hover:text-ink-soft'
-          href={download.intel() ?? LATEST}
-        >
-          Also for Intel Mac
-        </a>
-
-        {version && <span className='ml-2 font-mono opacity-70'>{version}</span>}
+      <p className='font-mono text-xs tabular-nums text-ink-mute'>
+        {version} (build {build})
       </p>
     </div>
   );

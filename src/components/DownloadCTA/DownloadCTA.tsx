@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { type FC } from 'react';
 
 import { AppIcon, CatMark } from '../CatMark';
@@ -70,7 +70,7 @@ export const DownloadCTA: FC = () => (
               className='mx-auto mt-5 max-w-lg text-lg text-ink-soft'
               variants={item}
             >
-              Free and open source. Download for macOS and let Devkitty watch GitHub so you don’t have to.
+              Download for macOS and let Devkitty watch GitHub so you don’t have to.
             </motion.p>
 
             <motion.div
@@ -84,7 +84,7 @@ export const DownloadCTA: FC = () => (
               className='mt-6 font-mono text-xs text-ink-mute'
               variants={item}
             >
-              Apple Silicon &amp; Intel · macOS 12 or later
+              Apple Silicon · macOS 27
             </motion.p>
           </div>
         </div>

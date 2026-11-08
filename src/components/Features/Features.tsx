@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { type ComponentType, type FC, type SVGProps, useRef } from 'react';
 
 import { AppWindow } from '../AppWindow/AppWindow';

@@ -22,3 +22,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .idea
+
+# build output and test artifacts
+dist/
+test-results/
+playwright-report/

@@ -1,13 +1,13 @@
-import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
+import { motion, useMotionValueEvent, useScroll } from 'motion/react';
 import { type FC, useState } from 'react';
-import { useVersion } from 'store/useVersions';
 import { scrollToId } from 'utils';
 
+import { RELEASES_PAGE, useLatestRelease } from '../../lib/latestRelease';
 import { AppIcon } from '../CatMark';
 import { GitHub } from '../icons';
 
 export const Nav: FC = () => {
-  const { version } = useVersion();
+  const { version } = useLatestRelease();
   const { scrollY } = useScroll();
   const [solid, setSolid] = useState(false);
 
@@ -53,19 +53,19 @@ export const Nav: FC = () => {
             href='#download'
             onClick={scrollToId('download')}
           >
-            Download{version ? ` ${version}` : ''}
+            Download {version}
           </a>
         </nav>
 
         <a
-          aria-label='Star egor-xyz/devkitty on GitHub'
+          aria-label='Devkitty releases on GitHub'
           className='glass inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-medium text-ink transition-colors hover:bg-white/10'
-          href='https://github.com/egor-xyz/devkitty'
+          href={RELEASES_PAGE}
           rel='noreferrer'
           target='_blank'
         >
           <GitHub className='h-4 w-4' />
-          <span className='hidden sm:inline'>Star</span>
+          <span className='hidden sm:inline'>Releases</span>
         </a>
       </div>
     </motion.header>
