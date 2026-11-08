@@ -7,9 +7,11 @@ import { App } from 'components';
 import { createRoot } from 'react-dom/client';
 
 import { openExternalLinksInNewTab } from '../lib/externalLinks';
+import { markDownloadSupport } from '../lib/platform';
 import '../index.css';
 
 openExternalLinksInNewTab();
+markDownloadSupport();
 
 const container = document.getElementById('root');
 const root = createRoot(container!);

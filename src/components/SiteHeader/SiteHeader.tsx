@@ -63,6 +63,7 @@ export const SiteHeader: FC = () => {
 
           <a
             className='hdr-download'
+            data-download-link
             href={zipUrl}
           >
             Download

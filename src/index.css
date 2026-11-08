@@ -385,3 +385,8 @@ main {
     animation: none;
   }
 }
+
+/* Devkitty runs only on macOS desktops: phones, tablets, Windows and Linux get no download buttons. */
+html[data-download='no'] [data-download-link] {
+  display: none !important;
+}
