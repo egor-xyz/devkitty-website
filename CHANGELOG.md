@@ -1,3 +1,10 @@
+## [1.19.2](https://github.com/egor-xyz/devkitty-website/compare/v1.19.1...v1.19.2) (2026-11-08)
+
+
+### Bug Fixes
+
+* hero headline sweeps a seamless gradient and reveals left to right; clean switch hover ([#60](https://github.com/egor-xyz/devkitty-website/issues/60)) ([fa1b01b](https://github.com/egor-xyz/devkitty-website/commit/fa1b01be3f1021a1787e697ef32d7a285afab7c7))
+
 ## [1.19.1](https://github.com/egor-xyz/devkitty-website/compare/v1.19.0...v1.19.1) (2026-11-08)
 
 
