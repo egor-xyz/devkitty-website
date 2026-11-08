@@ -38,6 +38,8 @@ async function open(sound) {
   }, sound);
   const page = await ctx.newPage();
   const errs = [];
+  page.__music = [];
+  page.on('request', (r) => r.url().includes('/music/') && page.__music.push(r.url()));
   page.on('console', (m) => m.type() === 'error' && errs.push(m.text()));
   page.on('pageerror', (e) => errs.push(String(e)));
   await page.goto(URL);
@@ -111,6 +113,7 @@ const drain = (page) => page.evaluate(() => window.__starts.splice(0));
   await page.waitForTimeout(1000);
   const h = await drain(page);
   ok(h.length === 0, `hidden tab: no new sources (${h.join(',')})`);
+  ok(page.__music.length === 0, 'no music requests (' + page.__music.join(',') + ')');
   ok(errs.length === 0, 'no console errors (on) ' + errs.join('|'));
   await ctx.close();
 }

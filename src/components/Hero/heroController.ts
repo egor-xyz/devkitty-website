@@ -277,8 +277,8 @@ export function mountHero(root: HTMLElement): () => void {
     frame(step);
   };
 
-  // ---------- sound effects (the bus lives in the music block below; these are no-ops while sound is off) ----------
-  const sfx = (name: string, o?: { rate?: number; volume?: number }) => music.sfx(name, o);
+  // ---------- sound effects (the bus lives in the sound block below; these are no-ops while sound is off) ----------
+  const sfx = (name: string, o?: { rate?: number; volume?: number }) => sound.sfx(name, o);
   let keyAt = 0;
   const keySfx = (enter = false, quiet = false) => {
     const t = performance.now();
@@ -693,7 +693,7 @@ export function mountHero(root: HTMLElement): () => void {
     const moves = all('.cat .wmove');
     const T = reduce ? 0 : 2600;
     sfx('meow', { volume: 0.8 });
-    music.purr(false);
+    sound.purr(false);
     userUntil = performance.now() + 60000;
     setReply('');
     prompt = '> ';
@@ -730,7 +730,7 @@ export function mountHero(root: HTMLElement): () => void {
     cats.forEach((c) => c.classList.remove('go', 'back'));
     await wait(reduce ? 0 : 250);
     cats.forEach((c) => c.classList.remove('walking', 'awake'));
-    music.purr(true);
+    sound.purr(true);
     setReply('');
     typed = '';
     setTyped();
@@ -769,7 +769,7 @@ export function mountHero(root: HTMLElement): () => void {
     cats.forEach((c) => c.classList.remove('go'));
     await wait(400);
     cats.forEach((c) => c.classList.remove('walking', 'awake')); // curls up, zz
-    music.purr(true);
+    sound.purr(true);
     catBusy = false;
   }
   // the terminal thanks the dev for the coffee spilled on the keyboard (once per spill, only while the screen is on)
@@ -851,11 +851,15 @@ export function mountHero(root: HTMLElement): () => void {
     void catWalkIn();
   }
 
-  // ---------- music: sad loop in grey, chill loop after the switch ----------
-  const music = (() => {
+  // ---------- sound: sound effects and the cat purr; on by default, the sound button mutes them ----------
+  const sound = (() => {
     let ctx: AudioContext | null = null;
-    let loading: Promise<unknown> = Promise.resolve();
-    let enabled = false;
+    let enabled = true;
+    try {
+      enabled = sessionStorage.getItem('devkitty-sound') !== 'off';
+    } catch {
+      /* storage unavailable */
+    }
     let bus: GainNode | null = null;
     const bufs: Record<string, AudioBuffer> = {};
     const purrState: { gain: GainNode | null; src: AudioBufferSourceNode | null; want: boolean } = {
@@ -863,10 +867,6 @@ export function mountHero(root: HTMLElement): () => void {
       src: null,
       want: false
     };
-    const gains: Record<string, GainNode> = {};
-    const sources: AudioBufferSourceNode[] = [];
-    const files: Record<string, string> = { chill: `${BASE}music/chill.mp3`, sad: `${BASE}music/sad.mp3` };
-    const level: Record<string, number> = { chill: 0.65, sad: 0.8 };
     const SFX = [
       'meow', 'purr', 'key-1', 'key-2', 'key-3', 'key-enter',
       'mug-tip', 'splash', 'zap', 'curtain', 'lamp', 'clock-whoosh', 'clock-tick', 'plant', 'duck', 'note', 'switch',
@@ -935,76 +935,34 @@ export function mountHero(root: HTMLElement): () => void {
       sb.setAttribute('aria-label', enabled ? 'Sound on' : 'Sound off');
     };
     const init = () => {
-      if (ctx) return loading;
+      if (ctx) return;
       const AC =
         window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      if (!AC) return Promise.resolve();
+      if (!AC) return;
       const c = new AC();
       ctx = c;
       const master = c.createGain();
       master.gain.value = 0.7;
       master.connect(c.destination);
       bus = c.createGain();
-      bus.gain.value = 0.6; // separate from the music gains, so crossfades do not touch it
+      bus.gain.value = 0.6;
       bus.connect(master);
       c.addEventListener('statechange', syncPurr, { signal });
       void loadSfx(c);
-      loading = Promise.all(
-        Object.keys(files).map(async (k) => {
-          const g = c.createGain();
-          g.gain.value = 0;
-          g.connect(master);
-          gains[k] = g;
-          try {
-            const buf = await c.decodeAudioData(await (await fetch(files[k] as string)).arrayBuffer());
-            if (disposed) return;
-            const src = c.createBufferSource();
-            src.buffer = buf;
-            src.loop = true;
-            src.connect(g);
-            src.start();
-            sources.push(src);
-          } catch {
-            /* no audio: stay silent */
-          }
-        })
-      );
-
-      return loading;
     };
-    const mix = (on: boolean) => {
-      if (!ctx) return;
-      const t = ctx.currentTime;
-      // Mode switch: fade the playing loop out, wait 1 s in silence, then fade the new loop in.
-      // Sound just turned on (nothing audible yet): fade in at once.
-      const playing = Object.values(gains).some((x) => x.gain.value > 0.01);
-      const gap = playing ? 1.8 : 0; // 0.8 s fade out + 1 s silence
-      for (const k in gains) {
-        const want = enabled && (k === 'chill') === on ? (level[k] ?? 0) : 0;
-        const g = (gains[k] as GainNode).gain;
-        g.cancelScheduledValues(t);
-        g.setValueAtTime(g.value, t);
-        if (want === 0) g.linearRampToValueAtTime(0, t + 0.8);
-        else if (g.value > 0.01) g.linearRampToValueAtTime(want, t + 0.8); // same loop: just adjust
-        else {
-          g.setValueAtTime(0, t + gap);
-          g.linearRampToValueAtTime(want, t + gap + 1.5);
-        }
-      }
+    // Browsers start audio only inside a user gesture: create or resume the context there.
+    const wake = () => {
+      init();
+      if (ctx && ctx.state === 'suspended') void ctx.resume();
     };
-    const set = (v: boolean, on: boolean) => {
+    const set = (v: boolean) => {
       enabled = v;
       try {
         sessionStorage.setItem('devkitty-sound', v ? 'on' : 'off');
       } catch {
         /* storage unavailable */
       }
-      if (v) {
-        const p = init();
-        if (ctx && ctx.state === 'suspended') void ctx.resume();
-        void p.then(() => mix(on));
-      }
-      mix(on);
+      if (v) wake();
       syncPurr();
       label();
     };
@@ -1017,7 +975,7 @@ export function mountHero(root: HTMLElement): () => void {
 
           return;
         }
-        set(!enabled, state.on);
+        set(!enabled);
       },
       { signal }
     );
@@ -1031,13 +989,6 @@ export function mountHero(root: HTMLElement): () => void {
     window.addEventListener('blur', syncFocus, { signal });
     window.addEventListener('focus', syncFocus, { signal });
     const dispose = () => {
-      sources.forEach((s) => {
-        try {
-          s.stop();
-        } catch {
-          /* already stopped */
-        }
-      });
       if (purrState.src) {
         try {
           purrState.src.stop();
@@ -1052,27 +1003,16 @@ export function mountHero(root: HTMLElement): () => void {
 
     return {
       dispose,
-      duck: (on: boolean) => {
-        if (!ctx) return;
-        if (!on) return mix(state.on);
-        const t = ctx.currentTime;
-        for (const k in gains) {
-          const g = (gains[k] as GainNode).gain;
-          g.cancelScheduledValues(t);
-          g.setValueAtTime(g.value, t);
-          g.linearRampToValueAtTime(0, t + 0.3);
-        }
-      },
       get enabled() {
         return enabled;
       },
-      mix,
+      label,
       purr: (on: boolean) => {
         purrState.want = on;
         syncPurr();
       },
-      set,
-      sfx
+      sfx,
+      wake
     };
   })();
 
@@ -1119,8 +1059,6 @@ export function mountHero(root: HTMLElement): () => void {
 
     btn.setAttribute('aria-pressed', String(state.on));
     btn.setAttribute('aria-label', state.on ? 'Switch to Terminal' : 'Switch to Devkitty');
-    if (state.on && !music.enabled) music.set(true, true);
-    else music.mix(state.on);
     const from = state.on ? 0 : maxR();
     const to = state.on ? maxR() : 0;
     if (reduce) {
@@ -1168,7 +1106,6 @@ export function mountHero(root: HTMLElement): () => void {
     setTyped();
     sfx(kind === 'power' ? 'outage' : 'switch');
     if (kind === 'power') {
-      music.duck(true); // the music stops with the power; the Mac mini keeps it playing
       if (!reduce) {
         // the whole room flickers (lamp, screen, room overlay) at modest contrast, never faster than 8 per second
         for (const [on, off] of [[90, 150], [60, 200], [80, 120], [70, 180]] as const) {
@@ -1240,7 +1177,6 @@ export function mountHero(root: HTMLElement): () => void {
       pass.forEach((n) => (n.textContent = ''));
       hint.forEach((n) => (n.textContent = hintText));
     }
-    if (kind === 'power') later(() => music.duck(false), 1000); // the music fades back in about 1 s after the desktop returns
     outage = false;
   }
 
@@ -1411,24 +1347,17 @@ export function mountHero(root: HTMLElement): () => void {
     state.r = 1e5;
     btn.setAttribute('aria-pressed', 'true');
     btn.setAttribute('aria-label', 'Switch to Terminal');
-    music.mix(true);
     showHint(true);
   }
-  // Sound was on last time. Browsers block autoplay, so start at the first click or key press.
-  let soundSaved: null | string = null;
-  try {
-    soundSaved = sessionStorage.getItem('devkitty-sound');
-  } catch {
-    /* storage unavailable */
-  }
-  // Devkitty mode always plays music (the switch turns it on), unless the visitor turned sound off.
-  if (soundSaved === 'on' || (saved === 'devkitty' && soundSaved !== 'off')) {
-    music.set(true, state.on); // plays now if the browser allows autoplay
+  // Sound is on unless the visitor turned it off. Browsers block autoplay, so the first click or key press
+  // (captured before the object's own handler) creates the audio context and starts loading the effects.
+  sound.label();
+  if (sound.enabled) {
     const kinds = ['pointerdown', 'keydown'] as const;
     const startSound = (e: Event) => {
       kinds.forEach((k) => window.removeEventListener(k, startSound, true));
       if (e.target instanceof Element && sb.contains(e.target)) return; // the sound button handles its own click
-      if (music.enabled) music.set(true, state.on); // resumes a blocked AudioContext inside the gesture
+      if (sound.enabled) sound.wake();
     };
     kinds.forEach((k) => window.addEventListener(k, startSound, { capture: true, signal }));
   }
@@ -1445,7 +1374,7 @@ export function mountHero(root: HTMLElement): () => void {
   applyClip();
   if (!reduce) void intro().then(autoType);
   else {
-    music.purr(true); // no intro: the cat is already asleep
+    sound.purr(true); // no intro: the cat is already asleep
     prompt = '> ';
     typed = TASKS[0]?.[1] ?? '';
     setTyped();
@@ -1479,7 +1408,7 @@ export function mountHero(root: HTMLElement): () => void {
     intervals.clear();
     rafs.clear();
     stopShaders?.();
-    music.dispose();
+    sound.dispose();
     lb.innerHTML = '';
     la.innerHTML = '';
     lb.style.cssText = '';
