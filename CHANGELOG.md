@@ -1,3 +1,10 @@
+## [1.16.1](https://github.com/egor-xyz/devkitty-website/compare/v1.16.0...v1.16.1) (2026-11-08)
+
+
+### Bug Fixes
+
+* one highlighted site menu item, drop privacy and terms ([#54](https://github.com/egor-xyz/devkitty-website/issues/54)) ([1f9bd24](https://github.com/egor-xyz/devkitty-website/commit/1f9bd24c21d83a48305bc6f3d38d35e7614be595))
+
 # [1.16.0](https://github.com/egor-xyz/devkitty-website/compare/v1.15.1...v1.16.0) (2026-11-08)
 
 
