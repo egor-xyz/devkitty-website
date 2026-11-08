@@ -1190,8 +1190,9 @@ export function mountHero(root: HTMLElement): () => void {
       const fly = rockets.map((r) =>
         r.animate(
           [
-            { opacity: 1, transform: 'translate(-170px, 120px) rotate(-35deg) scale(2.4)' },
-            { opacity: 1, transform: 'translate(16px, -3px) rotate(-35deg) scale(1.3)' }
+            // straight line into the right eye: the nose tip lands on the pupil (18, -3)
+            { opacity: 1, transform: 'translate(-172px, 107px) rotate(-30deg) scale(2.4)' },
+            { opacity: 1, transform: 'translate(1px, 7px) rotate(-30deg) scale(1.1)' }
           ],
           { duration: 900, easing: 'cubic-bezier(.4,0,.8,.6)', fill: 'forwards' }
         )
@@ -1199,9 +1200,8 @@ export function mountHero(root: HTMLElement): () => void {
       await Promise.all(fly.map((a) => a.finished.catch(() => {})));
     }
     if (disposed) return;
-    sfx('zap', { volume: 0.25 });
     moons.forEach((m) => m.classList.add('wince'));
-    await wait(1000);
+    await wait(4000);
     moons.forEach((m) => m.classList.remove('wince'));
     rockets.forEach((r) => r.getAnimations().forEach((a) => a.cancel()));
     playing.moon = false;
