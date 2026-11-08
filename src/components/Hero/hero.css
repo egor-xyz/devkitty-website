@@ -266,3 +266,6 @@ h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); backgrou
 .hero .hero-wrap { padding-block: 16px 12px; gap: 18px; }
 .hero [data-hero-stage] { --hero-reserved: 468px; }
 .hero .hero-wrap > .legend { width: 100%; max-width: max(480px, calc((100dvh - 468px) * 1.579)); margin-inline: auto; }
+/* Big screens: when the page has spare height, the hero sits in the middle between header and footer. */
+main:has(> .hero) { display: flex; flex-direction: column; }
+main > .hero { margin-block: auto; }
