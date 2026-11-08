@@ -458,7 +458,7 @@
         <rect x="626" y="468" width="22" height="38" rx="9" fill="#FF6A3D" class="ink"/>
         <rect x="752" y="468" width="22" height="38" rx="9" fill="#FF6A3D" class="ink"/>
       </g>
-      <g class="spfriend"><rect x="478" y="452" width="106" height="30" rx="12" fill="#fff" class="thin"/><text x="488" y="473" class="hand" font-size="18" fill="#1A1220">Hi, Tomas</text></g>
+      <g class="spfriend"><rect x="478" y="452" width="96" height="30" rx="12" fill="#fff" class="thin"/><text x="488" y="473" class="hand" font-size="18" fill="#1A1220">Hi, Tomas!</text></g>
       <g class="panic">
         <path d="M606 612 C 578 566, 596 504, 638 474" fill="none" stroke="#1A1220" stroke-width="30" stroke-linecap="round"/>
         <path d="M606 612 C 578 566, 596 504, 638 474" fill="none" stroke="#241A4F" stroke-width="22" stroke-linecap="round"/>
