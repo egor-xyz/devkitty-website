@@ -1,3 +1,10 @@
+## [1.16.2](https://github.com/egor-xyz/devkitty-website/compare/v1.16.1...v1.16.2) (2026-11-08)
+
+
+### Bug Fixes
+
+* center the hero between header and footer on big screens ([#55](https://github.com/egor-xyz/devkitty-website/issues/55)) ([58b6ef3](https://github.com/egor-xyz/devkitty-website/commit/58b6ef3fd2482a77bcae95509b4344f1ea668a2d))
+
 ## [1.16.1](https://github.com/egor-xyz/devkitty-website/compare/v1.16.0...v1.16.1) (2026-11-08)
 
 
