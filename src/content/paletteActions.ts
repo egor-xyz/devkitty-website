@@ -1,5 +1,6 @@
 import { setHeroMode } from '../components/Hero/heroMode';
 import { getExtensions } from '../lib/extensions';
+import { canDownload } from '../lib/platform';
 
 /** Website-only palette: categories in display order. */
 export const CATEGORIES = ['Website', 'Hero', 'Extensions'] as const;
@@ -17,16 +18,7 @@ export type PaletteAction = {
 };
 
 export type PaletteIcon =
-  | 'book'
-  | 'download'
-  | 'extension'
-  | 'features'
-  | 'globe'
-  | 'hero'
-  | 'list'
-  | 'shield'
-  | 'sun'
-  | 'terminal';
+  'book' | 'download' | 'extension' | 'features' | 'globe' | 'hero' | 'list' | 'shield' | 'sun' | 'terminal';
 
 export const FEATURES_OPEN_EVENT = 'devkitty:features-open';
 export const EXTENSIONS_OPEN_EVENT = 'devkitty:extensions-open';
@@ -40,7 +32,8 @@ export function buildPaletteActions(zipUrl: string): PaletteAction[] {
     keywords: ['extension', 'plugin', e.id],
     run: () => {
       // Only the home page hosts the monitor zoom; elsewhere, load home with the deep link.
-      if (document.querySelector('[data-hero-stage]')) window.dispatchEvent(new CustomEvent(EXTENSIONS_OPEN_EVENT, { detail: { id: e.id } }));
+      if (document.querySelector('[data-hero-stage]'))
+        window.dispatchEvent(new CustomEvent(EXTENSIONS_OPEN_EVENT, { detail: { id: e.id } }));
       else window.location.assign(`/#extensions/${e.id}`);
     },
     title: `Open extension: ${e.name}`
@@ -71,18 +64,50 @@ export function buildPaletteActions(zipUrl: string): PaletteAction[] {
       run: () => window.dispatchEvent(new CustomEvent(CHANGELOG_OPEN_EVENT)),
       title: 'Open Changelog'
     },
-    { category: 'Website', icon: 'shield', id: 'privacy', keywords: ['legal', 'telemetry'], run: () => window.location.assign('/privacy/'), title: 'Read the Privacy Policy' },
-    { category: 'Website', icon: 'book', id: 'terms', keywords: ['legal', 'license'], run: () => window.location.assign('/terms/'), title: 'Read the Terms' },
     {
       category: 'Website',
-      icon: 'download',
-      id: 'download',
-      keywords: ['mac', 'zip', 'install', 'get'],
-      run: () => window.location.assign(zipUrl),
-      title: 'Download Devkitty'
+      icon: 'shield',
+      id: 'privacy',
+      keywords: ['legal', 'telemetry'],
+      run: () => window.location.assign('/privacy/'),
+      title: 'Read the Privacy Policy'
     },
-    { category: 'Hero', icon: 'sun', id: 'switch-devkitty', keywords: ['hero', 'sunset', 'switch'], run: () => void setHeroMode(true), title: 'Switch to Devkitty' },
-    { category: 'Hero', icon: 'terminal', id: 'switch-terminal', keywords: ['hero', 'grey', 'switch'], run: () => void setHeroMode(false), title: 'Switch to Terminal' },
+    {
+      category: 'Website',
+      icon: 'book',
+      id: 'terms',
+      keywords: ['legal', 'license'],
+      run: () => window.location.assign('/terms/'),
+      title: 'Read the Terms'
+    },
+    ...(canDownload()
+      ? ([
+          {
+            category: 'Website',
+            icon: 'download',
+            id: 'download',
+            keywords: ['mac', 'zip', 'install', 'get'],
+            run: () => window.location.assign(zipUrl),
+            title: 'Download Devkitty'
+          }
+        ] satisfies PaletteAction[])
+      : []),
+    {
+      category: 'Hero',
+      icon: 'sun',
+      id: 'switch-devkitty',
+      keywords: ['hero', 'sunset', 'switch'],
+      run: () => void setHeroMode(true),
+      title: 'Switch to Devkitty'
+    },
+    {
+      category: 'Hero',
+      icon: 'terminal',
+      id: 'switch-terminal',
+      keywords: ['hero', 'grey', 'switch'],
+      run: () => void setHeroMode(false),
+      title: 'Switch to Terminal'
+    },
     ...extensions
   ];
 }

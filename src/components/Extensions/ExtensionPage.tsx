@@ -135,6 +135,7 @@ export const ExtensionPage: FC<{ id: string }> = ({ id }) => {
 
         <a
           className='rounded-full bg-accent-fill px-5 py-2 font-semibold text-accent-ink no-underline transition-transform duration-120 active:scale-[0.98]'
+          data-download-link
           href={zipUrl}
         >
           Download for Mac

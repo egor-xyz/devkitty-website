@@ -10,9 +10,11 @@ import { Palette } from '../components/Palette/Palette';
 import { SiteFooter } from '../components/SiteFooter/SiteFooter';
 import { SiteHeader } from '../components/SiteHeader/SiteHeader';
 import { openExternalLinksInNewTab } from '../lib/externalLinks';
+import { markDownloadSupport } from '../lib/platform';
 import '../index.css';
 
 openExternalLinksInNewTab();
+markDownloadSupport();
 
 // The static header and footer in the HTML stay as the no-JS fallback; with JS the shared ones replace them.
 const mount = (id: string, node: ReactNode) => {

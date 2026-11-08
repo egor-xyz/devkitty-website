@@ -12,9 +12,11 @@ import { Palette } from '../components/Palette/Palette';
 import { SiteFooter } from '../components/SiteFooter/SiteFooter';
 import { SiteHeader } from '../components/SiteHeader/SiteHeader';
 import { openExternalLinksInNewTab } from '../lib/externalLinks';
+import { markDownloadSupport } from '../lib/platform';
 import '../index.css';
 
 openExternalLinksInNewTab();
+markDownloadSupport();
 
 const { extensionId } = document.body.dataset;
 
