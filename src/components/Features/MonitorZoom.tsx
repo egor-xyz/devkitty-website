@@ -50,7 +50,7 @@ const heroEvent = (name: 'pause' | 'resume') => window.dispatchEvent(new Event(`
 
 const FOCUSABLE = 'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
 
-const SIDE_DOTS = { changelog: '#BF5AF2', download: '#FF6A3D', extensions: '#FFB020', features: '#FF6A3D', home: '#5AA9E6', privacy: '#28C840', terms: '#28C840' };
+const SIDE_DOTS = { changelog: '#BF5AF2', download: '#FF6A3D', extensions: '#FFB020', features: '#FF6A3D', home: '#5AA9E6' };
 
 
 /** Green window button: full screen for the whole page where the browser allows it (not on iPhone). */
@@ -321,6 +321,18 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
     };
   }, [command, mounted, rows]);
 
+  /**
+   * Hover tint comes from real mouse movement over the menu, not from `:hover`: Safari leaves `:hover` stale (or lit
+   * under a parked cursor) while the zoom animates and the program swaps, which showed a second highlighted row.
+   */
+  const hoveredSideRef = useRef<HTMLElement | null>(null);
+  const setSideHover = (el: HTMLElement | null) => {
+    if (hoveredSideRef.current === el) return;
+    hoveredSideRef.current?.removeAttribute('data-hover');
+    el?.setAttribute('data-hover', '');
+    hoveredSideRef.current = el;
+  };
+
   const focusRow = (index: number) => {
     const rows = dialogRef.current?.querySelectorAll<HTMLButtonElement>('[data-zoom-row]');
     const row = rows?.[(index + rows.length) % rows.length];
@@ -440,6 +452,8 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
         <nav
           aria-label='Site'
           className='fz-side'
+          onPointerLeave={() => setSideHover(null)}
+          onPointerMove={(e) => setSideHover(e.pointerType === 'mouse' ? ((e.target as HTMLElement).closest<HTMLElement>('.fz-side-item') ?? null) : null)}
         >
           <button
             className='fz-side-item'
@@ -462,22 +476,6 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
               <span>{p.name}</span>
             </button>
           ))}
-
-          <a
-            className='fz-side-item'
-            href='/privacy/'
-          >
-            <i style={{ background: SIDE_DOTS.privacy }} />
-            <span>privacy</span>
-          </a>
-
-          <a
-            className='fz-side-item'
-            href='/terms/'
-          >
-            <i style={{ background: SIDE_DOTS.terms }} />
-            <span>terms</span>
-          </a>
 
           <a
             className='fz-side-item'
