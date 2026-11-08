@@ -637,6 +637,23 @@ export function mountHero(root: HTMLElement): () => void {
     music.purr(true);
     catBusy = false;
   }
+  // the terminal thanks the dev for the coffee spilled on the keyboard (once per spill, only while the screen is on)
+  let thanking = false;
+  async function thankForCoffee() {
+    const screenOn = () => isLit() && !outage && !stage.classList.contains('intro') && !stage.classList.contains('boot-login');
+    if (thanking || catBusy || !screenOn()) return;
+    thanking = true;
+    for (const line of ['thank you for the caffeine dose 😂', 'you got extra free tokens']) {
+      if (!screenOn() || catBusy) break;
+      userUntil = performance.now() + 2500; // auto typing waits; a line it already had in flight may still overwrite ours, so keep it up
+      for (let k = 0; k < 7 && screenOn() && !catBusy; k++) {
+        if (k === 0 || !all('[data-reply]').some((n) => n.textContent === line)) setReply(line);
+        await wait(250);
+      }
+    }
+    if (!catBusy && !outage) setReply('');
+    thanking = false;
+  }
   async function intro() {
     const devs = byI('dev');
     const drapes = all('.curtain .drape');
@@ -1193,6 +1210,7 @@ export function mountHero(root: HTMLElement): () => void {
         sfx('mug-tip');
         later(() => sfx('splash'), 300);
         later(() => sfx('zap', { volume: 0.7 }), 1100);
+        later(() => void thankForCoffee(), 1100);
         later(() => byI('dev').forEach((n) => n.classList.add('panic')), 650);
         later(() => byI('dev').forEach((n) => n.classList.remove('panic')), 2700);
       }
