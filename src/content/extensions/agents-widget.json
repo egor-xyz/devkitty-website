@@ -1,0 +1,31 @@
+{
+  "id": "agents-widget",
+  "name": "Agents Widget",
+  "tagline": "Model, context, cost and usage for your coding agents.",
+  "icon": "/extensions/agents-widget/icon.svg",
+  "group": "Widgets",
+  "status": "beta",
+  "minBuild": null,
+  "defaultOn": false,
+  "order": 40,
+  "screenshots": [
+    {
+      "src": "/extensions/agents-widget/shot-agents-dark.webp",
+      "alt": "The Agents widget with two gauges, Opus 5.5 at 42% and GPT-5.5 at 18% (sample data)",
+      "width": 864,
+      "height": 512,
+      "theme": "dark"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "What your agents are doing",
+      "body": "A gauge in your terminal shows the model, context, cost and usage of Claude Code, Codex and Cursor Agent sessions. It is in beta: Codex and Cursor readings have not yet been validated against live accounts.",
+      "bullets": [
+        "Per-agent switches in the widget settings",
+        "Place it anywhere and choose a presentation style",
+        "Local token analytics and spend breakdowns are not available yet"
+      ]
+    }
+  ]
+}

@@ -5,6 +5,8 @@ import svgr from 'vite-plugin-svgr';
 import { checker } from 'vite-plugin-checker';
 import tailwindcss from '@tailwindcss/vite';
 
+import { extensionsPlugin } from './scripts/extensionsPlugin';
+
 export default defineConfig({
   build: {
     rolldownOptions: {
@@ -12,6 +14,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    extensionsPlugin(),
     tailwindcss(),
     react(),
     viteTsconfigPaths(),

@@ -1,0 +1,24 @@
+{
+  "id": "quick-terminal",
+  "name": "Quick terminal",
+  "tagline": "A retained terminal that slides down over your workspace.",
+  "icon": "/extensions/quick-terminal/icon.svg",
+  "group": "Terminal",
+  "status": "stable",
+  "minBuild": null,
+  "defaultOn": true,
+  "order": 10,
+  "screenshots": [],
+  "sections": [
+    {
+      "heading": "One terminal, always one key away",
+      "body": "Quick terminal is a floating native panel with its own tabs and splits, built on the same terminal engine as the main window. It is retained, so the shell and its session survive when you hide it, and close guards and session recovery work as they do elsewhere.",
+      "bullets": [
+        "Optional global shortcut, off by default (Control-Option-`)",
+        "Slides in over your workspace and slides back out when you are done",
+        "A backdrop dims the display behind it",
+        "Its background opacity is set independently, from 30 to 100 percent"
+      ]
+    }
+  ]
+}
