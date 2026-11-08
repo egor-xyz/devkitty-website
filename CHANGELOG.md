@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/egor-xyz/devkitty-website/compare/v1.14.0...v1.14.1) (2026-11-08)
+
+
+### Bug Fixes
+
+* show download buttons only on macOS desktops ([#49](https://github.com/egor-xyz/devkitty-website/issues/49)) ([7ea47d3](https://github.com/egor-xyz/devkitty-website/commit/7ea47d37651ccb2925150df3d6b4357fe5fca09a))
+
 # [1.14.0](https://github.com/egor-xyz/devkitty-website/compare/v1.13.0...v1.14.0) (2026-11-08)
 
 
