@@ -715,6 +715,10 @@
   background: #ffffff14;
 }
 
+.fz-term-dim + .fz-seg {
+  margin-top: 12px;
+}
+
 .fz-seg button {
   position: relative;
   min-height: 36px;
