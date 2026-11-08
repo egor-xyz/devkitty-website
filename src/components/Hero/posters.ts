@@ -58,6 +58,16 @@ const ARTS = {
     <circle cx="1152" cy="248" r="6" fill="#FBF1E8" ${S}/>
     <circle cx="1114" cy="272" r="6" fill="#B83A16" ${S}/>
     <text x="1156" y="232" class="hand" font-size="22" fill="#B83A16">?</text>`,
+  // Tomas the spider dives down his thread into a .NET (a web)
+  net: `
+    <path d="M1112 252 L1074 226 M1112 252 L1112 214 M1112 252 L1150 226 M1112 252 L1160 260 M1112 252 L1134 280 M1112 252 L1090 280 M1112 252 L1064 260" fill="none" stroke="#1A1220" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M1097 242 L1112 237 L1127 242 L1131 256 L1121 266 L1103 266 L1093 256Z" fill="none" stroke="#1A1220" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M1083 233 L1112 225 L1141 233 L1148 258 L1129 276 L1095 276 L1076 258Z" fill="none" stroke="#1A1220" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M1150 208 V236" stroke="#1A1220" stroke-width="1.4"/>
+    <path d="M1144 238 l-6 -5 M1143 242 l-7 0 M1144 246 l-6 5 M1156 238 l6 -5 M1157 242 l7 0 M1156 246 l6 5" fill="none" stroke="#1A1220" stroke-width="1.8" stroke-linecap="round"/>
+    <ellipse cx="1150" cy="243" rx="6" ry="7" fill="#1A1220"/>
+    <circle cx="1150" cy="235" r="3.5" fill="#1A1220"/>
+    <circle cx="1148.6" cy="234.4" r="1" fill="#FFF"/><circle cx="1151.4" cy="234.4" r="1" fill="#FFF"/>`,
   sleep: `
     <rect x="1070" y="262" width="100" height="14" rx="3" fill="#4A3A46" ${S}/>
     <path d="M1080 269 h84" stroke="#FBF1E8" stroke-width="3" stroke-dasharray="5 4"/>
@@ -80,5 +90,6 @@ export const POSTERS: Poster[] = [
   { bw: ["it's", 'always', 'DNS'], lit: ['CI', 'is', 'green'] },
   { art: ARTS.crown, bw: ['works on', 'my machine'], lit: ['works on', 'every machine'] },
   { art: ARTS.drip, bw: ['coffee', '> sleep'], lit: ['coffee +', 'devkitty'] },
-  { art: ARTS.sleep, bw: ['pair', 'programming'], lit: ['best pair', 'programmer'] }
+  { art: ARTS.sleep, bw: ['pair', 'programming'], lit: ['best pair', 'programmer'] },
+  { art: ARTS.net, bw: ['Tomas, dive', 'into .NET'], lit: ['Tomas caught', 'bugs in .NET'] }
 ];
