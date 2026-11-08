@@ -1,0 +1,33 @@
+{
+  "id": "github-actions",
+  "name": "GitHub Actions",
+  "tagline": "Pin workflows and monitor their latest runs from the toolbar.",
+  "icon": "/extensions/github-actions/icon.svg",
+  "group": "Toolbar",
+  "status": "new",
+  "minBuild": 283,
+  "defaultOn": false,
+  "order": 60,
+  "settingsPath": "Settings › Extensions",
+  "screenshots": [
+    {
+      "src": "/extensions/github-actions/shot-1-dark.webp",
+      "alt": "GitHub Actions panel in Devkitty listing pinned workflow runs, their jobs and status badges (sample data)",
+      "width": 1520,
+      "height": 1036
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Pinned workflows, one click away",
+      "body": "A toolbar button opens a panel of your pinned workflows under the workspace tabs. Each shows its latest run, with the job graph, so you can see what is running or failed without leaving the terminal.",
+      "shot": 0,
+      "bullets": [
+        "Pin up to 10 workflows",
+        "Click a workflow to see its jobs and steps; re-run all jobs or only failed ones",
+        "A failed run puts a red dot on the toolbar button; a macOS alert is optional",
+        "Pin from the built-in browser with the Add to Devkitty button on a GitHub workflow or run page"
+      ]
+    }
+  ]
+}

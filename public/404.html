@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <meta
+      name="robots"
+      content="noindex"
+    />
+    <title>Page not found | Devkitty</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #fbf6f0;
+        --ink: #1b1024;
+        --soft: #4a3b5c;
+        --accent: #7a2fa0;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0e0620;
+          --ink: #f4eefb;
+          --soft: #cbbfe0;
+          --accent: #c07be0;
+        }
+      }
+      body {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 16px;
+        background: var(--bg);
+        color: var(--ink);
+        font: 17px/1.65 ui-rounded, 'SF Pro Rounded', system-ui, sans-serif;
+        text-align: center;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2rem, 6vw, 3.5rem);
+        line-height: 1.05;
+      }
+      p {
+        margin: 0 0 24px;
+        color: var(--soft);
+      }
+      a {
+        margin: 0 12px;
+        color: var(--accent);
+        text-underline-offset: 3px;
+      }
+      a:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <h1>This page went to sleep.</h1>
+      <p>The page you asked for is not here.</p>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </main>
+  </body>
+</html>

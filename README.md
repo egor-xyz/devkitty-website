@@ -1,28 +1,24 @@
-# devkitty.app website
+# devkitty.app
 
-![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/egor-xyz/devkitty-website?utm_source=oss&utm_medium=github&utm_campaign=egor-xyz%2Fdevkitty-website&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+The website for [Devkitty](https://devkitty.app/), a native macOS workspace for Git, GitHub and your terminals.
 
-Your favorite tools in one place
+Built with Vite, React, Tailwind CSS 4 and motion. The home page, `/privacy/`, `/terms/` and the extension pages are separate HTML entries (see `vite.config.ts`).
 
-[![devkitty](public/images/GitHub-App-Demo.png)](https://devkitty.app/)
+## Develop
 
-<https://devkitty.app/>
+```sh
+pnpm install
+pnpm dev          # local dev server
+pnpm build        # fetches the latest release, type-checks, builds to dist/
+pnpm preview      # serve dist/
+pnpm lint:check   # eslint
+pnpm typecheck    # tsc
+```
 
-Your Daily GitHub Desktop Assistant
+Downloads and the changelog come from the public [devkitty-releases](https://github.com/egor-xyz/devkitty-releases) repository. `scripts/fetch-releases.mjs` (run before every build) bakes the latest release into `src/content/releases.generated.json`; the page refreshes it live in the browser.
 
-> Enhance your productivity with Devkitty, a tailored tool designed to streamline and organize your coding workflow. With this assistant, effortlessly monitor GitHub actions across various repositories from a single interface and gain the ability to remotely reset any branch with just a few clicks. This powerful assistant is your go-to for staying on top of your projects, making it an indispensable part of your daily development routine.
-
-## Features
-
-- Manage multiple GitHub repositories
-- Auto fetch projects
-- Quick checkout between branches with stash
-- Track GitHub actions from different repositories in one place.
-- Remotely reset any branch
-- Integration with your favorite code editor and shell
+The site deploys to GitHub Pages from `main` (`.github/workflows/release.yml`), and rebuilds daily so a new release reaches the baked page.
 
 ## License
 
-Devkitty is [MIT licensed](./LICENSE).
-
-Based on [Electron Forge Skeleton](https://www.electronforge.io/)
+The website source code is [MIT licensed](./LICENSE). The Devkitty name, app icon, logo and screenshots are not covered by the MIT license: all rights reserved.

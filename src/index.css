@@ -1,271 +1,387 @@
 @import 'tailwindcss';
 
+@property --page-bg {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #fbe4d3;
+}
+
+@property --page-bg2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #f6c9ae;
+}
+
 /* ------------------------------------------------------------------ *
- * Devkitty — Sunset design system
- * Palette + gradients lifted from the app's own `.theme-sunset` theme.
+ * Devkitty tokens. Light "Dawn" on :root.
+ * Sunset stops come from the app's own theme.
  * ------------------------------------------------------------------ */
-@theme {
-  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
-  --font-display: 'Space Grotesk', 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
-
-  /* Sunset deep-space backdrop stops */
-  --color-night-1: #5c0d09;
-  --color-night-2: #380621;
-  --color-night-3: #18032f;
-  --color-night-4: #0a0337;
-  --color-void: #06010f;
-
-  /* Surfaces */
-  --color-plum: #241232;
-  --color-plum-2: #2b1a3d;
-  --color-sticky-a: #4d1410;
-  --color-sticky-b: #360f36;
-  --color-sticky-c: #24103f;
-
-  /* Accents */
-  --color-grape: #a855c9;
-  --color-grape-deep: #7a3fb0;
-  --color-grape-lite: #c7bce4;
-  --color-blush: #f3d9ff;
-  --color-coral: #d97757;
-  --color-ok: #238551;
-  --color-warn: #c87619;
-  --color-danger: #cd4246;
-
-  /* Text */
-  --color-ink: #f4eefb;
-  --color-ink-soft: #cbbfe0;
-  --color-ink-mute: #9a8bb4;
-}
-
 :root {
-  color-scheme: dark;
-  --nav-h: 68px;
+  color-scheme: light;
+
+  /* One page colour for hero, body and footer. Peach by default; html[data-mode='bw'] is the grey Terminal mode. */
+  --page-bg: #fbe4d3;
+  --page-bg2: #f6c9ae;
+  transition:
+    --page-bg 1.4s cubic-bezier(0.22, 1, 0.36, 1),
+    --page-bg2 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+  --bg: var(--page-bg2);
+  --bg-raised: #ffffff;
+  --surface: #f3eaf4;
+  --line: #1b10241a;
+  --ink: #1b1024;
+  --ink-soft: #4a3b5c;
+  --ink-mute: #6e5f80;
+  --accent: #7a2fa0;
+  --accent-fill: #7a2fa0;
+  --accent-ink: #ffffff;
+  --grape: #a854c9;
+  --coral: #b4441f;
+  --ember: #ff6a3d;
+  --sky-1: #fbe3d6;
+  --sky-2: #f3d3dc;
+  --sky-3: #e6d6ee;
+  --sky-4: #fbf6f0;
 }
 
-/* Paint the root the Sunset top colour and kill the overscroll bounce so
-   rubber-band scrolling never exposes a black gap. */
+/* `inline` is required: utilities must read the variable at use time. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-raised: var(--bg-raised);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-mute: var(--ink-mute);
+  --color-accent: var(--accent);
+  --color-accent-fill: var(--accent-fill);
+  --color-accent-ink: var(--accent-ink);
+  --color-grape: var(--grape);
+  --color-coral: var(--coral);
+  --color-ember: var(--ember);
+  --color-sky-1: var(--sky-1);
+  --color-sky-2: var(--sky-2);
+  --color-sky-3: var(--sky-3);
+  --color-sky-4: var(--sky-4);
+
+  --font-display: 'Lilita One', ui-rounded, 'SF Pro Rounded', system-ui, sans-serif;
+  --font-sans: 'Baloo 2 Variable', ui-rounded, 'SF Pro Rounded', system-ui, sans-serif;
+  --font-hand: 'Gochi Hand', 'Bradley Hand', cursive;
+  --font-fun: 'Chewy', 'Lilita One', ui-rounded, cursive;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', monospace;
+}
+
+html[data-mode='bw'] {
+  --page-bg: #e4e2e0;
+  --page-bg2: #d6d3d1;
+}
+
 html {
-  background-color: #5c0d09;
-  overscroll-behavior: none;
-}
-
-* {
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-html {
+  background-color: var(--page-bg2);
   scroll-behavior: smooth;
-  scroll-padding-top: var(--nav-h);
+  scroll-padding-top: 72px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
   margin: 0;
-  min-height: 100vh;
-  /* Spans the full document height (no fixed attachment) so every section —
-     and any full-page render — sits on the Sunset gradient, never black. */
-  background:
-    radial-gradient(1200px 700px at 12% 0%, rgba(168, 85, 201, 0.2), transparent 55%),
-    radial-gradient(1000px 620px at 92% 3%, rgba(217, 119, 87, 0.14), transparent 52%),
-    linear-gradient(170deg, #5c0d09 0%, #380621 20%, #18032f 42%, #10032e 62%, #0a0337 82%, #06010f 100%);
-  background-repeat: no-repeat;
-  color: var(--color-ink);
+  background: linear-gradient(180deg, var(--page-bg), var(--page-bg2) 1100px) no-repeat var(--page-bg2);
+  color: var(--ink);
   font-family: var(--font-sans);
-  overflow-x: hidden;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ---- Type ---- */
-.font-mono { font-family: var(--font-mono); }
-
-/* Headlines wear Space Grotesk; body stays IBM Plex Sans. That display/mono
-   tension is the developer-tool voice. */
-h1, h2, h3 {
-  font-family: var(--font-display);
-  letter-spacing: -0.02em;
+/* Full-height page: the footer sits at the bottom, short pages do not end mid-screen. */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
-.gradient-text {
-  background: linear-gradient(105deg, #ffffff 0%, #ffd9c9 16%, #f7b6e0 32%, #c98cf2 50%, #a855c9 66%, #e0895f 84%, #ffffff 100%);
-  background-size: 220% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: title-flow 9s linear infinite;
-}
-@keyframes title-flow {
-  to { background-position: 220% center; }
+body > #root {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
 }
 
-/* Wordmark shimmer — same technique as the app: a solid silver word with a
-   bright highlight band sweeping across. The base stops are fully opaque so the
-   text is always legible; only the band moves. */
-.shine-text {
-  /* Exactly the app's default dark-theme ShinyText: a semi-transparent silver
-     word with a bright band sweeping through. */
-  color: #b5b5b5a4;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 60%);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: shine 3s linear infinite;
-}
-@keyframes shine {
-  0% { background-position: 200%; }
-  100% { background-position: 0%; }
+main {
+  flex: 1 0 auto;
 }
 
-/* ---- Glass surfaces ---- */
-.glass {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-}
-.glass-plum {
-  background: linear-gradient(180deg, rgba(60, 30, 80, 0.55), rgba(24, 10, 40, 0.6));
-  border: 1px solid rgba(199, 188, 228, 0.14);
-  backdrop-filter: blur(16px) saturate(130%);
-  -webkit-backdrop-filter: blur(16px) saturate(130%);
-}
-
-/* Pull-button purple, reused for primary CTAs */
-.btn-grape {
-  background: linear-gradient(180deg, #a855c9 0%, #7a3fb0 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 10px 30px -8px rgba(168, 85, 201, 0.6);
-  color: #fff;
-}
-.btn-grape:hover { background: linear-gradient(180deg, #b667d6 0%, #874bc0 100%); }
-
-/* ---- Aurora blobs ---- */
-.aurora {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(70px);
-  opacity: 0.55;
-  pointer-events: none;
-  will-change: transform;
-}
-@keyframes drift {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(40px, -30px, 0) scale(1.15); }
-}
-@keyframes drift-2 {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1.1); }
-  50% { transform: translate3d(-50px, 30px, 0) scale(0.9); }
-}
-
-/* ---- Grain overlay ---- */
-.grain::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ---- 3D screenshot frame ---- */
-.scene { perspective: 1800px; }
-.tilt {
-  transform-style: preserve-3d;
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.win-shadow {
-  box-shadow:
-    0 2px 0 0 rgba(255, 255, 255, 0.06) inset,
-    0 40px 80px -24px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(199, 188, 228, 0.12),
-    0 0 120px -30px rgba(168, 85, 201, 0.5);
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-
-/* ---- Pipeline spine + electric pulse ---- */
-.spine {
-  background: linear-gradient(to bottom, transparent, rgba(201, 140, 242, 0.35) 10%, rgba(217, 119, 87, 0.28) 90%, transparent);
-}
-.spine-spark {
-  position: absolute;
-  left: -1px;
-  right: -1px;
-  height: 12%;
-  top: -14%;
-  border-radius: 9999px;
-  background: linear-gradient(to bottom, transparent, #e6b3ff 42%, #ffd9c9 60%, transparent);
-  box-shadow: 0 0 14px 3px rgba(201, 140, 242, 0.7), 0 0 28px 6px rgba(217, 119, 87, 0.35);
-  animation: spark 4.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-}
-@keyframes spark {
-  0% { top: -14%; opacity: 0; }
-  8% { opacity: 1; }
-  88% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
-
-/* ---- Slow-panning starfield: constant, ambient background motion ---- */
-.stars {
-  background-image:
-    radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.5), transparent),
-    radial-gradient(1px 1px at 130px 90px, rgba(199, 188, 228, 0.4), transparent),
-    radial-gradient(1.4px 1.4px at 210px 170px, rgba(255, 214, 201, 0.45), transparent),
-    radial-gradient(1px 1px at 320px 60px, rgba(255, 255, 255, 0.35), transparent),
-    radial-gradient(1.2px 1.2px at 280px 260px, rgba(201, 140, 242, 0.4), transparent);
-  background-size: 380px 380px;
-  opacity: 0.5;
-  animation: star-pan 90s linear infinite;
-}
-@keyframes star-pan {
-  from { background-position: 0 0; }
-  to { background-position: 380px 760px; }
-}
-
-/* Marquee */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-/* Static gradient ring — a 1.5px sunset border, no motion */
-.grad-ring {
-  position: relative;
-  border-radius: 28px;
-  background: linear-gradient(135deg, rgba(168, 85, 201, 0.85), rgba(217, 119, 87, 0.55), rgba(91, 43, 214, 0.85));
-  padding: 1.5px;
-}
-
-/* Thin sunset scrollbar (matches the app) */
-*::-webkit-scrollbar { width: 10px; height: 10px; }
-*::-webkit-scrollbar-track { background: transparent; }
-*::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border: 3px solid transparent;
-  background-clip: content-box;
-  border-radius: 9999px;
-}
-*::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.35); background-clip: content-box; }
-
-/* Focus ring */
 :focus-visible {
-  outline: 2px solid #c7bce4;
-  outline-offset: 3px;
-  border-radius: 6px;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---- Type scale (display font is one weight: never set bold on it) ---- */
+@utility text-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.75rem, 6.5vw, 5.75rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+@utility text-h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.2vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+@utility text-eyebrow {
+  font-family: var(--font-fun);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---- Shared components (also used by the static legal pages) ---- */
+@layer components {
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 56px;
+    padding: env(safe-area-inset-top) max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 0.24s,
+      border-color 0.24s;
+  }
+
+  .site-header[data-scrolled='true'] {
+    background-color: color-mix(in srgb, var(--page-bg2) 85%, transparent);
+    border-bottom-color: var(--line);
+    backdrop-filter: blur(8px);
+  }
+
+  /* Header buttons: the same cartoon style as the hero buttons (ink border, hard shadow). */
+  .hdr-key,
+  .hdr-download {
+    display: inline-flex;
+    align-items: center;
+    border: 2px solid #1a1220;
+    border-radius: 10px;
+    box-shadow: 3px 3px 0 #1a1220;
+    color: #1a1220;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      transform 0.15s,
+      box-shadow 0.15s,
+      background-color 1s,
+      color 1s;
+  }
+
+  .hdr-key {
+    height: 38px;
+    padding: 0 10px;
+    background: #fff;
+    font-family: var(--font-display);
+    font-size: 15px;
+  }
+
+  .hdr-download {
+    height: 38px;
+    padding: 0 16px;
+    background: #1a1220;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  html[data-mode='lit'] .hdr-download {
+    background: #ff6a3d;
+    color: #160a0c;
+  }
+
+  .hdr-key:hover,
+  .hdr-download:hover {
+    box-shadow: 4px 4px 0 #1a1220;
+    transform: translate(-1px, -1px);
+  }
+
+  .hdr-key:active,
+  .hdr-download:active {
+    box-shadow: 1px 1px 0 #1a1220;
+    transform: translate(2px, 2px);
+  }
+
+  /* Phones: 44px touch targets for the header buttons. */
+  @media (pointer: coarse) {
+    .hdr-key,
+    .hdr-download {
+      height: 44px;
+    }
+  }
+
+  /* Long paths and URLs in legal text wrap instead of widening the page. */
+  .legal code,
+  .legal a {
+    overflow-wrap: anywhere;
+  }
+
+  .site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+    /* line up with the 1200px header column */
+    padding: 14px max(16px, calc((100% - 1200px) / 2)) calc(14px + env(safe-area-inset-bottom));
+    background-color: var(--page-bg2);
+    color: var(--ink-mute);
+    font-size: 0.875rem;
+  }
+
+  .site-footer a {
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+
+  .legal {
+    margin-inline: auto;
+    max-width: 68ch;
+    padding: 72px 16px;
+    color: var(--ink-soft);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  .legal h1 {
+    margin: 0 0 24px;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.2vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.05;
+  }
+
+  .legal h2 {
+    margin: 48px 0 12px;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.15;
+  }
+
+  .legal h3 {
+    margin: 32px 0 8px;
+    color: var(--ink);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .legal p,
+  .legal ul {
+    margin: 0 0 16px;
+  }
+
+  .legal ul {
+    padding-left: 24px;
+    list-style: disc;
+  }
+
+  .legal li {
+    margin-bottom: 4px;
+  }
+
+  .legal a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .legal code {
+    padding: 1px 6px;
+    border-radius: 6px;
+    background-color: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
+
+  .legal table {
+    width: 100%;
+    margin: 0 0 24px;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .legal th,
+  .legal td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .legal th {
+    color: var(--ink);
+    font-weight: 600;
+  }
+}
+
+/* Page-to-page transition (home, privacy, terms, extensions): same-origin navigations cross-fade
+   with a small lift, and the shared header stays put. Browsers without support just navigate. */
+@view-transition {
+  navigation: auto;
+}
+
+.site-header {
+  view-transition-name: site-header;
+}
+
+::view-transition-old(root) {
+  animation: 260ms cubic-bezier(0.4, 0, 1, 1) both vt-out;
+}
+
+::view-transition-new(root) {
+  animation: 420ms cubic-bezier(0.22, 1, 0.36, 1) both vt-in;
+}
+
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+    filter: blur(2px);
+  }
+}
+
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
   }
 }

@@ -13,6 +13,6 @@ export const AppIcon: FC<{ className?: string }> = ({ className = 'h-8 w-8' }) =
   <img
     alt='Devkitty'
     className={`block shrink-0 object-contain ${className}`}
-    src='/images/app-icon.png'
+    src='/app-icon.png'
   />
 );

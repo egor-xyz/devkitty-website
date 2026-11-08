@@ -1,0 +1,155 @@
+{
+  "latest": {
+    "build": 283,
+    "checksumsUrl": "https://github.com/egor-xyz/devkitty-releases/releases/download/v1.0.0-build283/SHA256SUMS.txt",
+    "tag": "v1.0.0-build283",
+    "version": "1.0.0",
+    "zipUrl": "https://github.com/egor-xyz/devkitty-releases/releases/download/v1.0.0-build283/DevKitty-1.0.0-283.zip"
+  },
+  "notes": [
+    {
+      "build": 283,
+      "date": "2026-11-07T18:27:05Z",
+      "items": [
+        "GitHub Actions extension (off by default; turn it on in Settings > Extensions): a toolbar button shows your pinned workflows in a panel under the tabs. See jobs and steps, re-run all or failed jobs, and get a red dot when a pinned run fails. On a GitHub workflow or run page in the built-in browser, click Add to Devkitty to pin it.",
+        "Settings: a new About page, a Shortcuts page with on/off checkboxes, a hotkey recorder popup and filters, list-style editors for pinned workflows and browser rules, and Settings JSON with Save, Save As and autocomplete with descriptions.",
+        "Terminal: an optional background image with opacity and fit; Warn Before Quit, tab close button options, scroll speed and an optional scroll bar. An app update never asks before it restarts.",
+        "Workspace: choose where new tabs and new workspaces open (Top, After current, Bottom / Left, After current, Right).",
+        "Browser: open http(s) terminal links in Devkitty, a list of hosts allowed over plain HTTP, Remove Website Data, more search engines, and an Open supported files in Devkitty switch.",
+        "Browser: Import Browser Sessions copies only sign-in cookies from Chrome-type browsers, Firefox or Safari, so you stay signed in. macOS may ask for your Keychain password or Full Disk Access (Safari). Not yet tested with every real browser profile.",
+        "Tab groups: opening a group slides its tabs out from under the group label; tabs sit closer together.",
+        "Notifications settings show whether macOS allows alerts, with a Send Test button. Reset All Settings keeps your privacy choices."
+      ],
+      "url": "https://github.com/egor-xyz/devkitty-releases/releases/tag/v1.0.0-build283",
+      "version": "1.0.0"
+    },
+    {
+      "build": 281,
+      "date": "2026-11-05T11:48:08Z",
+      "items": [
+        "Less memory in the background: when you switch to another app, Devkitty takes focus away from its terminals, so the cursor timer stops and the graphics chip can rest. In a test, memory with Devkitty in the background dropped from about 370 MB to 135 MB; your numbers can differ.",
+        "Focus comes back to the same pane when you return to Devkitty."
+      ],
+      "url": "https://github.com/egor-xyz/devkitty-releases/releases/tag/v1.0.0-build281",
+      "version": "1.0.0"
+    },
+    {
+      "build": 280,
+      "date": "2026-11-05T07:41:50Z",
+      "items": [
+        "Less memory for hidden terminals: when a terminal is hidden (another tab, a minimized window, Cmd-H or another Space), Devkitty frees its graphics memory. It is drawn again when you show it.",
+        "Less CPU: workspaces with split panes no longer re-measure their layout on every screen update. In a test, idle CPU dropped from about 39% to 24%; your numbers can differ."
+      ],
+      "url": "https://github.com/egor-xyz/devkitty-releases/releases/tag/v1.0.0-build280",
+      "version": "1.0.0"
+    },
+    {
+      "build": 278,
+      "date": "2026-11-04T19:50:49Z",
+      "items": [
+        "Tab groups: Cmd+1…9 counts only the tabs you can see. Tabs inside a collapsed group are skipped. Previous/next tab (Cmd+Shift+[ / ]) still reaches tabs in a collapsed group and opens it.",
+        "Terminal: Command-click on any file opens the built-in preview (Markdown, text, images); folders open in Finder. A dot, comma or bracket after a path is ignored.",
+        "Downloads open in their own tab, without a Back to Page button.",
+        "Quieter when idle: fewer session saves and slower agent status checks while Devkitty is hidden. Claude Code no longer relaunches Devkitty every few seconds to report an unchanged status.",
+        "Bookmarks bar shows full names and scrolls sideways when they do not fit.",
+        "PR popover: GitHub-style comments (hidden HTML comments, collapsible details, alerts, task boxes, Show more), its own icon for each PR state, a robot icon and Autonomous badge for bot comments, and faster loading.",
+        "Browser back and forward buttons have a larger hit area. Open in External Browser closes the built-in tab.",
+        "Codex tabs no longer show the raw session ID as their name.",
+        "The mouse pointer hides while you type in the terminal."
+      ],
+      "url": "https://github.com/egor-xyz/devkitty-releases/releases/tag/v1.0.0-build278",
+      "version": "1.0.0"
+    },
+    {
+      "build": 271,
+      "date": "2026-11-04T13:03:57Z",
+      "items": [
+        "Task Manager: see terminals and browser tabs with their usage, filter them, and jump to a tab.",
+        "Workspace tab groups like Chrome: colors, rename, collapse and close a group.",
+        "Attention: a moving border and an orange dot when an agent waits for you; blue dots for unread notifications. The progress bar hides while the border shows.",
+        "Terminal right-click menu. Every menu command is also in Command-P.",
+        "Terminal: Cmd-click relative file paths like clients/src/file.ts:5 (the file is checked first). Cmd-Shift-click opens files beside the terminal.",
+        "Bookmarks bar: right-click menu, glass edit panel, folders with site icons, drag and drop with a drop line, more padding.",
+        "Browser: one half-round tab shows and hides the URL bar. Downloads open in a new tab, so the page keeps its context.",
+        "Tabs restore at launch. Codex resume picker and Claude/Codex recovery fixes.",
+        "Tidier vertical tabs: selection, attention border, progress bar and title line up. New users start with an open sidebar and colored tabs."
+      ],
+      "url": "https://github.com/egor-xyz/devkitty-releases/releases/tag/v1.0.0-build271",
+      "version": "1.0.0"
+    },
+    {
+      "build": 240,
+      "date": "2026-11-03T14:03:58Z",
+      "items": [
+        "Reduce repeated native layout measurement in terminal workspaces and sidebars, leaving more main-thread time for input.",
+        "Use Claude conversation titles, including /rename, while preserving names set manually in Devkitty. Place pinned-tab unread dots in the close-button position.",
+        "Show supported native Codex conversation titles, context readings and API-equivalent token-cost estimates. Add Copy Current Tab ID.",
+        "Add independent interface font preferences, roomier Settings and Command-P panels, compact About, and hover details for active tabs.",
+        "Keep disconnected persistent terminal tabs and recovery data. Include widget-fit, Claude subagent-progress and pull-request review-status improvements."
+      ],
+      "url": "https://github.com/egor-xyz/devkitty-releases/releases/tag/v1.0.0-build240",
+      "version": "1.0.0"
+    },
+    {
+      "build": 220,
+      "date": "2026-11-02T11:11:15Z",
+      "items": [
+        "Restore the original compact tab fonts for horizontal workspaces and vertical sessions, while keeping larger text in settings and request panels.",
+        "Pull Requests now supports GitHub.com, GitLab.com and Bitbucket Cloud with separate native panels.",
+        "Bitbucket detects BITBUCKET_EMAIL and BITBUCKET_API_TOKEN from the environment or literal shell-profile exports. Settings shows Found/Missing and keeps the Create API token link.",
+        "Read Bitbucket mergeability checks to show verified Git conflicts. Bitbucket review and merge still open its website.",
+        "Restore cached pull request details immediately when returning to tabs; follow terminal folder changes and refresh in the background.",
+        "Fix GitHub check responses with empty links and recognize current Bitbucket SSH hosts and short commit hashes.",
+        "Improve text readability throughout settings and request panels.",
+        "Add an empty-tab bookmarks bar with favicons, folders and drag/drop sorting. Reveal hidden browser address bars from the top-edge control or Show URL Bar command.",
+        "Add Split browser right and Split browser below to Command-P's Terminal category.",
+        "Defer persistent-terminal attachment until its initial viewport is usable, preventing a reproduced tiny-layout blank-screen failure.",
+        "Improve terminal tab shortcut routing and Escape dismissal of release notes.",
+        "Preserve native Codex launch directories and remove forced remote-workspace routing."
+      ],
+      "url": "https://github.com/egor-xyz/devkitty-releases/releases/tag/v1.0.0-build220",
+      "version": "1.0.0"
+    },
+    {
+      "build": 212,
+      "date": "2026-11-01T17:48:30Z",
+      "items": [
+        "Correctly show queued and running CI checks when GitHub returns an empty conclusion or a previous attempt's result after restarting.",
+        "Reuse the rotating GitHub CI ring for running checks, solid pending dots and neutral skipped icons. Keep completed failures visible.",
+        "Show reviewer avatars with GitHub-style status icons, using a bounded shared avatar cache.",
+        "Activate an existing browser tab and window when the exact same URL is opened from an internal link or another app. Preserve the retained page and split layout; different queries and fragments remain separate.",
+        "Preserve stale-session protections and existing browser-routing preferences."
+      ],
+      "url": "https://github.com/egor-xyz/devkitty-releases/releases/tag/v1.0.0-build212",
+      "version": "1.0.0"
+    },
+    {
+      "build": 211,
+      "date": "2026-11-01T16:22:45Z",
+      "items": [
+        "GitHub pull requests now have a native glass panel with GitHub status colors, review details, checks, discussion and branch update controls.",
+        "The GitHub toolbar status appears when a matching PR is found, with a short entrance animation that respects Reduce Motion. Required reviews are shown as red merge blockers.",
+        "Keep the PR panel open for action confirmations; GitHub permissions and the current PR head are checked again before guarded actions.",
+        "Improve browser translation controls, remember the last translation language, and show the Devkitty cat on new tabs.",
+        "Carry forward workspace recovery, browser lifecycle, terminal link and widget fixes from recent previews.",
+        "Add configurable PostHog diagnostics and feature flags. Session Replay stays off."
+      ],
+      "url": "https://github.com/egor-xyz/devkitty-releases/releases/tag/v1.0.0-build211",
+      "version": "1.0.0"
+    },
+    {
+      "build": 202,
+      "date": "2026-11-01T07:47:32Z",
+      "items": [
+        "Keep new terminal sessions running across app quits and reconnect to the same shell. Terminal settings include a default-on “Keep sessions running” switch. Closing a tab still ends its session; restarting the Mac ends running processes.",
+        "Preserve Codex Agents launches during recovery. If an ordinary saved conversation is confirmed unavailable, open Agents so you can choose it instead of guessing another conversation.",
+        "Preview Markdown and local HTML, find text with Command-F, and copy file paths from document headers and context menus. Local HTML scripts remain disabled.",
+        "Choose whether terminal links open in a new tab or split pane; Command-Shift-click uses the other action.",
+        "Use the macOS accent color in settings, consistent controls and shortcuts, and clearer extension names and ordering.",
+        "Improve Quick terminal settings, sizing, opacity and the fading screen backdrop. Add the “Use tab history” option in Workspace settings."
+      ],
+      "url": "https://github.com/egor-xyz/devkitty-releases/releases/tag/v1.0.0-build202",
+      "version": "1.0.0"
+    }
+  ]
+}
