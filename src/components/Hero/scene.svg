@@ -92,9 +92,9 @@
         <ellipse cx="1152" cy="144" rx="11" ry="8" fill="#E39A5B" stroke="#1A1220" stroke-width="1.6"/>
         <path d="M1142 126 L1143 117 L1149 122Z M1162 126 L1161 117 L1155 122Z" fill="#E39A5B" stroke="#1A1220" stroke-width="1.6" stroke-linejoin="round"/>
         <circle cx="1152" cy="130" r="10" fill="#E39A5B" stroke="#1A1220" stroke-width="1.8"/>
-        <path d="M1152 121 V125 M1147.5 122.5 L1148.5 126 M1156.5 122.5 L1155.5 126" stroke="#A85A2A" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M1152 121 V125 M1147.5 122.5 L1148.5 126 M1156.5 122.5 L1155.5 126" stroke="#A85A2A" stroke-width="1.6" stroke-linecap="round"/>
         <ellipse cx="1152" cy="134" rx="5" ry="3.5" fill="#F6D2AE"/>
-        <path d="M1144.5 129 Q1147 126.5 1149.5 129 M1154.5 129 Q1157 126.5 1159.5 129" fill="none" stroke="#1A1220" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M1144.5 129 Q1147 126.5 1149.5 129 M1154.5 129 Q1157 126.5 1159.5 129" fill="none" stroke="#1A1220" stroke-width="1.6" stroke-linecap="round"/>
         <path d="M1150.5 131.5 H1153.5 L1152 133Z" fill="#F2A0A0"/>
         <path d="M1152 133 Q1150 135.5 1148 134.5 M1152 133 Q1154 135.5 1156 134.5" fill="none" stroke="#1A1220" stroke-width="1.1" stroke-linecap="round"/>
       </g>
@@ -243,7 +243,7 @@
       <!-- dock: macOS style -->
       <rect x="596" y="415" width="328" height="34" rx="10" fill="#FFFFFF" fill-opacity=".16" stroke="#FFFFFF" stroke-opacity=".3"/>
       <g>
-        <rect x="604" y="420" width="22" height="22" rx="5" fill="#1E8CF0"/><path d="M615 420 h6 a5 5 0 0 1 5 5 v12 a5 5 0 0 1 -5 5 h-6 Z" fill="#DDEEFB"/><path d="M615 420 q-3 11 1 22" fill="none" stroke="#0B3A66" stroke-width="1.2"/><path d="M610 427 v3 M620 427 v3" stroke="#0B3A66" stroke-width="1.6" stroke-linecap="round"/><path d="M609 435 q6 4 12 0" fill="none" stroke="#0B3A66" stroke-width="1.4" stroke-linecap="round"/>
+        <rect x="604" y="420" width="22" height="22" rx="5" fill="#1E8CF0"/><path d="M615 420 h6 a5 5 0 0 1 5 5 v12 a5 5 0 0 1 -5 5 h-6 Z" fill="#DDEEFB"/><path d="M615 420 q-3 11 1 22" fill="none" stroke="#0B3A66" stroke-width="1.2"/><path d="M610 427 v3 M620 427 v3" stroke="#0B3A66" stroke-width="1.6" stroke-linecap="round"/><path d="M609 435 q6 4 12 0" fill="none" stroke="#0B3A66" stroke-width="1.6" stroke-linecap="round"/>
         <circle cx="615" cy="446.5" r="1.3" fill="#FFFFFF" fill-opacity=".8"/>
         <rect x="632" y="420" width="22" height="22" rx="5" fill="#D9D9DE"/><circle cx="637" cy="425" r="2" fill="#FF5F57"/><circle cx="643" cy="425" r="2" fill="#FEBC2E"/><circle cx="649" cy="425" r="2" fill="#28C840"/><circle cx="637" cy="431" r="2" fill="#0A84FF"/><circle cx="643" cy="431" r="2" fill="#BF5AF2"/><circle cx="649" cy="431" r="2" fill="#FF9F0A"/><circle cx="637" cy="437" r="2" fill="#64D2FF"/><circle cx="643" cy="437" r="2" fill="#FF375F"/><circle cx="649" cy="437" r="2" fill="#30D158"/>
         <rect x="660" y="420" width="22" height="22" rx="5" fill="#FFFFFF"/><circle cx="671" cy="431" r="8" fill="#2E8CF7"/><path d="M674 428 l-5 3 l2 0 Z" fill="#FF3B30"/><path d="M668 434 l5 -3 l-2 0 Z" fill="#FFFFFF"/>
@@ -263,7 +263,7 @@
         <rect x="828" y="420" width="22" height="22" rx="5" fill="#FA2D55"/><path d="M837 437 v-10 l8 -2 v10" fill="none" stroke="#FFFFFF" stroke-width="1.8"/><circle cx="835" cy="437" r="2.4" fill="#FFFFFF"/><circle cx="843" cy="435" r="2.4" fill="#FFFFFF"/>
         <rect x="856" y="420" width="22" height="22" rx="5" fill="#8E8E93"/><circle cx="867" cy="431" r="6" fill="none" stroke="#E5E5EA" stroke-width="3" stroke-dasharray="2.2 1.6"/><circle cx="867" cy="431" r="3.5" fill="#E5E5EA"/><circle cx="867" cy="431" r="1.6" fill="#8E8E93"/>
         <path d="M886 421 v20" stroke="#FFFFFF" stroke-opacity=".35"/>
-        <rect x="894" y="420" width="22" height="22" rx="5" fill="#FFFFFF" fill-opacity=".25"/><path d="M900 426 h10 M903 426 v-1.5 h4 v1.5 M901 427 l1 11 h6 l1 -11" fill="none" stroke="#F2F2F7" stroke-width="1.4" stroke-linejoin="round"/>
+        <rect x="894" y="420" width="22" height="22" rx="5" fill="#FFFFFF" fill-opacity=".25"/><path d="M900 426 h10 M903 426 v-1.5 h4 v1.5 M901 427 l1 11 h6 l1 -11" fill="none" stroke="#F2F2F7" stroke-width="1.6" stroke-linejoin="round"/>
       </g>
       <!-- first load: screen off, then the login screen -->
       <g class="boot" aria-hidden="true">
@@ -357,7 +357,7 @@
         <ellipse cx="108" cy="-66" rx="21" ry="18" fill="#E39A5B" stroke="#1A1220" stroke-width="3.5"/>
         <path d="M100 -82 l1 6 M108 -84 l0 6 M116 -82 l-1 6" stroke="#A85A2A" stroke-width="2.6" stroke-linecap="round"/>
         <ellipse cx="110" cy="-57" rx="12" ry="7" fill="#F6D2AE"/>
-        <ellipse cx="101" cy="-67" rx="3.6" ry="4.2" fill="#9BC53D" stroke="#1A1220" stroke-width="1.4"/><ellipse cx="117" cy="-67" rx="3.6" ry="4.2" fill="#9BC53D" stroke="#1A1220" stroke-width="1.4"/>
+        <ellipse cx="101" cy="-67" rx="3.6" ry="4.2" fill="#9BC53D" stroke="#1A1220" stroke-width="1.6"/><ellipse cx="117" cy="-67" rx="3.6" ry="4.2" fill="#9BC53D" stroke="#1A1220" stroke-width="1.6"/>
         <path d="M101 -70 v6 M117 -70 v6" stroke="#1A1220" stroke-width="1.5"/>
         <path d="M106 -60 l3 3 l3 -3Z" fill="#E07A8A" stroke="#1A1220" stroke-width="1.1" stroke-linejoin="round"/>
         <path d="M109 -57 v2.5 M109 -54.5 q-3 2.5 -6 0 M109 -54.5 q3 2.5 6 0" stroke="#1A1220" stroke-width="1.2" fill="none" stroke-linecap="round"/>
@@ -407,6 +407,23 @@
     <g class="bubble"><rect x="1060" y="470" width="76" height="28" rx="12" fill="#fff" class="thin"/><text x="1068" y="490" class="hand" font-size="18" fill="#1A1220">squeak</text></g>
   </g>
 
+  <!-- spider: lives in the plant, hidden until the plant is clicked; crawls on the wall -->
+  <g data-spider class="spbug" transform="translate(134 372)" pointer-events="none">
+    <g transform="scale(1.5)">
+      <g class="spl">
+        <path d="M-3 -2 Q-11 -11 -17 -6 M-4 0 Q-13 -4 -19 3 M-4 2 Q-13 3 -18 11 M-3 4 Q-9 11 -13 17" fill="none" class="thin" stroke-width="1.6"/>
+      </g>
+      <g class="spr">
+        <path d="M3 -2 Q11 -11 17 -6 M4 0 Q13 -4 19 3 M4 2 Q13 3 18 11 M3 4 Q9 11 13 17" fill="none" class="thin" stroke-width="1.6"/>
+      </g>
+      <circle cx="0" cy="4" r="9" fill="#1A1220" stroke="#fff" stroke-opacity=".6" stroke-width="1.2"/>
+      <circle cx="-3" cy="1" r="2.4" fill="#4A3A5E"/>
+      <circle cx="0" cy="-7" r="5" fill="#1A1220" stroke="#fff" stroke-opacity=".6" stroke-width="1.2"/>
+      <circle cx="-2" cy="-8" r="1.5" fill="#fff"/><circle cx="2" cy="-8" r="1.5" fill="#fff"/>
+      <circle cx="-2" cy="-8" r=".6" fill="#1A1220"/><circle cx="2" cy="-8" r=".6" fill="#1A1220"/>
+    </g>
+  </g>
+
   <!-- developer, seen from behind, centered at the keyboard -->
   <g data-i="dev" class="dev hot">
     <g class="posture vb">
@@ -438,6 +455,7 @@
         <rect x="626" y="468" width="22" height="38" rx="9" fill="#FF6A3D" class="ink"/>
         <rect x="752" y="468" width="22" height="38" rx="9" fill="#FF6A3D" class="ink"/>
       </g>
+      <g class="spfriend"><rect x="478" y="452" width="106" height="30" rx="12" fill="#fff" class="thin"/><text x="488" y="473" class="hand" font-size="18" fill="#1A1220">Hi, Tomas</text></g>
       <g class="panic">
         <path d="M606 612 C 578 566, 596 504, 638 474" fill="none" stroke="#1A1220" stroke-width="30" stroke-linecap="round"/>
         <path d="M606 612 C 578 566, 596 504, 638 474" fill="none" stroke="#241A4F" stroke-width="22" stroke-linecap="round"/>
@@ -447,6 +465,7 @@
         <ellipse cx="756" cy="466" rx="13" ry="9" transform="rotate(50 756 466)" fill="#E9A27C" stroke="#1A1220" stroke-width="2.5"/>
         <text class="bang hand" x="806" y="478" font-size="34" fill="#FF3B30">!!</text>
         <path d="M624 430 q-6 10 0 14 q6 -4 0 -14Z M778 426 q-6 10 0 14 q6 -4 0 -14Z" fill="#7FC8F8" stroke="#1A1220" stroke-width="1.5"/>
+        <g class="spsay"><rect x="468" y="452" width="116" height="30" rx="12" fill="#fff" class="thin"/><text x="478" y="473" class="hand" font-size="18" fill="#1A1220">a spider!!</text></g>
         <g class="kb"><rect x="452" y="452" width="150" height="30" rx="12" fill="#fff" class="thin"/><text x="462" y="473" class="hand" font-size="18" fill="#1A1220">my keyboard!!</text></g>
         <g class="rage"><g class="rageA"><rect x="470" y="452" width="120" height="30" rx="12" fill="#fff" class="thin"/><text x="480" y="474" class="hand" font-size="20" font-weight="700" fill="#E5311B">#@!% argh!</text></g>
           <g class="rageB"><rect x="418" y="452" width="172" height="30" rx="12" fill="#fff" class="thin"/><text x="428" y="474" class="hand" font-size="19" font-weight="700" fill="#E5311B">hey! I was coding!</text></g>
