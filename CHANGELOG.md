@@ -1,3 +1,10 @@
+# [1.22.0](https://github.com/egor-xyz/devkitty-website/compare/v1.21.0...v1.22.0) (2026-11-08)
+
+
+### Features
+
+* **hero:** Mac-like login chime when the computer starts ([#63](https://github.com/egor-xyz/devkitty-website/issues/63)) ([b8c6b2c](https://github.com/egor-xyz/devkitty-website/commit/b8c6b2ccdaf3841ad97d1ef87c3fec87d70422ad))
+
 # [1.21.0](https://github.com/egor-xyz/devkitty-website/compare/v1.20.0...v1.21.0) (2026-11-08)
 
 
