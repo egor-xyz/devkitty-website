@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/egor-xyz/devkitty-website/compare/v1.16.2...v1.17.0) (2026-11-08)
+
+
+### Features
+
+* curtain darkens the room, coffee thank-you, silent auto poster ([#56](https://github.com/egor-xyz/devkitty-website/issues/56)) ([fb47ee5](https://github.com/egor-xyz/devkitty-website/commit/fb47ee5b954a31a63599bdf514d3df1378d98c10))
+
 ## [1.16.2](https://github.com/egor-xyz/devkitty-website/compare/v1.16.1...v1.16.2) (2026-11-08)
 
 
