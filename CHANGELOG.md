@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/egor-xyz/devkitty-website/compare/v1.15.0...v1.15.1) (2026-11-08)
+
+
+### Bug Fixes
+
+* remember hero mode and sound per tab ([#51](https://github.com/egor-xyz/devkitty-website/issues/51)) ([0251e37](https://github.com/egor-xyz/devkitty-website/commit/0251e37f2d9c53e909256cc1b1af9098b623b5ef))
+
 # [1.15.0](https://github.com/egor-xyz/devkitty-website/compare/v1.14.1...v1.15.0) (2026-11-08)
 
 
