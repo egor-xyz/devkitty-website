@@ -196,6 +196,11 @@ export function mountHero(root: HTMLElement): () => void {
   };
 
   let moonUp = false;
+  // closing the curtain makes the room as dark as night (same overlay and lamp glow); the lamp it turned on itself goes out again when it opens
+  let curtainDark = false;
+  let lampByCurtain = false;
+  let nightW = 0;
+  const shade = () => night.style.setProperty('opacity', (Math.max(nightW, curtainDark ? 1 : 0) * 0.62).toFixed(3));
   const nightMask = () => {
     const lamp = la.querySelector('[data-i="lamp"]');
     night.classList.toggle('lampoff', !lamp?.classList.contains('on'));
@@ -212,7 +217,8 @@ export function mountHero(root: HTMLElement): () => void {
     h('when').textContent = `${hm(d)} ${word.toUpperCase()}`;
     root.dataset.phase = word;
     const w = pf >= 2 ? Math.max(0, 1 - Math.abs(pf - 3)) : 0;
-    night.style.opacity = (w * 0.62).toFixed(3);
+    nightW = w;
+    shade();
     // the moon rises from behind the skyline in the evening and sets behind it toward morning (a plain fade for reduced motion)
     const mk = Math.min(1, w * 1.25);
     const rise = mk * mk * (3 - 2 * mk);
@@ -222,6 +228,7 @@ export function mountHero(root: HTMLElement): () => void {
     const isNight = w > 0.5;
     if (isNight !== wasNight) {
       wasNight = isNight;
+      lampByCurtain = false;
       byI('lamp').forEach((n) => n.classList.toggle('on', isNight));
     }
     nightMask();
@@ -1175,6 +1182,7 @@ export function mountHero(root: HTMLElement): () => void {
           return;
         }
         sfx('lamp');
+        lampByCurtain = false;
         byI('lamp').forEach((n) => n.classList.toggle('on'));
         nightMask();
       }
@@ -1194,6 +1202,19 @@ export function mountHero(root: HTMLElement): () => void {
       if (i === 'curtain') {
         sfx('curtain');
         byI('curtain').forEach((n) => n.classList.toggle('closed'));
+        curtainDark = Boolean(la.querySelector('.curtain.closed'));
+        shade();
+        const lamps = byI('lamp');
+        const lampOn = lamps[0]?.classList.contains('on') ?? false;
+        if (curtainDark && !lampOn) {
+          lampByCurtain = true;
+          lamps.forEach((n) => n.classList.add('on'));
+          sfx('lamp');
+        } else if (!curtainDark && lampByCurtain && lampOn && !wasNight) {
+          lamps.forEach((n) => n.classList.remove('on'));
+        }
+        if (!curtainDark) lampByCurtain = false;
+        nightMask();
       }
       if (i === 'clock') timelapse();
       if (i === 'moon') void moonRocket();
