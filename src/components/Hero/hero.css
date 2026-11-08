@@ -127,6 +127,7 @@ h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); backgrou
 .spbug .spr { transform-origin: 0% 50%; }
 .spbug.run .spl { animation: h-scuttle .1s ease-in-out infinite alternate; }
 .spbug.run .spr { animation: h-scuttle .1s ease-in-out infinite alternate-reverse; }
+.spbug.run.air .spl, .spbug.run.air .spr { animation: none; transform: scaleX(.6); }
 
 .catpic { transform-origin: 1152px 150px; } .catpic.h { animation: h-wobble .9s ease-in-out; }
 .duck { transform-origin: 1052px 548px; }

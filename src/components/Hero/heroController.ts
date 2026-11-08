@@ -430,56 +430,88 @@ export function mountHero(root: HTMLElement): () => void {
   }
 
   // ---------- the spider that lives in the plant ----------
-  // Waypoints in scene units (the body's centre): out along the wall under the window, a loop on the screen
-  // (the dev panics), back along a lower line into the plant. LOOP_AT is the first waypoint of the loop.
-  const SPIDER_MS = 4800;
+  // Scene units (the body's centre). It walks a wavy line along the wall to a spot left of the monitor, jumps onto
+  // the screen, loops there (the dev reacts), jumps back to the same wall spot and walks a lower line home.
+  const SPIDER_WALL: [number, number] = [326, 398];
+  const SPIDER_SCREEN: [number, number] = [514, 335];
+  const SPIDER_WALK_OUT: [number, number][] = [[116, 476], [158, 396], [232, 374], [285, 404], SPIDER_WALL];
+  const SPIDER_LOOP: [number, number][] = [SPIDER_SCREEN, [550, 312], [540, 272], [498, 268], [486, 305], SPIDER_SCREEN];
+  const SPIDER_WALK_HOME: [number, number][] = [SPIDER_WALL, [281, 420], [201, 433], [140, 451], [116, 476]];
+  // ms per phase: walk out, jump, loop, jump back, walk home
+  const SPIDER_PHASES = [1300, 350, 1500, 350, 1300];
+  const SPIDER_MS = SPIDER_PHASES.reduce((a, b) => a + b, 0);
   const SPIDER_SCARE_MS = 1600;
-  const SPIDER_LOOP_AT = 7;
-  const SPIDER_WAYPOINTS: [number, number][] = [
-    [116, 476], [158, 396], [232, 374], [306, 402], [392, 383], [441, 392], [478, 389],
-    [514, 383], [551, 340], [514, 297], [478, 315], [502, 358], [539, 383],
-    [441, 383], [355, 426], [281, 402], [201, 433], [140, 451], [116, 476],
-  ];
-  // A Catmull-Rom curve through the waypoints, sampled into keyframes at constant speed. The body faces the
-  // direction of travel (rot: 0 = head up, 90 = head right), unwrapped so it never spins the long way round.
-  function spiderKeyframes() {
-    const pts = SPIDER_WAYPOINTS;
-    const SAMPLES = 8;
-    const pos: [number, number][] = [];
-    let loopIdx = 0;
+  const SPIDER_LAND_MS = 150; // the landing squash
+  type SpiderPoint = { ms: number; x: number; y: number };
+  // A Catmull-Rom curve through the points, sampled at constant speed over `ms`, starting at `t0`.
+  function spiderWalk(pts: [number, number][], t0: number, ms: number): SpiderPoint[] {
+    const out: [number, number][] = [];
     for (let i = 0; i < pts.length - 1; i++) {
-      if (i === SPIDER_LOOP_AT) loopIdx = pos.length;
       const p0 = pts[Math.max(i - 1, 0)];
       const p1 = pts[i];
       const p2 = pts[i + 1];
       const p3 = pts[Math.min(i + 2, pts.length - 1)];
-      for (let k = 0; k < SAMPLES; k++) {
-        const t = k / SAMPLES;
+      for (let k = 0; k < 12; k++) {
+        const t = k / 12;
         const c = (a: number, b: number, d: number, e: number) =>
           0.5 * (2 * b + (-a + d) * t + (2 * a - 5 * b + 4 * d - e) * t * t + (-a + 3 * b - 3 * d + e) * t * t * t);
-        pos.push([c(p0[0], p1[0], p2[0], p3[0]), c(p0[1], p1[1], p2[1], p3[1])]);
+        out.push([c(p0[0], p1[0], p2[0], p3[0]), c(p0[1], p1[1], p2[1], p3[1])]);
       }
     }
-    pos.push(pts[pts.length - 1]);
+    out.push(pts[pts.length - 1]);
     const len = [0];
-    for (let i = 1; i < pos.length; i++) len.push(len[i - 1] + Math.hypot(pos[i][0] - pos[i - 1][0], pos[i][1] - pos[i - 1][1]));
-    const total = len[len.length - 1];
+    for (let i = 1; i < out.length; i++) len.push(len[i - 1] + Math.hypot(out[i][0] - out[i - 1][0], out[i][1] - out[i - 1][1]));
+
+    return out.map(([x, y], i) => ({ ms: t0 + (len[i] / len[len.length - 1]) * ms, x, y }));
+  }
+  // A short arc from one spot to another, peaking about 35 px above the straight line.
+  function spiderJump(from: [number, number], to: [number, number], t0: number, ms: number): SpiderPoint[] {
+    const cx = (from[0] + to[0]) / 2;
+    const cy = (from[1] + to[1]) / 2 - 70;
+
+    return Array.from({ length: 11 }, (_, k) => {
+      const t = k / 10;
+      const u = 1 - t;
+
+      return {
+        ms: t0 + t * ms,
+        x: u * u * from[0] + 2 * u * t * cx + t * t * to[0],
+        y: u * u * from[1] + 2 * u * t * cy + t * t * to[1],
+      };
+    });
+  }
+  // Keyframes for the whole run. The body faces the direction of travel (rot: 0 = head up, 90 = head right), unwrapped
+  // so it never spins the long way round, and squashes for a moment after each landing.
+  function spiderKeyframes() {
+    const [walkOut, jump, loop, jumpBack, walkHome] = SPIDER_PHASES;
+    const marks = [walkOut, walkOut + jump, walkOut + jump + loop, walkOut + jump + loop + jumpBack];
+    const phases = [
+      spiderWalk(SPIDER_WALK_OUT, 0, walkOut),
+      spiderJump(SPIDER_WALL, SPIDER_SCREEN, marks[0], jump),
+      spiderWalk(SPIDER_LOOP, marks[1], loop),
+      spiderJump(SPIDER_SCREEN, SPIDER_WALL, marks[2], jumpBack),
+      spiderWalk(SPIDER_WALK_HOME, marks[3], walkHome),
+    ];
+    // drop each phase's first sample: it repeats the previous phase's last one
+    const pos = phases.flatMap((ph, i) => (i === 0 ? ph : ph.slice(1)));
+    const landings = [marks[1], marks[3]];
     let rot = 0;
-    const frames = pos.map(([x, y], i) => {
-      const [bx, by] = pos[Math.max(i - 1, 0)];
-      const [fx, fy] = pos[Math.min(i + 1, pos.length - 1)];
-      const heading = (Math.atan2(fx - bx, -(fy - by)) * 180) / Math.PI;
+    const frames = pos.map(({ ms, x, y }, i) => {
+      const b = pos[Math.max(i - 1, 0)];
+      const f = pos[Math.min(i + 1, pos.length - 1)];
+      const heading = (Math.atan2(f.x - b.x, -(f.y - b.y)) * 180) / Math.PI;
       rot = i === 0 ? heading : rot + ((((heading - rot) % 360) + 540) % 360) - 180;
-      const ms = (len[i] / total) * SPIDER_MS;
+      const since = Math.min(...landings.map((l) => (ms >= l ? ms - l : Infinity)));
+      const squash = since < SPIDER_LAND_MS ? Math.sin((Math.PI * since) / SPIDER_LAND_MS) * 0.2 : 0;
 
       return {
         offset: ms / SPIDER_MS,
         opacity: Math.max(0, Math.min(1, ms / 200, (SPIDER_MS - ms) / 250)),
-        transform: `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${rot.toFixed(1)}deg)`,
+        transform: `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${rot.toFixed(1)}deg) scale(${(1 + squash).toFixed(3)}, ${(1 - squash).toFixed(3)})`,
       };
     });
 
-    return { frames, loopMs: (len[loopIdx] / total) * SPIDER_MS };
+    return { frames, jumps: [[marks[0], marks[1]], [marks[2], marks[3]]], loopMs: marks[1] };
   }
   // Visits are counted per session. If storage is blocked the count lives in memory.
   const VISITS_KEY = 'devkitty.hero.spiderVisits';
@@ -517,14 +549,19 @@ export function mountHero(root: HTMLElement): () => void {
     const visit = spiderVisit();
     const friendly = visit >= 3; // the third time he knows the spider: a calm hello instead of a scare
     const mood = friendly ? ['spiderfriend'] : ['panic', 'spider'];
-    const { frames, loopMs } = spiderKeyframes();
+    const { frames, jumps, loopMs } = spiderKeyframes();
     const anims = spiders.map((n) => n.animate(frames, { duration: SPIDER_MS, easing: 'linear', fill: 'both' }));
     sp((n) => n.classList.add('run'));
+    // legs tuck in the air during each jump
+    jumps.forEach(([from, to]) => {
+      later(() => sp((n) => n.classList.add('air')), from);
+      later(() => sp((n) => n.classList.remove('air')), to);
+    });
     later(() => byI('dev').forEach((d) => d.classList.add(...mood)), loopMs);
     later(() => byI('dev').forEach((d) => d.classList.remove(...mood)), loopMs + SPIDER_SCARE_MS);
     later(() => {
       anims.forEach((a) => a.cancel());
-      sp((n) => n.classList.remove('run'));
+      sp((n) => n.classList.remove('run', 'air'));
       playing.spider = false;
     }, SPIDER_MS);
   }
