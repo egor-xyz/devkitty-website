@@ -1,3 +1,10 @@
+## [1.19.1](https://github.com/egor-xyz/devkitty-website/compare/v1.19.0...v1.19.1) (2026-11-08)
+
+
+### Bug Fixes
+
+* hero headline gradient per line with a slow shimmer, bigger header icon, framed cat stays in its photo ([#59](https://github.com/egor-xyz/devkitty-website/issues/59)) ([5537c59](https://github.com/egor-xyz/devkitty-website/commit/5537c592844c9967e210e8e5ec071540076eaeca))
+
 # [1.19.0](https://github.com/egor-xyz/devkitty-website/compare/v1.18.1...v1.19.0) (2026-11-08)
 
 
