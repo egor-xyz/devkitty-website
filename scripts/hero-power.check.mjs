@@ -14,7 +14,7 @@ const ok = (c, m) => {
 
 async function open(mode, night = false, at = '2026-11-08T23:00:00') {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
-  await ctx.addInitScript((m) => localStorage.setItem('devkitty-mode', m), mode);
+  await ctx.addInitScript((m) => sessionStorage.setItem('devkitty-mode', m), mode);
   const page = await ctx.newPage();
   if (night) await page.clock.setFixedTime(new Date(at));
   const errs = [];

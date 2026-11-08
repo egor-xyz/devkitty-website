@@ -12,8 +12,8 @@ const ok = (c, m) => {
 async function open(sound) {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   await ctx.addInitScript((s) => {
-    localStorage.setItem('devkitty-mode', 'devkitty');
-    localStorage.setItem('devkitty-sound', s);
+    sessionStorage.setItem('devkitty-mode', 'devkitty');
+    sessionStorage.setItem('devkitty-sound', s);
     window.__starts = [];
     const tag = new WeakMap();
     const ab = Response.prototype.arrayBuffer;
