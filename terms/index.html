@@ -1,27 +1,167 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1"
-    />
     <script>
-      (function () {
-        var choice = 'system';
-        try {
-          var stored = localStorage.getItem('devkitty-theme');
-          if (stored === 'light' || stored === 'dark' || stored === 'system') choice = stored;
-        } catch (e) {}
-        var dark = choice === 'dark' || (choice === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
-        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
-      })();
+      // One page colour: mirror the saved hero mode on <html> before first paint (home defaults to grey, other pages to peach).
+      try {
+        var m = localStorage.getItem('devkitty-mode');
+        document.documentElement.dataset.mode = m === 'devkitty' || (m !== 'bw' && location.pathname !== '/') ? 'lit' : 'bw';
+      } catch (e) {
+        document.documentElement.dataset.mode = location.pathname === '/' ? 'bw' : 'lit';
+      }
     </script>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#FBF6F0" />
+
     <title>Terms | Devkitty</title>
+    <meta name="title" content="Terms | Devkitty" />
+    <meta name="description" content="The terms for using Devkitty." />
+    <link rel="canonical" href="https://devkitty.app/terms/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://devkitty.app/terms/" />
+    <meta property="og:title" content="Terms | Devkitty" />
+    <meta property="og:description" content="The terms for using Devkitty." />
+    <meta property="og:image" content="https://devkitty.app/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://devkitty.app/terms/" />
+    <meta name="twitter:title" content="Terms | Devkitty" />
+    <meta name="twitter:description" content="The terms for using Devkitty." />
+    <meta name="twitter:image" content="https://devkitty.app/og.png" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png?v=3" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png?v=3" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png?v=3" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/favicons/favicon.ico?v=3" />
+    <meta name="msapplication-TileColor" content="#0E0620" />
   </head>
 
   <body>
-    <h1>Terms</h1>
+    <div id="site-header">
+    <header class="site-header">
+      <div style="display:flex;width:100%;max-width:1200px;margin-inline:auto;align-items:center;justify-content:space-between;gap:16px">
+        <a href="/" style="display:flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none">
+          <img src="/app-icon.png" alt="" width="32" height="32" />
+          <span style="font-family:var(--font-display);font-size:1.25rem">Devkitty</span>
+        </a>
+        <a href="/" style="color:var(--ink-soft);font-size:0.9375rem">Back to home</a>
+      </div>
+    </header>
+    </div>
+
+    <main class="legal">
+      <h1>Terms</h1>
+      <p><em>Last updated 2026-11-08.</em></p>
+
+      <h2>1. Agreement</h2>
+      <p>
+        By downloading, installing or using Devkitty you agree to these terms. If you do not agree, do not download or
+        use Devkitty.
+      </p>
+
+      <h2>2. License</h2>
+      <p>
+        Devkitty is free. You may use it on your own computers, for personal or work projects. Devkitty is not open
+        source: the author keeps all rights in it. You may not sell, redistribute, modify, decompile or reverse
+        engineer Devkitty, except where the law allows this even when a license says otherwise.
+      </p>
+
+      <h2>3. You are responsible for how you use Devkitty</h2>
+      <p>You use Devkitty entirely at your own risk, and you alone are responsible for:</p>
+      <ul>
+        <li>
+          every command, Git action and script you run or confirm in Devkitty, including pull, reset, clean, merge,
+          push and worktree removal;
+        </li>
+        <li>
+          every AI agent or command-line tool you start in Devkitty (for example Claude Code or Codex), everything it
+          does on your computer and in your accounts, and every change it makes to your files;
+        </li>
+        <li>your repositories, files, data, passwords, tokens and accounts, and their security;</li>
+        <li>keeping backups of anything you care about, before you use Devkitty;</li>
+        <li>following the law and the terms of every service you connect to or open in Devkitty.</li>
+      </ul>
+      <p>
+        Commands and AI agents can change or delete files, history and data. Check what you run before you run it.
+      </p>
+
+      <h2>4. Third-party services and tools</h2>
+      <p>
+        GitHub, GitLab, Bitbucket, Cursor, AI providers, the command-line tools you use and the websites you open are
+        provided by others under their own terms. The author does not control them and is not responsible for them,
+        for their output, or for their availability.
+      </p>
+
+      <h2>5. Open-source components</h2>
+      <p>The open-source licenses for components in Devkitty are listed in Devkitty &rsaquo; Settings &rsaquo; About.</p>
+      <p id="credits">
+        This website uses free music and sounds (CC0): music &ldquo;Sadness&rdquo; by Kistol and &ldquo;Chill lofi
+        inspired&rdquo; by omfgdude from OpenGameArt; sound effects by Kenney.nl, OpenGameArt contributors and
+        BigSoundBank.
+      </p>
+
+      <h2>6. Provided &ldquo;as is&rdquo;, no warranty</h2>
+      <p>To the maximum extent permitted by applicable law:</p>
+      <p>
+        DEVKITTY IS PROVIDED &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo;, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+        OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,
+        TITLE AND NONINFRINGEMENT. THE AUTHOR DOES NOT WARRANT THAT DEVKITTY WILL BE ERROR-FREE, SECURE OR
+        UNINTERRUPTED, THAT IT WILL NOT LOSE OR DAMAGE DATA, OR THAT ANY RESULT WILL BE CORRECT.
+      </p>
+
+      <h2>7. Limitation of liability</h2>
+      <p>
+        TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE AUTHOR OR COPYRIGHT HOLDERS BE LIABLE
+        FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH DEVKITTY OR THE USE OR OTHER DEALINGS IN DEVKITTY. THIS INCLUDES ANY LOSS OF DATA,
+        CODE, PROFITS, REVENUE OR BUSINESS, AND ANY INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES, EVEN IF THE
+        AUTHOR WAS TOLD THEY WERE POSSIBLE. WHERE LIABILITY CANNOT BE EXCLUDED, THE AUTHOR&rsquo;S TOTAL LIABILITY IS
+        LIMITED TO THE AMOUNT YOU PAID FOR DEVKITTY.
+      </p>
+
+      <h2>8. Indemnity</h2>
+      <p>
+        You agree to defend and hold harmless the author against any claim, loss or cost (including reasonable legal
+        fees) that comes from your use of Devkitty, from the commands and agents you run with it, or from your breach
+        of these terms or of the law.
+      </p>
+
+      <h2>9. Updates and ending</h2>
+      <p>
+        Devkitty may check for and install updates. The author may change, suspend or stop Devkitty at any time. Your
+        right to use Devkitty ends automatically if you break these terms.
+      </p>
+
+      <h2>10. Other</h2>
+      <p>
+        If a part of these terms cannot be enforced, the rest still applies. Some jurisdictions do not allow some of
+        the exclusions above; there, they apply as far as the law allows. These terms are the whole agreement about
+        Devkitty between you and the author.
+      </p>
+
+      <h2>11. Changes and contact</h2>
+      <p>
+        These terms may change; the date above shows the latest update. If you keep using Devkitty after a change, you
+        accept the new terms. For questions, open an issue at
+        <a href="https://github.com/egor-xyz/devkitty-releases/issues" rel="noreferrer">github.com/egor-xyz/devkitty-releases</a>.
+        See also the <a href="/privacy/">Privacy</a> page.
+      </p>
+    </main>
+
+    <div id="site-footer">
+    <footer class="site-footer">
+      <nav style="display:flex;flex-wrap:wrap;gap:8px 24px" aria-label="Footer">
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="https://github.com/egor-xyz/devkitty-releases/releases/latest" rel="noreferrer">Releases</a>
+      </nav>
+      <p style="flex-basis:100%;text-align:right;font-size:13px">&copy; <span data-year>2026</span> devkitty.app. All rights reserved.</p>
+    </footer>
+    </div>
+
+    <script type="module" src="/src/entries/legal.tsx"></script>
   </body>
 </html>
