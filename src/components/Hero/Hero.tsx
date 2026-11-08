@@ -60,6 +60,7 @@ export const Hero: FC = () => {
             <div className='ctas'>
               <a
                 className='btn primary'
+                data-download-link
                 href={zipUrl}
               >
                 Download for Mac

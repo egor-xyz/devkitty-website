@@ -481,6 +481,7 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
 
           <a
             className='fz-side-item'
+            data-download-link
             href={zipUrl}
           >
             <i style={{ background: SIDE_DOTS.download }} />
