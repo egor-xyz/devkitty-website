@@ -1200,9 +1200,8 @@ export function mountHero(root: HTMLElement): () => void {
       await Promise.all(fly.map((a) => a.finished.catch(() => {})));
     }
     if (disposed) return;
-    sfx('zap', { volume: 0.25 });
     moons.forEach((m) => m.classList.add('wince'));
-    await wait(1000);
+    await wait(4000);
     moons.forEach((m) => m.classList.remove('wince'));
     rockets.forEach((r) => r.getAnimations().forEach((a) => a.cancel()));
     playing.moon = false;
