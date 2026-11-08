@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/egor-xyz/devkitty-website/compare/v1.13.0...v1.14.0) (2026-11-08)
+
+
+### Features
+
+* new devkitty.app website ([#48](https://github.com/egor-xyz/devkitty-website/issues/48)) ([b8aea16](https://github.com/egor-xyz/devkitty-website/commit/b8aea16ac7287a9240101b25875e2b7bea074d6b))
+
 # [1.13.0](https://github.com/egor-xyz/devkitty-website/compare/v1.12.0...v1.13.0) (2026-08-25)
 
 
