@@ -5,13 +5,17 @@
       // One page colour: mirror the saved hero mode on <html> before first paint (home defaults to grey, other pages to peach).
       try {
         var m = localStorage.getItem('devkitty-mode');
-        document.documentElement.dataset.mode = m === 'devkitty' || (m !== 'bw' && location.pathname !== '/') ? 'lit' : 'bw';
+        document.documentElement.dataset.mode =
+          m === 'devkitty' || (m !== 'bw' && location.pathname !== '/') ? 'lit' : 'bw';
       } catch (e) {
         document.documentElement.dataset.mode = location.pathname === '/' ? 'bw' : 'lit';
       }
     </script>
     <meta charset="utf-8" />
-    <meta name="color-scheme" content="light" />
+    <meta
+      name="color-scheme"
+      content="light"
+    />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
@@ -22,14 +26,14 @@
     />
 
     <!-- Primary Meta Tags -->
-    <title>Devkitty: every repo, worktree and pull request in one calm window</title>
+    <title>Devkitty: every repo, worktree and pull request in one window</title>
     <meta
       name="title"
-      content="Devkitty: every repo, worktree and pull request in one calm window"
+      content="Devkitty: every repo, worktree and pull request in one window"
     />
     <meta
       name="description"
-      content="Devkitty is a native macOS workspace for Git, GitHub and your terminals."
+      content="A native macOS app for your Git worktrees, pull requests, terminals and coding agents. One calm window instead of ten."
     />
 
     <!-- Open Graph / Facebook -->
@@ -43,15 +47,39 @@
     />
     <meta
       property="og:title"
-      content="Devkitty: every repo, worktree and pull request in one calm window"
+      content="Devkitty: every repo, worktree and pull request in one window"
     />
     <meta
       property="og:description"
-      content="Devkitty is a native macOS workspace for Git, GitHub and your terminals."
+      content="A native macOS app for your Git worktrees, pull requests, terminals and coding agents. One calm window instead of ten."
     />
     <meta
       property="og:image"
-      content="https://devkitty.app/og.png"
+      content="https://devkitty.app/og.png?v=2"
+    />
+    <meta
+      property="og:site_name"
+      content="Devkitty"
+    />
+    <meta
+      property="og:locale"
+      content="en_US"
+    />
+    <meta
+      property="og:image:width"
+      content="1200"
+    />
+    <meta
+      property="og:image:height"
+      content="630"
+    />
+    <meta
+      property="og:image:type"
+      content="image/png"
+    />
+    <meta
+      property="og:image:alt"
+      content="Devkitty: a cartoon developer at a desk, coding in the Devkitty app while a cat sleeps"
     />
 
     <!-- Twitter -->
@@ -65,15 +93,19 @@
     />
     <meta
       name="twitter:title"
-      content="Devkitty: every repo, worktree and pull request in one calm window"
+      content="Devkitty: every repo, worktree and pull request in one window"
     />
     <meta
       name="twitter:description"
-      content="Devkitty is a native macOS workspace for Git, GitHub and your terminals."
+      content="A native macOS app for your Git worktrees, pull requests, terminals and coding agents. One calm window instead of ten."
     />
     <meta
       name="twitter:image"
-      content="https://devkitty.app/og.png"
+      content="https://devkitty.app/og.png?v=2"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Devkitty: a cartoon developer at a desk, coding in the Devkitty app while a cat sleeps"
     />
 
     <link
