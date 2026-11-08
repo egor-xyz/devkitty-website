@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      // One page colour: mirror the saved hero mode on <html> before first paint (home defaults to grey, other pages to peach).
+      try {
+        var m = localStorage.getItem('devkitty-mode');
+        document.documentElement.dataset.mode = m === 'devkitty' || (m !== 'bw' && location.pathname !== '/') ? 'lit' : 'bw';
+      } catch (e) {
+        document.documentElement.dataset.mode = location.pathname === '/' ? 'bw' : 'lit';
+      }
+    </script>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#FBF6F0" />
+
+    <title>Privacy | Devkitty</title>
+    <meta name="title" content="Privacy | Devkitty" />
+    <meta name="description" content="What Devkitty sends, where it goes, and how to turn it off." />
+    <link rel="canonical" href="https://devkitty.app/privacy/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://devkitty.app/privacy/" />
+    <meta property="og:title" content="Privacy | Devkitty" />
+    <meta property="og:description" content="What Devkitty sends, where it goes, and how to turn it off." />
+    <meta property="og:image" content="https://devkitty.app/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://devkitty.app/privacy/" />
+    <meta name="twitter:title" content="Privacy | Devkitty" />
+    <meta name="twitter:description" content="What Devkitty sends, where it goes, and how to turn it off." />
+    <meta name="twitter:image" content="https://devkitty.app/og.png" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png?v=3" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png?v=3" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png?v=3" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/favicons/favicon.ico?v=3" />
+    <meta name="msapplication-TileColor" content="#0E0620" />
+  </head>
+
+  <body>
+    <div id="site-header">
+    <header class="site-header">
+      <div style="display:flex;width:100%;max-width:1200px;margin-inline:auto;align-items:center;justify-content:space-between;gap:16px">
+        <a href="/" style="display:flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none">
+          <img src="/app-icon.png" alt="" width="32" height="32" />
+          <span style="font-family:var(--font-display);font-size:1.25rem">Devkitty</span>
+        </a>
+        <a href="/" style="color:var(--ink-soft);font-size:0.9375rem">Back to home</a>
+      </div>
+    </header>
+    </div>
+
+    <main class="legal">
+      <h1>Privacy</h1>
+      <p><em>Last updated 2026-11-08.</em></p>
+
+      <h2>Summary</h2>
+      <p>
+        Devkitty works on your Mac. It sends two kinds of data by default: anonymous usage analytics and crash
+        reports. Both are <strong>on by default</strong>, and you can turn each one off in
+        <strong>Settings &rsaquo; Privacy</strong>. Devkitty has no session replay and does not send your terminal
+        content, your commands or your repository source.
+      </p>
+
+      <table>
+        <thead>
+          <tr><th>What</th><th>Default</th><th>Where it goes</th><th>How to turn off</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Usage analytics</td>
+            <td>On</td>
+            <td>PostHog (US) and Google Analytics for Firebase</td>
+            <td>Settings &rsaquo; Privacy &rsaquo; Share usage analytics</td>
+          </tr>
+          <tr>
+            <td>Crash reports</td>
+            <td>On</td>
+            <td>PostHog (US)</td>
+            <td>Settings &rsaquo; Privacy &rsaquo; Share crash reports</td>
+          </tr>
+          <tr>
+            <td>Feature flags</td>
+            <td>On, no switch</td>
+            <td>PostHog (US)</td>
+            <td>Not switchable</td>
+          </tr>
+          <tr>
+            <td>Update checks</td>
+            <td>On</td>
+            <td>GitHub</td>
+            <td>Not covered by the two switches</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Who we are</h2>
+      <p>
+        Devkitty is a macOS app (bundle identifier <code>app.devkitty.terminal</code>). For questions about this page,
+        open an issue at
+        <a href="https://github.com/egor-xyz/devkitty-releases/issues" rel="noreferrer">github.com/egor-xyz/devkitty-releases</a>.
+      </p>
+
+      <h2>Usage analytics</h2>
+      <p>
+        &ldquo;Share usage analytics&rdquo; is on until you switch it off. In Settings it reads: &ldquo;App launches,
+        build number and which extensions are on. Anonymous.&rdquo;
+      </p>
+      <p>Only three events exist: <code>devkitty_first_use</code>, <code>devkitty_launch</code> and <code>extension_state</code>. They carry only these properties:</p>
+      <ul>
+        <li><code>app_build</code>: the build number of your copy of Devkitty;</li>
+        <li><code>extension_id</code>: which extension, for an extension event;</li>
+        <li><code>enabled</code>: whether that extension is on;</li>
+        <li><code>state_reason</code>: whether the event is a snapshot or a change.</li>
+      </ul>
+      <p>
+        Events go to PostHog and to Google Analytics for Firebase. For PostHog, Devkitty creates no person profiles and
+        turns GeoIP off. An anonymous PostHog session identifier is attached while the switch is on. For Firebase,
+        ad storage, ad user data and ad personalization are always denied, and analytics storage is granted only while
+        the switch is on. Devkitty ships with Firebase data collection off at launch.
+      </p>
+
+      <h2>Crash and error reports</h2>
+      <p>
+        &ldquo;Share crash reports&rdquo; is on until you switch it off. In Settings it reads: &ldquo;Crashes and app
+        errors. Messages and file paths are removed.&rdquo; Reports go to PostHog&rsquo;s US cloud
+        (<code>https://us.i.posthog.com</code>).
+      </p>
+      <ul>
+        <li>
+          Before sending, Devkitty removes the page URL, referrer, path and IP fields. Any value that contains a home
+          folder path, a <code>file://</code> address, a web address or a bearer token is replaced with
+          <code>[redacted]</code>.
+        </li>
+        <li>
+          Reports use a fixed list of categories, never free text. Devkitty sends at most one report per category
+          every 30 seconds.
+        </li>
+        <li>
+          While reports are on, Devkitty also keeps a local journal of at most 100 entries at
+          <code>~/Library/Application Support/Devkitty/Diagnostics/events.json</code>, readable only by you.
+        </li>
+        <li>Devkitty does not capture app lifecycle events, screen views or automatic taps, and it has no session replay.</li>
+      </ul>
+
+      <h2>Feature flags</h2>
+      <p>
+        At launch Devkitty asks PostHog for remote feature flags, even when both switches above are off. A flag turns
+        an optional feature on or off. As with any request to a server, PostHog sees the IP address of the connection.
+      </p>
+
+      <h2>Updates</h2>
+      <p>
+        Devkitty checks for updates once a day by fetching a signed feed from
+        <code>raw.githubusercontent.com/egor-xyz/devkitty-releases</code>. It sends no system profile, and it requires
+        a signed feed and verifies updates. GitHub receives the request, including your IP address and user agent, like
+        any download.
+      </p>
+
+      <h2>GitHub, GitLab and Bitbucket</h2>
+      <p>
+        Devkitty runs the <code>gh</code> and <code>glab</code> command-line tools you have installed. It does not read
+        or store their tokens. For Bitbucket it reads <code>BITBUCKET_EMAIL</code> and
+        <code>BITBUCKET_API_TOKEN</code> from your environment and talks to <code>api.bitbucket.org</code> directly.
+        Avatars load from <code>github.com</code> without cookies.
+      </p>
+
+      <h2>AI provider usage</h2>
+      <p>
+        Devkitty reads some account details for Claude and Cursor from files on your Mac. For Cursor it reads
+        Cursor&rsquo;s local sign-in token and calls only <code>https://cursor.com/api/usage-summary</code>, with
+        redirects refused and no cookies stored. Usage numbers are not part of the analytics events listed above.
+      </p>
+
+      <h2>Browser sign-in import</h2>
+      <p>
+        If you choose to, Devkitty copies sign-in cookies from Chrome-type browsers, Firefox or Safari into its
+        built-in browser. History and bookmarks are not copied. For Chrome-type browsers, macOS asks you to allow
+        reading that browser&rsquo;s &ldquo;Safe Storage&rdquo; Keychain item. Devkitty uses it to read the cookies, does
+        not keep it, and writes nothing to your Keychain.
+      </p>
+
+      <h2>Built-in browser</h2>
+      <p>
+        Sites you open see your requests as in any browser. &ldquo;Translate page&rdquo; sends the page address to
+        <code>translate.google.com</code>, and only when you use it.
+      </p>
+
+      <h2>Your terminal</h2>
+      <p>
+        Devkitty does not send your terminal content or commands anywhere. The analytics and crash reports above carry
+        only the fixed fields described there. Devkitty&rsquo;s session helper opens no network listener.
+      </p>
+
+      <h2>This website</h2>
+      <p>
+        This website sets no cookies and has no analytics, and its fonts are hosted on the site itself. It stores your
+        Devkitty or Terminal mode choice in your browser&rsquo;s local storage on your own device. The Download button asks
+        <code>api.github.com</code> for the latest release, and downloads come from GitHub. The site is hosted on
+        GitHub Pages; see
+        <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noreferrer">GitHub&rsquo;s privacy statement</a>.
+      </p>
+
+      <h2>Your choices</h2>
+      <p>
+        Open <strong>Settings &rsaquo; Privacy</strong> and switch off &ldquo;Share usage analytics&rdquo;,
+        &ldquo;Share crash reports&rdquo;, or both.
+      </p>
+
+      <h2>Who receives data</h2>
+      <ul>
+        <li><a href="https://posthog.com/privacy" rel="noreferrer">PostHog Inc.</a> (US): analytics, crash reports, feature flags.</li>
+        <li><a href="https://policies.google.com/privacy" rel="noreferrer">Google</a> (Firebase): usage analytics.</li>
+        <li><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noreferrer">GitHub</a>: updates, downloads and this website.</li>
+      </ul>
+
+      <h2>Changes</h2>
+      <p>
+        This page was last updated on 2026-11-08. See also the <a href="/terms/">Terms</a>.
+      </p>
+    </main>
+
+    <div id="site-footer">
+    <footer class="site-footer">
+      <nav style="display:flex;flex-wrap:wrap;gap:8px 24px" aria-label="Footer">
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="https://github.com/egor-xyz/devkitty-releases/releases/latest" rel="noreferrer">Releases</a>
+      </nav>
+      <p style="flex-basis:100%;text-align:right;font-size:13px">&copy; <span data-year>2026</span> devkitty.app. All rights reserved.</p>
+    </footer>
+    </div>
+
+    <script type="module" src="/src/entries/legal.tsx"></script>
+  </body>
+</html>

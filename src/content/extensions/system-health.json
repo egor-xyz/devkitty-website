@@ -1,0 +1,45 @@
+{
+  "id": "system-health",
+  "name": "System Health",
+  "tagline": "CPU, RAM and disk meters across every tab in each window.",
+  "icon": "/extensions/system-health/icon.svg",
+  "group": "Widgets",
+  "status": "stable",
+  "minBuild": null,
+  "defaultOn": false,
+  "order": 30,
+  "screenshots": [
+    {
+      "src": "/extensions/system-health/shot-ultra-dark.webp",
+      "alt": "System Health in the Ultra presentation: CPU, RAM and disk gauges (sample data)",
+      "width": 800,
+      "height": 576,
+      "theme": "dark"
+    },
+    {
+      "src": "/extensions/system-health/shot-sport-dark.webp",
+      "alt": "System Health in the Sport presentation (sample data)",
+      "width": 512,
+      "height": 512,
+      "theme": "dark"
+    },
+    {
+      "src": "/extensions/system-health/shot-simple-dark.webp",
+      "alt": "System Health in the Simple presentation: a compact capsule (sample data)",
+      "width": 724,
+      "height": 152,
+      "theme": "dark"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Meters that stay out of the way",
+      "body": "One small gauge per Devkitty window shows aggregate CPU activity, memory (anonymous, wired and compressed) and home-volume disk usage. It has no card or title: drag it anywhere in the window.",
+      "bullets": [
+        "Simple, Sport and Ultra presentations",
+        "Hover for the five highest CPU consumers among readable processes",
+        "Hidden only when a window shows a single standalone browser pane"
+      ]
+    }
+  ]
+}

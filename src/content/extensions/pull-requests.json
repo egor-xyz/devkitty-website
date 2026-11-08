@@ -1,0 +1,38 @@
+{
+  "id": "pull-requests",
+  "name": "Pull Requests",
+  "tagline": "GitHub, GitLab and Bitbucket reviews for the active session.",
+  "icon": "/extensions/pull-requests/icon.svg",
+  "group": "Toolbar",
+  "status": "stable",
+  "minBuild": null,
+  "defaultOn": true,
+  "order": 50,
+  "screenshots": [
+    {
+      "src": "/extensions/pull-requests/shot-128-dark.webp",
+      "alt": "The Pull Requests popover for PR #128 with its checks expanded (sample data)",
+      "width": 976,
+      "height": 1456,
+      "theme": "dark"
+    },
+    {
+      "src": "/extensions/pull-requests/shot-131-dark.webp",
+      "alt": "The Pull Requests popover for draft PR #131 (sample data)",
+      "width": 976,
+      "height": 1456,
+      "theme": "dark"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Your branch's review, in the toolbar",
+      "body": "Pull Requests shows the pull or merge request for the active session's branch, with checks, reviewers and comments, in a native popover for each service.",
+      "bullets": [
+        "GitHub, GitLab.com and Bitbucket Cloud",
+        "GitLab uses your existing glab sign-in",
+        "Bitbucket uses an Atlassian email and scoped API token kept in Keychain; review and merge open Bitbucket's website"
+      ]
+    }
+  ]
+}

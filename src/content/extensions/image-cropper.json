@@ -1,0 +1,22 @@
+{
+  "id": "image-cropper",
+  "name": "Image Cropper",
+  "tagline": "Crop and resize copied screenshots.",
+  "icon": "/extensions/image-cropper/icon.svg",
+  "group": "Image Tools",
+  "status": "stable",
+  "minBuild": null,
+  "defaultOn": false,
+  "order": 20,
+  "screenshots": [],
+  "sections": [
+    {
+      "heading": "Screenshots sized for the terminal",
+      "body": "When you paste a copied screenshot into a terminal, Image Cropper resizes it first, so a full Retina capture does not go in as is. The original file is left untouched.",
+      "bullets": [
+        "A silent macOS notification shows the new dimensions and the file size saved, if notifications are allowed",
+        "Pause for 5 minutes when you need the full-size image"
+      ]
+    }
+  ]
+}
