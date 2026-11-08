@@ -4,7 +4,7 @@
     <script>
       // One page colour: mirror the saved hero mode on <html> before first paint (home defaults to grey, other pages to peach).
       try {
-        var m = localStorage.getItem('devkitty-mode');
+        var m = sessionStorage.getItem('devkitty-mode');
         document.documentElement.dataset.mode =
           m === 'devkitty' || (m !== 'bw' && location.pathname !== '/') ? 'lit' : 'bw';
       } catch (e) {

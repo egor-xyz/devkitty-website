@@ -61,7 +61,7 @@ export function mountHero(root: HTMLElement): () => void {
   // remember the last mode on this device; applied first, before any layout read, so there is no transition at load
   let saved: null | string = null;
   try {
-    saved = localStorage.getItem('devkitty-mode');
+    saved = sessionStorage.getItem('devkitty-mode');
   } catch {
     /* storage unavailable */
   }
@@ -836,7 +836,7 @@ export function mountHero(root: HTMLElement): () => void {
     const set = (v: boolean, on: boolean) => {
       enabled = v;
       try {
-        localStorage.setItem('devkitty-sound', v ? 'on' : 'off');
+        sessionStorage.setItem('devkitty-sound', v ? 'on' : 'off');
       } catch {
         /* storage unavailable */
       }
@@ -953,7 +953,7 @@ export function mountHero(root: HTMLElement): () => void {
     root.classList.toggle('lit', state.on);
     document.documentElement.dataset.mode = state.on ? 'lit' : 'bw';
     try {
-      localStorage.setItem('devkitty-mode', state.on ? 'devkitty' : 'bw');
+      sessionStorage.setItem('devkitty-mode', state.on ? 'devkitty' : 'bw');
     } catch {
       /* storage unavailable */
     }
@@ -1240,7 +1240,7 @@ export function mountHero(root: HTMLElement): () => void {
   // Sound was on last time. Browsers block autoplay, so start at the first click or key press.
   let soundSaved: null | string = null;
   try {
-    soundSaved = localStorage.getItem('devkitty-sound');
+    soundSaved = sessionStorage.getItem('devkitty-sound');
   } catch {
     /* storage unavailable */
   }
