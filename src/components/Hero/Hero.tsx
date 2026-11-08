@@ -204,8 +204,8 @@ export const Hero: FC = () => {
 
       {/* Outside the stage on purpose: it is position: fixed and the stage may be transformed. */}
       <button
-        aria-label='Sound off'
-        aria-pressed='false'
+        aria-label='Sound on'
+        aria-pressed='true'
         className='soundbtn'
         data-h='sound'
         type='button'
