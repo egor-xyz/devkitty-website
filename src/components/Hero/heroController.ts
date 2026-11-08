@@ -862,9 +862,19 @@ export function mountHero(root: HTMLElement): () => void {
     }
     let bus: GainNode | null = null;
     const bufs: Record<string, AudioBuffer> = {};
-    const purrState: { gain: GainNode | null; src: AudioBufferSourceNode | null; want: boolean } = {
+    // The sleeping cat purrs in short bursts with long quiet gaps, not in a constant loop.
+    const PURR_BURST_MS = [5000, 9000];
+    const PURR_GAP_MS = [20000, 40000];
+    const between = ([lo, hi]: number[]) => lo + Math.random() * (hi - lo);
+    const purrState: {
+      gain: GainNode | null;
+      src: AudioBufferSourceNode | null;
+      timer: null | ReturnType<typeof setTimeout>;
+      want: boolean;
+    } = {
       gain: null,
       src: null,
+      timer: null,
       want: false
     };
     const SFX = [
@@ -889,10 +899,33 @@ export function mountHero(root: HTMLElement): () => void {
       } else src.connect(bus);
       src.start();
     };
+    const fadePurr = () => {
+      const p = purrState;
+      if (!ctx || !p.src || !p.gain) return;
+      const { gain, src } = p;
+      p.src = null;
+      p.gain = null;
+      const t = ctx.currentTime;
+      gain.gain.cancelScheduledValues(t);
+      gain.gain.setValueAtTime(gain.gain.value, t);
+      gain.gain.linearRampToValueAtTime(0, t + 0.8);
+      try {
+        src.stop(t + 0.85);
+      } catch {
+        /* already stopped */
+      }
+    };
+    const clearPurrTimer = () => {
+      if (purrState.timer !== null) clearTimeout(purrState.timer);
+      purrState.timer = null;
+    };
     const syncPurr = () => {
       if (!ctx || !bus) return;
       const p = purrState;
-      if (p.want && canPlay() && !p.src && bufs.purr) {
+      if (!p.want || !enabled) {
+        clearPurrTimer();
+        fadePurr();
+      } else if (canPlay() && !p.src && p.timer === null && bufs.purr) {
         const g = ctx.createGain();
         g.gain.value = 0;
         g.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.8);
@@ -904,19 +937,14 @@ export function mountHero(root: HTMLElement): () => void {
         src.start();
         p.src = src;
         p.gain = g;
-      } else if ((!p.want || !enabled) && p.src && p.gain) {
-        const { gain, src } = p;
-        p.src = null;
-        p.gain = null;
-        const t = ctx.currentTime;
-        gain.gain.cancelScheduledValues(t);
-        gain.gain.setValueAtTime(gain.gain.value, t);
-        gain.gain.linearRampToValueAtTime(0, t + 0.4);
-        try {
-          src.stop(t + 0.45);
-        } catch {
-          /* already stopped */
-        }
+        // end this burst, wait a quiet gap, then purr again
+        p.timer = setTimeout(() => {
+          fadePurr();
+          p.timer = setTimeout(() => {
+            p.timer = null;
+            syncPurr();
+          }, between(PURR_GAP_MS));
+        }, between(PURR_BURST_MS));
       }
     };
     const loadSfx = (c: AudioContext) =>
@@ -989,6 +1017,7 @@ export function mountHero(root: HTMLElement): () => void {
     window.addEventListener('blur', syncFocus, { signal });
     window.addEventListener('focus', syncFocus, { signal });
     const dispose = () => {
+      clearPurrTimer();
       if (purrState.src) {
         try {
           purrState.src.stop();
