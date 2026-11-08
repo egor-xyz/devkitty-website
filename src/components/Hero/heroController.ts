@@ -411,12 +411,10 @@ export function mountHero(root: HTMLElement): () => void {
     if (i === 'mug') {
       all('.mug').forEach((m) => m.classList.remove('h'));
       all('.spill').forEach((s) => s.classList.remove('pouring'));
-      // when the cup stands up, the spill clears and the cup refills
-      drainTimers.m = later(() => all('.spill').forEach((s) => s.classList.add('drain')), 300);
-      drainTimers.m2 = later(() => {
-        all('.spill.drain').forEach((s) => s.classList.remove('spilled', 'drain'));
-        all('.mug').forEach((m) => m.classList.remove('empty'));
-      }, 1500);
+      // the spill fades out while the cup stands up (.5 s) and is reset once invisible; the cup then refills
+      all('.spill').forEach((s) => s.classList.add('drain'));
+      drainTimers.m = later(() => all('.spill.drain').forEach((s) => s.classList.remove('spilled', 'drain')), 600);
+      drainTimers.m2 = later(() => all('.mug').forEach((m) => m.classList.remove('empty')), 1500);
     } else byI(i).forEach((n) => n.classList.remove('h'));
   }
   function play(i: string, ms: number) {

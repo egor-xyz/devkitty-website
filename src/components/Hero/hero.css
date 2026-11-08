@@ -97,7 +97,8 @@ h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); backgrou
 .spill.spilled .drip { transform: scaleY(1); }
 .spill .zap { opacity: 0; } .spill.spilled .zap { animation: h-zap .16s 1.1s steps(1) 5; }
 
-.spill.drain { opacity: 0; transition: opacity 1s; }
+.spill.drain { opacity: 0; transition: opacity .45s; }
+.spill:not(.spilled) .puddle, .spill:not(.spilled) .drip { transition: none; } /* resetting snaps back unseen: nothing collapses */
 .mug .coffee { transition: fill .8s; } .mug.empty .coffee { fill: #A8381A; } .mug.empty .steam { opacity: 0; } .steam { transition: opacity 1.5s; }
 .mug.h .steam { opacity: 0; }
 .steam path { animation: h-steam 2.6s ease-in-out infinite; transform-origin: center; }
