@@ -431,6 +431,95 @@ export function mountHero(root: HTMLElement): () => void {
     }, ms);
   }
 
+  // ---------- the spider that lives in the plant ----------
+  // x/y are scene units (the body's centre); rot is the heading in degrees (0 = head up).
+  const SPIDER_MS = 4500;
+  const SPIDER_PATH: [number, number, number, number, number, string?][] = [
+    // [ms, x, y, rot, opacity, easing to the next key]
+    [0, 134, 364, 180, 0],
+    [150, 134, 364, 180, 1, 'ease-in-out'],
+    [850, 134, 472, 180, 1, 'ease-out'],
+    [1000, 182, 490, 90, 1, 'linear'],
+    [1450, 330, 490, 90, 1, 'linear'],
+    [1625, 397, 337, 60, 1, 'linear'],
+    [1800, 465, 250, 45, 1, 'linear'],
+    [1975, 532, 228, 30, 1, 'linear'],
+    [2150, 600, 270, 15, 1, 'linear'],
+    [2450, 600, 270, 15, 1, 'linear'],
+    [2625, 532, 280, -30, 1, 'linear'],
+    [2800, 465, 320, -50, 1, 'linear'],
+    [2975, 397, 390, -70, 1, 'linear'],
+    [3150, 330, 490, -90, 1, 'linear'],
+    [3700, 150, 490, -90, 1, 'ease-in-out'],
+    [4300, 126, 440, 0, 0, 'linear'],
+    [SPIDER_MS, 126, 440, 0, 0],
+  ];
+  function spiderRun() {
+    if (playing.spider) return;
+    const spiders = Array.from(la.querySelectorAll<SVGElement>('[data-spider]'));
+    const silks = Array.from(la.querySelectorAll<SVGElement>('[data-spider-silk]'));
+    if (!spiders.length) return;
+    const panicked = byI('dev').some((d) => d.classList.contains('panic'));
+    if (panicked) return; // the mug spill or the cat has the dev's attention: the plant only sways
+    playing.spider = true;
+    const sp = (fn: (n: SVGElement) => void) => spiders.forEach(fn);
+    if (reduce) {
+      // no travel: peek out of the leaves for a second and hide again
+      sp((n) => n.classList.add('peek'));
+      later(() => {
+        sp((n) => n.classList.remove('peek'));
+        playing.spider = false;
+      }, 1000);
+      return;
+    }
+    const anims: Animation[] = [];
+    spiders.forEach((n) =>
+      anims.push(
+        n.animate(
+          SPIDER_PATH.map(([t, x, y, rot, opacity, easing]) => ({
+            offset: t / SPIDER_MS,
+            opacity,
+            transform: `translate(${x}px, ${y}px) rotate(${rot}deg)`,
+            ...(easing ? { easing } : {}),
+          })),
+          { duration: SPIDER_MS, fill: 'both' }
+        )
+      )
+    );
+    // the silk line pays out while the spider drops, then fades once it lands
+    silks.forEach((n) =>
+      anims.push(
+        n.animate(
+          [
+            { offset: 0, opacity: 0, transform: 'scaleY(0)' },
+            { easing: 'ease-in-out', offset: 150 / SPIDER_MS, opacity: 1, transform: 'scaleY(0)' },
+            { offset: 850 / SPIDER_MS, opacity: 1, transform: 'scaleY(1)' },
+            { offset: 1000 / SPIDER_MS, opacity: 0, transform: 'scaleY(1)' },
+            { offset: 1, opacity: 0, transform: 'scaleY(1)' },
+          ],
+          { duration: SPIDER_MS, fill: 'both' }
+        )
+      )
+    );
+    const cls = (add: boolean, name: string) => sp((n) => n.classList.toggle(name, add));
+    later(() => cls(true, 'run'), 150);
+    later(() => {
+      cls(false, 'run');
+      cls(true, 'wig');
+      byI('dev').forEach((d) => d.classList.add('panic', 'spider'));
+    }, 2150);
+    later(() => {
+      cls(false, 'wig');
+      cls(true, 'run');
+    }, 2450);
+    later(() => byI('dev').forEach((d) => d.classList.remove('panic', 'spider')), 3750);
+    later(() => {
+      anims.forEach((a) => a.cancel());
+      sp((n) => n.classList.remove('run', 'wig'));
+      playing.spider = false;
+    }, SPIDER_MS);
+  }
+
   // ---------- typing into the cartoon terminal ----------
   let typed = '';
   let prompt = '$ ';
@@ -1214,7 +1303,10 @@ export function mountHero(root: HTMLElement): () => void {
         later(() => byI('dev').forEach((n) => n.classList.add('panic')), 650);
         later(() => byI('dev').forEach((n) => n.classList.remove('panic')), 2700);
       }
-      if (i === 'plant') play('plant', 2800);
+      if (i === 'plant') {
+        play('plant', 2800);
+        spiderRun();
+      }
       if (i === 'mini') void shutdown('mini');
       if (i === 'duck' || i === 'catpic') play(i, 900);
       if (i === 'curtain') {

@@ -120,6 +120,15 @@ h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); backgrou
 
 .plant .leaves { transform-origin: 112px 474px; }
 .plant.h .leaves { animation: h-sway 1.4s ease-in-out 2; }
+.spbug, .spsilk { opacity: 0; pointer-events: none; }
+.spsilk { transform-origin: 134px 356px; }
+.spbug.peek { opacity: 1; transition: opacity .25s; }
+.spbug .spl, .spbug .spr { transform-box: fill-box; transform-origin: 100% 50%; }
+.spbug .spr { transform-origin: 0% 50%; }
+.spbug.run .spl { animation: h-scuttle .1s ease-in-out infinite alternate; }
+.spbug.run .spr { animation: h-scuttle .1s ease-in-out infinite alternate-reverse; }
+.spbug.wig .spl { animation: h-scuttle .07s ease-in-out infinite alternate; }
+.spbug.wig .spr { animation: h-scuttle .07s ease-in-out infinite alternate-reverse; }
 
 .catpic { transform-origin: 1152px 150px; } .catpic.h { animation: h-wobble .9s ease-in-out; }
 .duck { transform-origin: 1052px 548px; }
@@ -184,6 +193,7 @@ h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); backgrou
 .moon.wince .moonbob { animation: h-shake .16s linear infinite; }
 &:not(.lit) .moon { cursor: default; }
 .dev .rage { display: none; } .dev.angry .rage { display: inline; } .dev.angry .kb, .dev.angry .bang { display: none; }
+.dev .spsay { display: none; } .dev.spider .spsay { display: inline; } .dev.spider .kb, .dev.spider .rage { display: none; }
 .dev .rageB, .dev.hey .rageA { display: none; } .dev.hey .rageB { display: inline; }
 .dev.angry .puff { animation: h-puff .9s ease-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
 .stage.flick .outBlack { opacity: .45; } .stage.flick .dimmer { opacity: .35; }
@@ -227,6 +237,7 @@ h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); backgrou
 @keyframes h-swish { 50% { transform: rotate(-9deg); } }
 @keyframes h-twitch { 50% { transform: rotate(-18deg); } }
 @keyframes h-zz { 0% { opacity: 0; transform: translate(0,6px); } 50% { opacity: 1; } 100% { opacity: 0; transform: translate(10px,-14px); } }
+@keyframes h-scuttle { from { transform: rotate(-9deg) scaleX(.92); } to { transform: rotate(9deg) scaleX(1.05); } }
 @keyframes h-sway { 25% { transform: rotate(6deg); } 75% { transform: rotate(-6deg); } }
 @keyframes h-squash { 40% { transform: scale(1.18, .78); } }
 @keyframes h-stride { from { transform: rotate(-22deg); } to { transform: rotate(22deg); } }
