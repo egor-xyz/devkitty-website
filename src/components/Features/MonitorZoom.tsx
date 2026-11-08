@@ -321,6 +321,18 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
     };
   }, [command, mounted, rows]);
 
+  /**
+   * Hover tint comes from real mouse movement over the menu, not from `:hover`: Safari leaves `:hover` stale (or lit
+   * under a parked cursor) while the zoom animates and the program swaps, which showed a second highlighted row.
+   */
+  const hoveredSideRef = useRef<HTMLElement | null>(null);
+  const setSideHover = (el: HTMLElement | null) => {
+    if (hoveredSideRef.current === el) return;
+    hoveredSideRef.current?.removeAttribute('data-hover');
+    el?.setAttribute('data-hover', '');
+    hoveredSideRef.current = el;
+  };
+
   const focusRow = (index: number) => {
     const rows = dialogRef.current?.querySelectorAll<HTMLButtonElement>('[data-zoom-row]');
     const row = rows?.[(index + rows.length) % rows.length];
@@ -440,6 +452,8 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
         <nav
           aria-label='Site'
           className='fz-side'
+          onPointerLeave={() => setSideHover(null)}
+          onPointerMove={(e) => setSideHover(e.pointerType === 'mouse' ? ((e.target as HTMLElement).closest<HTMLElement>('.fz-side-item') ?? null) : null)}
         >
           <button
             className='fz-side-item'

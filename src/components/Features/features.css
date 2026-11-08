@@ -212,10 +212,13 @@
   color: var(--fz-mute);
 }
 
-/* Hover is a faint tint and focus is a ring; only the current page gets the solid fill. */
-.fz-side-item:hover {
-  background: #ffffff0f;
-  color: var(--fz-ink);
+/* Hover is a faint tint and focus is a ring; only the current page gets the solid fill.
+   [data-hover] is set from real mouse movement (MonitorZoom), because Safari keeps :hover stale. */
+@media (hover: hover) {
+  .fz-side-item[data-hover]:not([aria-current]) {
+    background: #ffffff0f;
+    color: var(--fz-ink);
+  }
 }
 
 .fz-side-item:focus-visible {
