@@ -232,7 +232,7 @@ h1 .after .ln + .ln { transition-delay: .4s; animation-delay: -1.2s; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero *, .hero *::before, .hero *::after { animation: none !important; transition-duration: 0.01ms !important; }
+  .hero *, .hero *::before, .hero *::after { animation: none !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; }
 }
 
 @keyframes h-glow { from { background-position: 200% 50%; } to { background-position: 0 50%; } }
