@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/egor-xyz/devkitty-website/compare/v1.20.0...v1.21.0) (2026-11-08)
+
+
+### Features
+
+* "Hi, Tomas!" and a Tomas poster: dive into .NET ([#62](https://github.com/egor-xyz/devkitty-website/issues/62)) ([e8dab63](https://github.com/egor-xyz/devkitty-website/commit/e8dab6391d58bfbe661ece4f3c0ca8c01d0016f3))
+
 # [1.20.0](https://github.com/egor-xyz/devkitty-website/compare/v1.19.2...v1.20.0) (2026-11-08)
 
 
