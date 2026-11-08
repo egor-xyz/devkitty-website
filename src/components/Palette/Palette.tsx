@@ -31,7 +31,7 @@ const ICON_PATHS: Record<PaletteIcon, ReactNode> = {
   terminal: <path d='m5 8 4 4-4 4M12 17h7M3 4h18v16H3z' />
 };
 
-const CATEGORY_ICONS: Record<Category, PaletteIcon> = { Extensions: 'extension', Hero: 'hero', Website: 'globe' };
+const CATEGORY_ICONS: Record<Category, PaletteIcon> = { Extensions: 'extension', Terminal: 'hero', Website: 'globe' };
 
 const Icon: FC<{ name: PaletteIcon }> = ({ name }) => (
   <svg
