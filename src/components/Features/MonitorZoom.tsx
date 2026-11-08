@@ -50,7 +50,7 @@ const heroEvent = (name: 'pause' | 'resume') => window.dispatchEvent(new Event(`
 
 const FOCUSABLE = 'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
 
-const SIDE_DOTS = { changelog: '#BF5AF2', download: '#FF6A3D', extensions: '#FFB020', features: '#FF6A3D', home: '#5AA9E6', privacy: '#28C840', terms: '#28C840' };
+const SIDE_DOTS = { changelog: '#BF5AF2', download: '#FF6A3D', extensions: '#FFB020', features: '#FF6A3D', home: '#5AA9E6' };
 
 
 /** Green window button: full screen for the whole page where the browser allows it (not on iPhone). */
@@ -476,22 +476,6 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
               <span>{p.name}</span>
             </button>
           ))}
-
-          <a
-            className='fz-side-item'
-            href='/privacy/'
-          >
-            <i style={{ background: SIDE_DOTS.privacy }} />
-            <span>privacy</span>
-          </a>
-
-          <a
-            className='fz-side-item'
-            href='/terms/'
-          >
-            <i style={{ background: SIDE_DOTS.terms }} />
-            <span>terms</span>
-          </a>
 
           <a
             className='fz-side-item'
