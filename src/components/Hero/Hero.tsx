@@ -147,7 +147,7 @@ export const Hero: FC = () => {
           aria-label='Cartoon of a developer at a desk. Before: a grey room and a plain terminal. After Devkitty opens: the room fills with sunset colors.'
           className='stage'
           data-hero-stage=''
-          role='img'
+          role='group'
         >
           <div
             className='fallback-sky'
@@ -167,9 +167,40 @@ export const Hero: FC = () => {
             data-h='la'
           />
 
+          <button
+            aria-label='Room light'
+            aria-pressed='false'
+            className='scenebtn lightbtn'
+            data-h='light'
+            disabled
+            type='button'
+          />
+
+          <button
+            aria-label='3D printer: print a dinosaur'
+            className='scenebtn printbtn'
+            data-h='printer'
+            disabled
+            type='button'
+          />
+
+          <button
+            aria-expanded='false'
+            aria-label='Shelf cabinet'
+            className='scenebtn shelfbtn'
+            data-h='shelf'
+            disabled
+            type='button'
+          />
+
           <div
             className='nightshade'
             data-h='night'
+          />
+
+          <div
+            className='roomglow'
+            data-h='roomglow'
           />
 
           <canvas

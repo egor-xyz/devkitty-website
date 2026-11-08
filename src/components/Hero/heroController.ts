@@ -41,6 +41,114 @@ const START: Record<string, [string, string]> = {
   codex: ['codex: another agent is in this folder', '✓ codex on its own worktree']
 };
 
+/**
+ * Original pixel models for the 3D printer, 12 columns wide, rows top to bottom (the model stands on the bed, so the
+ * bottom row is printed first). Letters index `colors`; letters listed in `parts` get a class so a part can animate
+ * on its own once the print is done. The dino is an original T-rex (not the Chrome dino sprite).
+ */
+type PrintModel = {
+  colors: Record<string, string>;
+  name: string;
+  parts?: Record<string, string>;
+  rows: string[];
+};
+const PRINT_MODELS: PrintModel[] = [
+  {
+    colors: { o: '#FBF1E8', x: '#8A8D93' },
+    name: 'dino',
+    rows: [
+      '......xxxx..',
+      '.....xxoxxx.',
+      '.....xxxxxxx',
+      '.....xxx....',
+      '.....xxxxx..',
+      'x...xxxx....',
+      'xx.xxxxxxx..',
+      'xxxxxxxx.x..',
+      '.xxxxxxx....',
+      '..xxxxx.....',
+      '...xx.xx....',
+      '...x...x....',
+      '...xx..xx...'
+    ]
+  },
+  {
+    colors: { b: '#FF6A3D', o: '#1A1220', w: '#FBF1E8', y: '#FFD166' },
+    name: 'duck',
+    rows: [
+      '....yyyy....',
+      '...yyyyyy...',
+      '...yyoyyy...',
+      '...yyyybbb..',
+      '...yyyyyb...',
+      '....yyyy....',
+      '..yyyyyyy...',
+      '.yyyyyyyyy..',
+      'yyyyyyyyyyy.',
+      'yyywwyyyyyy.',
+      '.yyyyyyyyy..',
+      '..yyyyyyy...'
+    ]
+  },
+  {
+    colors: { c: '#F6D2AE', d: '#A85A2A', e: '#1A1220', o: '#E39A5B', p: '#F2A0A0' },
+    name: 'cat',
+    parts: { t: 'tail' },
+    rows: [
+      '.o..o.......',
+      '.oooo.......',
+      'oeooeo......',
+      'ooppoo......',
+      '.oooooooo...',
+      'ooodooodoo..',
+      'oooooooooood',
+      'oddoodoooooo',
+      'oooooooooot.',
+      '.cccccccco..'
+    ]
+  },
+  {
+    colors: { b: '#9AA5B8', d: '#4A1230', e: '#FFD166', r: '#FF6A3D' },
+    name: 'robot',
+    parts: { a: 'arm', r: 'ant' },
+    rows: [
+      '.....r......',
+      '.....d......',
+      '..bbbbbbbb..',
+      '..beebbeeb..',
+      '..beebbeeb..',
+      '..bbbbbbbb..',
+      '..bddddddb..',
+      '...bbbbbb...',
+      '.bbbbbbbbbb.',
+      'aa.brrrrb.bb',
+      'aa.bbbbbb.bb',
+      '...bb..bb...',
+      '..ddd..ddd..'
+    ]
+  },
+  {
+    colors: { m: '#FF6A3D', s: '#FBF1E8', w: '#FFD6B0' },
+    name: 'mug',
+    parts: { s: 'steam' },
+    rows: [
+      '...s..s.....',
+      '....s..s....',
+      '...s..s.....',
+      '.mmmmmmmmm..',
+      '.mwmmmmmmmmm',
+      '.mwmmmmmm.mm',
+      '.mmmmmmmm.mm',
+      '.mmmmmmmmmmm',
+      '.mmmmmmmmm..',
+      '..mmmmmmm...'
+    ]
+  }
+];
+const DINO_PX = 5;
+const PRINT_ROW_MS = 320; // 13 rows ≈ 4.2 s
+const PRINT_FX_MS = 1800; // the little show after a print, then the figure rests
+
 const CAT_TYPES = [
   "I'm hungry, give me some food meow!",
   'hug me pleeeease meow',
@@ -135,6 +243,10 @@ export function mountHero(root: HTMLElement): () => void {
   const lb = h('lb');
   const la = h('la');
   const night = h('night');
+  const lightBtn = h<HTMLButtonElement>('light');
+  const glow = h('roomglow');
+  const printBtn = h<HTMLButtonElement>('printer');
+  const shelfBtn = h<HTMLButtonElement>('shelf');
   const btn = h<HTMLButtonElement>('toggle');
   const sb = h<HTMLButtonElement>('sound');
   const all = (sel: string) => Array.from(root.querySelectorAll<HTMLElement | SVGElement>(sel));
@@ -168,6 +280,30 @@ export function mountHero(root: HTMLElement): () => void {
     g.innerHTML = s;
   }
 
+  // The printer cycles through PRINT_MODELS, starting at a random one per page load.
+  let modelIdx = Math.floor(Math.random() * PRINT_MODELS.length);
+  let fxTimer = 0;
+  function renderModel(m: PrintModel) {
+    const top = 700 - m.rows.length * DINO_PX; // bottom row sits on the bed
+    for (const p of all('.printer')) p.dataset.model = m.name;
+    for (const g of all('.printer .dino')) {
+      g.setAttribute('class', 'dino');
+      g.innerHTML = m.rows
+        .map(
+          (row, r) =>
+            `<g class="row" data-r="${r}">${[...row]
+              .map((ch, c) =>
+                ch === '.'
+                  ? ''
+                  : `<rect${m.parts?.[ch] ? ` class="${m.parts[ch]}"` : ''} x="${185 + c * DINO_PX}" y="${top + r * DINO_PX}" width="${DINO_PX}" height="${DINO_PX}" fill="${m.colors[ch] ?? '#8A8D93'}"/>`
+              )
+              .join('')}</g>`
+        )
+        .join('');
+    }
+  }
+  renderModel(PRINT_MODELS[modelIdx] as PrintModel);
+
   // ---------- time of day ----------
   let sim: null | number = null;
   let wasNight = false;
@@ -200,7 +336,12 @@ export function mountHero(root: HTMLElement): () => void {
   let curtainDark = false;
   let lampByCurtain = false;
   let nightW = 0;
-  const shade = () => night.style.setProperty('opacity', (Math.max(nightW, curtainDark ? 1 : 0) * 0.62).toFixed(3));
+  let roomLight = false;
+  const shade = () => {
+    const dark = Math.max(nightW, curtainDark ? 1 : 0);
+    night.style.setProperty('opacity', (dark * (roomLight ? 0.2 : 0.62)).toFixed(3));
+    glow.style.setProperty('opacity', (roomLight ? dark : 0).toFixed(3));
+  };
   const nightMask = () => {
     const lamp = la.querySelector('[data-i="lamp"]');
     night.classList.toggle('lampoff', !lamp?.classList.contains('on'));
@@ -218,6 +359,7 @@ export function mountHero(root: HTMLElement): () => void {
     root.dataset.phase = word;
     const w = pf >= 2 ? Math.max(0, 1 - Math.abs(pf - 3)) : 0;
     nightW = w;
+    followClock();
     shade();
     // the moon rises from behind the skyline in the evening and sets behind it toward morning (a plain fade for reduced motion)
     const mk = Math.min(1, w * 1.25);
@@ -429,12 +571,59 @@ export function mountHero(root: HTMLElement): () => void {
     }, ms);
   }
 
+  // The finished figure does something small and cute for a moment (CSS classes), then stays still. Not with reduced motion.
+  function printFx(m: PrintModel) {
+    if (reduce) return;
+    for (const g of all('.printer .dino')) g.classList.add('fx', `fx-${m.name}`);
+    if (m.name === 'duck') sfx('duck', { volume: 0.4 });
+    fxTimer = window.setTimeout(() => {
+      for (const g of all('.printer .dino')) g.setAttribute('class', 'dino');
+    }, PRINT_FX_MS);
+  }
+
+  // ---------- 3D printer: prints the next model row by row, bottom-up; the finished model stays until the next click ----------
+  async function print3d() {
+    if (playing.printer) return;
+    playing.printer = true;
+    const printers = all('.printer');
+    const gantries = all('.printer .gantry');
+    window.clearTimeout(fxTimer);
+    const model = PRINT_MODELS[modelIdx] as PrintModel;
+    modelIdx = (modelIdx + 1) % PRINT_MODELS.length;
+    renderModel(model);
+    const rows = all('.printer .row');
+    gantries.forEach((g) => (g.style.transform = ''));
+    if (reduce) {
+      rows.forEach((n) => n.classList.add('on'));
+      gantries.forEach((g) => (g.style.transform = 'translateY(-80px)'));
+      sfx('login', { volume: 0.5 });
+      playing.printer = false;
+
+      return;
+    }
+    sfx('key-enter', { volume: 0.4 });
+    await wait(300); // the gantry drops back to the bed
+    printers.forEach((p) => p.classList.add('printing'));
+    for (let k = 0; k < model.rows.length; k++) {
+      gantries.forEach((g) => (g.style.transform = `translateY(${-(k + 1) * DINO_PX}px)`));
+      await wait(PRINT_ROW_MS);
+      if (disposed) return;
+      all(`.printer .row[data-r="${model.rows.length - 1 - k}"]`).forEach((n) => n.classList.add('on'));
+      sfx('clock-tick', { rate: 1.4, volume: 0.18 });
+    }
+    printers.forEach((p) => p.classList.remove('printing'));
+    gantries.forEach((g) => (g.style.transform = 'translateY(-80px)')); // park above the model
+    sfx('login', { volume: 0.5 });
+    printFx(model);
+    playing.printer = false;
+  }
+
   // ---------- the spider that lives in the plant ----------
   // Scene units (the body's centre). It walks a wavy line along the wall to a spot left of the monitor, jumps onto
   // the screen, loops there (the dev reacts), jumps back to the same wall spot and walks a lower line home.
   const SPIDER_WALL: [number, number] = [326, 398];
   const SPIDER_SCREEN: [number, number] = [514, 335];
-  const SPIDER_WALK_OUT: [number, number][] = [[116, 476], [158, 396], [232, 374], [285, 404], SPIDER_WALL];
+  const SPIDER_WALK_OUT: [number, number][] = [[116, 476], [158, 400], [232, 392], [285, 406], SPIDER_WALL];
   const SPIDER_LOOP: [number, number][] = [SPIDER_SCREEN, [550, 312], [540, 272], [498, 268], [486, 305], SPIDER_SCREEN];
   const SPIDER_WALK_HOME: [number, number][] = [SPIDER_WALL, [281, 420], [201, 433], [140, 451], [116, 476]];
   // ms per phase: walk out, jump, loop, jump back, walk home
@@ -628,6 +817,34 @@ export function mountHero(root: HTMLElement): () => void {
 
   const isLit = () => root.classList.contains('lit');
 
+  function setRoomLight(on: boolean) {
+    roomLight = on;
+    all('.lightsw').forEach((n) => n.classList.toggle('on', on));
+    lightBtn.setAttribute('aria-pressed', String(on));
+    shade();
+  }
+  // the room light follows the clock: on in the evening, off from 23:00 until morning (then he works by the lamp only).
+  // A click overrides it until the next change. Grey mode keeps it off.
+  const roomAuto = () => {
+    const hr = now().getHours();
+
+    return isLit() && hr >= 17 && hr < 23;
+  };
+  let lastAuto: boolean | null = null;
+  function followClock(force = false) {
+    const auto = roomAuto();
+    if (!force && auto === lastAuto) return;
+    lastAuto = auto;
+    if (outage) offState.roomWas = auto;
+    else setRoomLight(auto);
+  }
+  const syncSceneButtons = () => {
+    lightBtn.disabled = !isLit();
+    printBtn.disabled = !isLit();
+    shelfBtn.disabled = !isLit();
+    followClock(true);
+  };
+
   // random phrases, never the same one twice in a row
   const lastPick: Record<string, string> = {};
   const pickNew = (list: string[], key: string): string => {
@@ -789,6 +1006,121 @@ export function mountHero(root: HTMLElement): () => void {
     if (!catBusy && !outage) setReply('');
     thanking = false;
   }
+  const curtainScale = () => {
+    const d = la.querySelector('.curtain .drape');
+    const m = d ? new DOMMatrixReadOnly(getComputedStyle(d).transform) : null;
+    return m && Number.isFinite(m.a) ? m.a : 1;
+  };
+  // the developer's own left arm stretches from his shoulder to the leading edge of the curtain and pulls it along; he walks with the edge
+  const curEdge = () => 30 + 422 * curtainScale(); // the drape scales from x=30
+  const GRIP_DX = 90; // his left shoulder stands right under the edge, his centre this far right of it
+  const GRIP_Y = 312; // just above the drape hem, so his hand holds the fabric
+  const devXAt = (edge: number) => edge + GRIP_DX - 700;
+  const frames = (ms: number, fn: (p: number) => void) =>
+    new Promise<void>((resolve) => {
+      const t0 = performance.now();
+      const step = (now: number) => {
+        const p = Math.min(1, (now - t0) / ms);
+        fn(p);
+        if (p >= 1 || signal.aborted) resolve();
+        else requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+  async function gripPull(toggle: () => void) {
+    const [dev] = byI('dev');
+    const arm = la.querySelector<SVGGElement>('.curarm');
+    const outline = arm?.querySelector<SVGPathElement>('.curarm-o');
+    const sleeve = arm?.querySelector<SVGPathElement>('.curarm-s');
+    const hand = arm?.querySelector<SVGGElement>('.curarm-h');
+    const sidearms = la.querySelector<SVGGraphicsElement>('.dev .sidearms');
+    if (reduce || !dev || !arm || !outline || !sleeve || !hand || !sidearms) {
+      toggle();
+      await wait(1500);
+      return;
+    }
+    const own = all('.dev .saL'); // his real left arm hides while the stretched one works
+    const ease = (p: number) => p * p * (3 - 2 * p);
+    const draw = (k: number) => {
+      const m = sidearms.getScreenCTM();
+      const r = arm.getScreenCTM();
+      if (!m || !r) return;
+      const s = new DOMPoint(604, 604).matrixTransform(r.inverse().multiply(m)); // his left shoulder, wherever he is
+      const e = { x: curEdge(), y: GRIP_Y };
+      const x = s.x + (e.x - s.x) * k;
+      const y = s.y + (e.y - s.y) * k;
+      const d = `M${s.x.toFixed(1)} ${s.y.toFixed(1)} Q${((s.x + x) / 2).toFixed(1)} ${((s.y + y) / 2 - 0.05 * Math.hypot(x - s.x, y - s.y)).toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`;
+      outline.setAttribute('d', d);
+      sleeve.setAttribute('d', d);
+      hand.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(-90)`);
+    };
+    const devs = byI('dev');
+    const follow = () =>
+      devs.forEach((d) => {
+        d.style.transition = 'none';
+        d.style.transform = `translate(${devXAt(curEdge()).toFixed(1)}px, 0)`;
+      });
+    own.forEach((n) => (n.style.visibility = 'hidden'));
+    draw(0);
+    arm.removeAttribute('display');
+    try {
+      await frames(250, (p) => draw(ease(p))); // reach out to the edge
+      toggle(); // the curtain starts moving only once he holds it
+      devs.forEach((d) => d.classList.add('walkin'));
+      await frames(1800, () => {
+        follow();
+        draw(1);
+      });
+      devs.forEach((d) => d.classList.remove('walkin'));
+      await frames(250, (p) => draw(1 - ease(p))); // let go, the arm snaps back
+    } finally {
+      arm.setAttribute('display', 'none');
+      own.forEach((n) => (n.style.visibility = ''));
+      devs.forEach((d) => d.classList.remove('walkin'));
+    }
+  }
+  function toggleCurtain() {
+    sfx('curtain');
+    byI('curtain').forEach((n) => n.classList.toggle('closed'));
+    curtainDark = Boolean(la.querySelector('.curtain.closed'));
+    shade();
+    const lamps = byI('lamp');
+    const lampOn = lamps[0]?.classList.contains('on') ?? false;
+    if (curtainDark && !lampOn) {
+      lampByCurtain = true;
+      lamps.forEach((n) => n.classList.add('on'));
+      sfx('lamp');
+    } else if (!curtainDark && lampByCurtain && lampOn && !wasNight) {
+      lamps.forEach((n) => n.classList.remove('on'));
+    }
+    if (!curtainDark) lampByCurtain = false;
+    nightMask();
+  }
+  // every click: he gets up, walks to the drape edge, pulls it, walks back and sits down (one trip at a time)
+  let curtainBusy = false;
+  async function curtainTrip() {
+    const devs = byI('dev');
+    if (reduce || !devs[0] || devs[0].classList.contains('standing') || stage.classList.contains('intro')) {
+      toggleCurtain();
+      return;
+    }
+    if (curtainBusy) return;
+    curtainBusy = true;
+    try {
+      devs.forEach((d) => d.classList.add('standing'));
+      await wait(450);
+      const to = devXAt(curEdge());
+      await devTo(to, Math.max(500, Math.abs(to) * 1.6));
+      await gripPull(toggleCurtain);
+      await devTo(0, Math.max(500, Math.abs(devXAt(curEdge())) * 1.6));
+      devs.forEach((d) => d.classList.remove('standing'));
+      sfx('sit', { volume: 0.7 });
+      await wait(700);
+      devs.forEach((d) => (d.style.transition = ''));
+    } finally {
+      curtainBusy = false;
+    }
+  }
   async function intro() {
     const devs = byI('dev');
     const drapes = all('.curtain .drape');
@@ -807,11 +1139,12 @@ export function mountHero(root: HTMLElement): () => void {
     setTyped();
     await zoomReady();
     await iwait(500);
-    await devTo(-380, 2600); // walk to the window
+    await devTo(devXAt(curEdge()), 2200); // walk to the window, to the edge of the drape
     await iwait(250);
-    byI('curtain').forEach((c) => c.classList.remove('closed'));
-    sfx('curtain');
-    await iwait(1500);
+    await gripPull(() => {
+      byI('curtain').forEach((c) => c.classList.remove('closed'));
+      sfx('curtain');
+    });
     await devTo(0, 1500); // back to the desk
     devs.forEach((d) => d.classList.remove('standing')); // sit down
     sfx('sit', { volume: 0.7 });
@@ -862,9 +1195,19 @@ export function mountHero(root: HTMLElement): () => void {
     }
     let bus: GainNode | null = null;
     const bufs: Record<string, AudioBuffer> = {};
-    const purrState: { gain: GainNode | null; src: AudioBufferSourceNode | null; want: boolean } = {
+    // The sleeping cat purrs in short bursts with long quiet gaps, not in a constant loop.
+    const PURR_BURST_MS = [5000, 9000];
+    const PURR_GAP_MS = [20000, 40000];
+    const between = ([lo, hi]: number[]) => lo + Math.random() * (hi - lo);
+    const purrState: {
+      gain: GainNode | null;
+      src: AudioBufferSourceNode | null;
+      timer: null | ReturnType<typeof setTimeout>;
+      want: boolean;
+    } = {
       gain: null,
       src: null,
+      timer: null,
       want: false
     };
     const SFX = [
@@ -889,10 +1232,33 @@ export function mountHero(root: HTMLElement): () => void {
       } else src.connect(bus);
       src.start();
     };
+    const fadePurr = () => {
+      const p = purrState;
+      if (!ctx || !p.src || !p.gain) return;
+      const { gain, src } = p;
+      p.src = null;
+      p.gain = null;
+      const t = ctx.currentTime;
+      gain.gain.cancelScheduledValues(t);
+      gain.gain.setValueAtTime(gain.gain.value, t);
+      gain.gain.linearRampToValueAtTime(0, t + 0.8);
+      try {
+        src.stop(t + 0.85);
+      } catch {
+        /* already stopped */
+      }
+    };
+    const clearPurrTimer = () => {
+      if (purrState.timer !== null) clearTimeout(purrState.timer);
+      purrState.timer = null;
+    };
     const syncPurr = () => {
       if (!ctx || !bus) return;
       const p = purrState;
-      if (p.want && canPlay() && !p.src && bufs.purr) {
+      if (!p.want || !enabled) {
+        clearPurrTimer();
+        fadePurr();
+      } else if (canPlay() && !p.src && p.timer === null && bufs.purr) {
         const g = ctx.createGain();
         g.gain.value = 0;
         g.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.8);
@@ -904,19 +1270,14 @@ export function mountHero(root: HTMLElement): () => void {
         src.start();
         p.src = src;
         p.gain = g;
-      } else if ((!p.want || !enabled) && p.src && p.gain) {
-        const { gain, src } = p;
-        p.src = null;
-        p.gain = null;
-        const t = ctx.currentTime;
-        gain.gain.cancelScheduledValues(t);
-        gain.gain.setValueAtTime(gain.gain.value, t);
-        gain.gain.linearRampToValueAtTime(0, t + 0.4);
-        try {
-          src.stop(t + 0.45);
-        } catch {
-          /* already stopped */
-        }
+        // end this burst, wait a quiet gap, then purr again
+        p.timer = setTimeout(() => {
+          fadePurr();
+          p.timer = setTimeout(() => {
+            p.timer = null;
+            syncPurr();
+          }, between(PURR_GAP_MS));
+        }, between(PURR_BURST_MS));
       }
     };
     const loadSfx = (c: AudioContext) =>
@@ -989,6 +1350,7 @@ export function mountHero(root: HTMLElement): () => void {
     window.addEventListener('blur', syncFocus, { signal });
     window.addEventListener('focus', syncFocus, { signal });
     const dispose = () => {
+      clearPurrTimer();
       if (purrState.src) {
         try {
           purrState.src.stop();
@@ -1050,6 +1412,7 @@ export function mountHero(root: HTMLElement): () => void {
     showHint(state.on);
     sfx('switch');
     root.classList.toggle('lit', state.on);
+    syncSceneButtons();
     document.documentElement.dataset.mode = state.on ? 'lit' : 'bw';
     try {
       sessionStorage.setItem('devkitty-mode', state.on ? 'devkitty' : 'bw');
@@ -1094,13 +1457,25 @@ export function mountHero(root: HTMLElement): () => void {
   // ---------- shutdown: the power cut (frantic lamp clicking) and the Mac mini switched off share one pair ----------
   // 'power': the room dims, the lamp goes out, the dev swears "#@!%". 'mini': only the Mac goes off, the dev complains.
   let lampClicks: number[] = [];
-  const offState = { kind: 'power' as 'mini' | 'power', lampWas: false };
+  /** Lamp and wall switch share one click history: 5 clicks within 2 s blow the power. True when this click did. */
+  function flickedTooFast(): boolean {
+    const t0 = performance.now();
+    lampClicks = lampClicks.filter((x) => t0 - x < 2000);
+    lampClicks.push(t0);
+    if (lampClicks.length < 5) return false;
+    lampClicks = [];
+    void shutdown('power');
+
+    return true;
+  }
+  const offState = { kind: 'power' as 'mini' | 'power', lampWas: false, roomWas: false };
   async function shutdown(kind: 'mini' | 'power') {
     if (outage || stage.classList.contains('intro')) return;
     outage = true;
     offState.kind = kind;
     const lamps = byI('lamp');
     offState.lampWas = lamps[0]?.classList.contains('on') ?? false;
+    offState.roomWas = roomLight;
     setReply('');
     typed = '';
     setTyped();
@@ -1121,6 +1496,7 @@ export function mountHero(root: HTMLElement): () => void {
       }
       lamps.forEach((l) => l.classList.remove('on'));
       nightMask();
+      setRoomLight(false);
     }
     stage.classList.add(kind === 'power' ? 'outage' : 'shutdown');
     byI('dev').forEach((d) => {
@@ -1151,6 +1527,7 @@ export function mountHero(root: HTMLElement): () => void {
     // the screen stays black while the login layer fades in underneath, so the two never show through each other
     stage.classList.add('rebooting');
     byI('lamp').forEach((l) => l.classList.toggle('on', lampWas));
+    if (kind === 'power') setRoomLight(offState.roomWas);
     nightMask();
     sfx('boot', { volume: 0.7 });
     if (reduce) {
@@ -1260,15 +1637,7 @@ export function mountHero(root: HTMLElement): () => void {
       if (outage && i !== 'switch') return;
       if (i === 'poster') return nextPoster(true);
       if (i === 'lamp') {
-        const t0 = performance.now();
-        lampClicks = lampClicks.filter((x) => t0 - x < 2000);
-        lampClicks.push(t0);
-        if (lampClicks.length >= 5) {
-          lampClicks = [];
-          void shutdown('power');
-
-          return;
-        }
+        if (flickedTooFast()) return;
         sfx('lamp');
         lampByCurtain = false;
         byI('lamp').forEach((n) => n.classList.toggle('on'));
@@ -1291,29 +1660,47 @@ export function mountHero(root: HTMLElement): () => void {
       }
       if (i === 'mini') void shutdown('mini');
       if (i === 'duck' || i === 'catpic') play(i, 900);
-      if (i === 'curtain') {
-        sfx('curtain');
-        byI('curtain').forEach((n) => n.classList.toggle('closed'));
-        curtainDark = Boolean(la.querySelector('.curtain.closed'));
-        shade();
-        const lamps = byI('lamp');
-        const lampOn = lamps[0]?.classList.contains('on') ?? false;
-        if (curtainDark && !lampOn) {
-          lampByCurtain = true;
-          lamps.forEach((n) => n.classList.add('on'));
-          sfx('lamp');
-        } else if (!curtainDark && lampByCurtain && lampOn && !wasNight) {
-          lamps.forEach((n) => n.classList.remove('on'));
-        }
-        if (!curtainDark) lampByCurtain = false;
-        nightMask();
-      }
+      if (i === 'curtain') void curtainTrip();
       if (i === 'clock') timelapse();
       if (i === 'moon') void moonRocket();
       if (i === 'switch') {
         const r = t.getBoundingClientRect();
         toggle(r.left + r.width / 2, r.top + r.height / 2);
       }
+    },
+    { signal }
+  );
+  printBtn.addEventListener(
+    'click',
+    () => {
+      if (isLit() && !outage) void print3d();
+    },
+    { signal }
+  );
+  lightBtn.addEventListener(
+    'click',
+    () => {
+      if (!isLit() || outage || flickedTooFast()) return;
+      night.classList.add('quick');
+      glow.classList.add('quick');
+      later(() => {
+        night.classList.remove('quick');
+        glow.classList.remove('quick');
+      }, 200);
+      sfx('lamp');
+      setRoomLight(!roomLight);
+    },
+    { signal }
+  );
+  shelfBtn.addEventListener(
+    'click',
+    () => {
+      if (!isLit() || outage) return;
+      const open = !shelfBtn.classList.contains('open');
+      shelfBtn.classList.toggle('open', open);
+      shelfBtn.setAttribute('aria-expanded', String(open));
+      all('.shelf').forEach((n) => n.classList.toggle('open', open));
+      sfx('key-2', { volume: 0.4 });
     },
     { signal }
   );
@@ -1349,6 +1736,7 @@ export function mountHero(root: HTMLElement): () => void {
     btn.setAttribute('aria-label', 'Switch to Terminal');
     showHint(true);
   }
+  syncSceneButtons();
   // Sound is on unless the visitor turned it off. Browsers block autoplay, so the first click or key press
   // (captured before the object's own handler) creates the audio context and starts loading the effects.
   sound.label();
@@ -1414,6 +1802,10 @@ export function mountHero(root: HTMLElement): () => void {
     lb.style.cssText = '';
     la.style.cssText = '';
     root.classList.remove('lit');
+    lightBtn.setAttribute('aria-pressed', 'false');
+    lightBtn.disabled = true;
+    printBtn.disabled = true;
+    shelfBtn.disabled = true;
     shared.kick = () => {};
   };
 }
