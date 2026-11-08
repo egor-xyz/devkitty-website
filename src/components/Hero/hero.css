@@ -28,8 +28,11 @@ h1 .swap { display: inline-grid; }
 h1 .swap > span { grid-area: 1 / 1; transition: opacity .6s, transform .8s cubic-bezier(.22,1,.36,1), filter .6s; }
 h1 .after { opacity: 0; transform: translateY(18px); filter: blur(6px); }
 /* each line gets its own full gradient (not one box cut by the shorter line); it drifts slowly */
-h1 .after .ln { width: fit-content; background: linear-gradient(95deg, #6B1418, #B83A16 25%, #FF6A3D 50%, #B83A16 75%, #4A1230) 0 50% / 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-box-decoration-break: clone; box-decoration-break: clone; animation: h-glow 7s ease-in-out infinite alternate; }
-h1 .after .ln + .ln { animation-delay: -1.2s; }
+/* The gradient starts and ends on the same colour, so the 200% tile repeats seamlessly and h-glow sweeps it left to right forever.
+ * The line is revealed left to right through clip-path when the hero goes lit. */
+h1 .after .ln { width: fit-content; background: linear-gradient(90deg, #6B1418, #B83A16 25%, #FF6A3D 50%, #B83A16 75%, #6B1418) 0 50% / 200% 100% repeat-x; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-box-decoration-break: clone; box-decoration-break: clone; clip-path: inset(-10% 101% -10% -2%); transition: clip-path 1.1s cubic-bezier(.22,1,.36,1) .15s; animation: h-glow 4s linear infinite; }
+h1 .after .ln + .ln { transition-delay: .4s; animation-delay: -1.2s; }
+&.lit h1 .after .ln { clip-path: inset(-10% -2% -10% -2%); }
 &.lit h1 .before { opacity: 0; transform: translateY(-18px); filter: blur(6px); }
 &.lit h1 .after { opacity: 1; transform: none; filter: none; }
 .side { display: flex; flex-direction: column; gap: 16px; }
@@ -41,13 +44,14 @@ h1 .after .ln + .ln { animation-delay: -1.2s; }
 .btn.ghost { background: #fff; color: var(--h-dark); box-shadow: 4px 4px 0 var(--h-edge); }
 /* The switch: the only color on the grey page */
 .toggle { order: -1; min-height: 60px; padding: 0 24px 0 12px; font-size: 18px; gap: 12px; color: #FFF6EE; border-color: var(--h-edge);
-  background: linear-gradient(100deg, #6B1418, #B83A16 40%, #FF6A3D 70%, #4A1230) 0 0 / 200% 100%;
+  background: linear-gradient(100deg, #6B1418, #B83A16 25%, #FF6A3D 50%, #B83A16 75%, #6B1418) 0 0 / 200% 100% repeat-x;
   box-shadow: 5px 5px 0 var(--h-edge), 0 0 0 0 rgba(255,106,61,.6); animation: h-sheen 3s linear infinite, h-beacon 1.8s ease-out infinite; }
 .toggle .lbl { display: inline-grid; } .toggle .lbl > span { grid-area: 1 / 1; transition: opacity .3s; }
 .toggle .l-on, &.lit .toggle .l-off { opacity: 0; } &.lit .toggle .l-on { opacity: 1; }
 .toggle .ico { display: inline-grid; width: 44px; height: 44px; margin: -4px -2px -4px -4px; } .toggle .ico > * { grid-area: 1 / 1; width: 44px; height: 44px; transition: opacity .3s; }
 .toggle .term { opacity: 0; } &.lit .toggle .term { opacity: 1; } &.lit .toggle .ico img { opacity: 0; }
-.toggle:hover { box-shadow: 7px 7px 0 var(--h-edge), 0 0 0 10px rgba(255,106,61,.25); }
+/* hover: stop the beacon ring (its animation would override this box-shadow) and keep only the sheen */
+.toggle:hover { box-shadow: 7px 7px 0 var(--h-edge); animation: h-sheen 3s linear infinite; }
 
 
 &.lit .toggle { color: #1A1220; background: #FFFFFF; animation: none; box-shadow: 5px 5px 0 var(--h-edge); border-color: var(--h-edge); }
@@ -231,9 +235,9 @@ h1 .after .ln + .ln { animation-delay: -1.2s; }
   .hero *, .hero *::before, .hero *::after { animation: none !important; transition-duration: 0.01ms !important; }
 }
 
-@keyframes h-glow { to { background-position: 100% 50%; } }
+@keyframes h-glow { from { background-position: 200% 50%; } to { background-position: 0 50%; } }
 @keyframes h-sheen { to { background-position: 200% 0; } }
-@keyframes h-beacon { 0% { box-shadow: 5px 5px 0 var(--ink), 0 0 0 0 rgba(255,106,61,.55); } 100% { box-shadow: 5px 5px 0 var(--ink), 0 0 0 22px rgba(255,106,61,0); } }
+@keyframes h-beacon { 0% { box-shadow: 5px 5px 0 var(--h-edge), 0 0 0 0 rgba(255,106,61,.55); } 100% { box-shadow: 5px 5px 0 var(--h-edge), 0 0 0 22px rgba(255,106,61,0); } }
 @keyframes h-eq { to { height: 12px; } }
 @keyframes h-zap { 50% { opacity: 1; } }
 @keyframes h-steam { 0% { opacity: 0; transform: translateY(8px); } 40% { opacity: .9; } 100% { opacity: 0; transform: translateY(-16px); } }
