@@ -342,11 +342,11 @@ export function mountHero(root: HTMLElement): () => void {
       paint(g.querySelector('.sheet.under') as Element, nxt);
     });
   };
-  const nextPoster = () => {
+  const nextPoster = (byUser = false) => {
     if (tearing) return;
     tearing = true;
     posterLast = performance.now();
-    sfx('note', { volume: 0.25 });
+    if (byUser) sfx('note', { volume: 0.25 }); // the timer's tear is silent
     const tops = all('.poster .sheet.top');
     const dir = Math.random() < 0.5 ? -1 : 1;
     const ang = 25 + Math.random() * 15;
@@ -1187,7 +1187,7 @@ export function mountHero(root: HTMLElement): () => void {
       const i = t.dataset.i ?? '';
       if (i !== 'switch' && !isLit()) return; // b&w mode: only the switch works
       if (outage && i !== 'switch') return;
-      if (i === 'poster') return nextPoster();
+      if (i === 'poster') return nextPoster(true);
       if (i === 'lamp') {
         const t0 = performance.now();
         lampClicks = lampClicks.filter((x) => t0 - x < 2000);
