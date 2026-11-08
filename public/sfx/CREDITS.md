@@ -1,10 +1,10 @@
 # Credits (all CC0 1.0 / public domain; verified on each pack page / License.txt)
 
 Kenney packs: author Kenney Vleugels (kenney.nl), license CC0, https://creativecommons.org/publicdomain/zero/1.0/
-OpenGameArt entries: license CC0 shown on each page.
+OpenGameArt and Freesound entries: license CC0 shown on each page.
 All files processed: mono, silence trimmed, peak -3 dBFS, MP3 96 kbps.
 
-- boot.mp3 | Digital Audio https://kenney.nl/assets/digital-audio | Kenney Vleugels | CC0 | original: powerUp1.ogg
+- boot.mp3 | https://freesound.org/people/marlonnnnnn/sounds/351880/ | marlonnnnnn (Freesound) | CC0 | original: Computer Chimes - Logged In.aif (Freesound HQ preview)
 - clock-tick.mp3 | UI Audio https://kenney.nl/assets/ui-audio | Kenney Vleugels | CC0 | original: click4.ogg
 - clock-whoosh.mp3 | Casino Audio https://kenney.nl/assets/casino-audio | Kenney Vleugels | CC0 | original: card-fan-1.ogg
 - curtain.mp3 | RPG Audio https://kenney.nl/assets/rpg-audio | Kenney Vleugels | CC0 | original: cloth1.ogg
