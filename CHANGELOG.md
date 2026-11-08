@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/egor-xyz/devkitty-website/compare/v1.17.0...v1.18.0) (2026-11-08)
+
+
+### Features
+
+* agents widget presentation style switcher ([#53](https://github.com/egor-xyz/devkitty-website/issues/53)) ([bd33664](https://github.com/egor-xyz/devkitty-website/commit/bd336641a36a598e3530777e77cd70913ffc02b2))
+
 # [1.17.0](https://github.com/egor-xyz/devkitty-website/compare/v1.16.2...v1.17.0) (2026-11-08)
 
 
