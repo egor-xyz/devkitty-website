@@ -3,7 +3,7 @@ import { getExtensions } from '../lib/extensions';
 import { canDownload } from '../lib/platform';
 
 /** Website-only palette: categories in display order. */
-export const CATEGORIES = ['Website', 'Hero', 'Extensions'] as const;
+export const CATEGORIES = ['Website', 'Terminal', 'Extensions'] as const;
 
 export type Category = (typeof CATEGORIES)[number];
 
@@ -93,7 +93,7 @@ export function buildPaletteActions(zipUrl: string): PaletteAction[] {
         ] satisfies PaletteAction[])
       : []),
     {
-      category: 'Hero',
+      category: 'Terminal',
       icon: 'sun',
       id: 'switch-devkitty',
       keywords: ['hero', 'sunset', 'switch'],
@@ -101,7 +101,7 @@ export function buildPaletteActions(zipUrl: string): PaletteAction[] {
       title: 'Switch to Devkitty'
     },
     {
-      category: 'Hero',
+      category: 'Terminal',
       icon: 'terminal',
       id: 'switch-terminal',
       keywords: ['hero', 'grey', 'switch'],
