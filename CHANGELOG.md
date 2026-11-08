@@ -1,3 +1,10 @@
+# [1.19.0](https://github.com/egor-xyz/devkitty-website/compare/v1.18.1...v1.19.0) (2026-11-08)
+
+
+### Features
+
+* a spider hides in the plant and scares the developer ([#58](https://github.com/egor-xyz/devkitty-website/issues/58)) ([7e1a898](https://github.com/egor-xyz/devkitty-website/commit/7e1a8986cbc94f5303518ce3adf2b429bd5321b9))
+
 ## [1.18.1](https://github.com/egor-xyz/devkitty-website/compare/v1.18.0...v1.18.1) (2026-11-08)
 
 
