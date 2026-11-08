@@ -1,7 +1,7 @@
 {
   "name": "devkitty-website",
   "description": "Devkitty: a native macOS workspace for Git, GitHub and your terminals",
-  "version": "1.14.1",
+  "version": "1.15.0",
   "private": true,
   "type": "module",
   "homepage": "https://devkitty.app/",
