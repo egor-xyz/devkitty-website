@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/egor-xyz/devkitty-website/compare/v1.14.1...v1.15.0) (2026-11-08)
+
+
+### Features
+
+* new link preview image and meta tags ([#50](https://github.com/egor-xyz/devkitty-website/issues/50)) ([ae01131](https://github.com/egor-xyz/devkitty-website/commit/ae01131d0969afcf22e9855b15bf495f5528dd2f))
+
 ## [1.14.1](https://github.com/egor-xyz/devkitty-website/compare/v1.14.0...v1.14.1) (2026-11-08)
 
 
