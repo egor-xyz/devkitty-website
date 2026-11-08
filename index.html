@@ -1,40 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
+    <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1"
     />
-    <meta charset="utf-8" />
+    <script>
+      // Resolve the theme before first paint (no flash). Must stay the first script in <head>.
+      (function () {
+        var choice = 'system';
+        try {
+          var stored = localStorage.getItem('devkitty-theme');
+          if (stored === 'light' || stored === 'dark' || stored === 'system') choice = stored;
+        } catch (e) {}
+        var dark = choice === 'dark' || (choice === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+        var root = document.documentElement;
+        root.dataset.theme = dark ? 'dark' : 'light';
+        root.style.colorScheme = dark ? 'dark' : 'light';
+      })();
+    </script>
     <meta
       name="theme-color"
-      content="#18032f"
+      content="#FBF6F0"
+      media="(prefers-color-scheme: light)"
     />
-
-    <!-- Fonts -->
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+    <meta
+      name="theme-color"
+      content="#0E0620"
+      media="(prefers-color-scheme: dark)"
     />
 
     <!-- Primary Meta Tags -->
-    <title>Devkitty — All your repos. One calm window.</title>
+    <title>Devkitty: every repo, worktree and pull request in one calm window</title>
     <meta
       name="title"
-      content="Devkitty — All your repos. One calm window."
+      content="Devkitty: every repo, worktree and pull request in one calm window"
     />
     <meta
       name="description"
-      content="A native macOS desktop app that keeps every repository, GitHub Action, pull request and branch in one window."
+      content="Devkitty is a native macOS workspace for Git, GitHub and your terminals."
     />
 
     <!-- Open Graph / Facebook -->
@@ -48,37 +53,37 @@
     />
     <meta
       property="og:title"
-      content="Devkitty — All your repos. One calm window."
+      content="Devkitty: every repo, worktree and pull request in one calm window"
     />
     <meta
       property="og:description"
-      content="A native macOS app that keeps every repository, GitHub Action, pull request and branch in one window."
+      content="Devkitty is a native macOS workspace for Git, GitHub and your terminals."
     />
     <meta
       property="og:image"
-      content="https://devkitty.app/devkitty.app.png"
+      content="https://devkitty.app/og.png"
     />
 
     <!-- Twitter -->
     <meta
-      property="twitter:card"
+      name="twitter:card"
       content="summary_large_image"
     />
     <meta
-      property="twitter:url"
+      name="twitter:url"
       content="https://devkitty.app/"
     />
     <meta
-      property="twitter:title"
-      content="Devkitty — All your repos. One calm window."
+      name="twitter:title"
+      content="Devkitty: every repo, worktree and pull request in one calm window"
     />
     <meta
-      property="twitter:description"
-      content="A native macOS app that keeps every repository, GitHub Action, pull request and branch in one window."
+      name="twitter:description"
+      content="Devkitty is a native macOS workspace for Git, GitHub and your terminals."
     />
     <meta
-      property="twitter:image"
-      content="https://devkitty.app/devkitty.app.png"
+      name="twitter:image"
+      content="https://devkitty.app/og.png"
     />
 
     <link
@@ -100,7 +105,7 @@
     />
     <link
       rel="manifest"
-      href="https://devkitty.app/favicons/site.webmanifest"
+      href="/manifest.json"
     />
     <link
       rel="mask-icon"
@@ -111,18 +116,9 @@
       rel="shortcut icon"
       href="https://devkitty.app/favicons/favicon.ico"
     />
-
-    <link
-      rel="manifest"
-      href="/manifest.json"
-    />
     <meta
       name="msapplication-TileColor"
-      content="#ffffff"
-    />
-    <meta
-      name="msapplication-TileImage"
-      content="/ms-icon-144x144.png"
+      content="#0E0620"
     />
   </head>
 
@@ -132,7 +128,7 @@
 
     <script
       type="module"
-      src="/src/index.tsx"
+      src="/src/entries/home.tsx"
     ></script>
   </body>
 </html>

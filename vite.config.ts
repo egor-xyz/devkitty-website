@@ -6,6 +6,11 @@ import { checker } from 'vite-plugin-checker';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
+  build: {
+    rolldownOptions: {
+      input: { main: 'index.html', privacy: 'privacy/index.html', terms: 'terms/index.html' }
+    }
+  },
   plugins: [
     tailwindcss(),
     react(),
