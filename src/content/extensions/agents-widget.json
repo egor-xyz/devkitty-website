@@ -10,10 +10,24 @@
   "order": 40,
   "screenshots": [
     {
-      "src": "/extensions/agents-widget/shot-agents-dark.webp",
-      "alt": "The Agents widget with two gauges, Opus 5.5 at 42% and GPT-5.5 at 18% (sample data)",
+      "src": "/extensions/agents-widget/shot-sport-dark.webp",
+      "alt": "The Agents widget in the Sport presentation, with two gauges: Opus 5.5 at 42% and GPT-5.5 at 18% (sample data)",
       "width": 864,
       "height": 512,
+      "theme": "dark"
+    },
+    {
+      "src": "/extensions/agents-widget/shot-ultra-dark.webp",
+      "alt": "The Agents widget in the Ultra presentation: a main dial with 7-day and 5-hour usage dials (sample data)",
+      "width": 1504,
+      "height": 576,
+      "theme": "dark"
+    },
+    {
+      "src": "/extensions/agents-widget/shot-simple-dark.webp",
+      "alt": "The Agents widget in the Simple presentation: a compact capsule with model, branch, usage, cost and context (sample data)",
+      "width": 1308,
+      "height": 152,
       "theme": "dark"
     }
   ],
@@ -23,7 +37,7 @@
       "body": "A gauge in your terminal shows the model, context, cost and usage of Claude Code, Codex and Cursor Agent sessions. It is in beta: Codex and Cursor readings have not yet been validated against live accounts.",
       "bullets": [
         "Per-agent switches in the widget settings",
-        "Place it anywhere and choose a presentation style",
+        "Place it anywhere and choose a presentation: Simple, Sport or Ultra",
         "Local token analytics and spend breakdowns are not available yet"
       ]
     }

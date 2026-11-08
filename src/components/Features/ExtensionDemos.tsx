@@ -273,7 +273,9 @@ const SystemHealthDemo: FC = () => {
 /* agents-widget */
 
 const AgentsWidgetDemo: FC = () => {
-  const [shot] = toRealShots('agents-widget', ['agents']);
+  const [mode, setMode] = useState<Mode>('Sport');
+  // JSON order is Sport, Ultra, Simple (the extension page leads with Sport, the app default).
+  const shots = toRealShots('agents-widget', ['Sport', 'Ultra', 'Simple']);
 
   return (
     <WindowFrame strip={<SingleTab name='agent' />}>
@@ -284,10 +286,27 @@ const AgentsWidgetDemo: FC = () => {
         <p>&gt; 42 passed</p>
       </div>
 
+      <div
+        aria-label='Presentation'
+        className='fz-seg'
+        role='group'
+      >
+        {MODES.map((x) => (
+          <button
+            aria-pressed={mode === x}
+            key={x}
+            onClick={() => setMode(x)}
+            type='button'
+          >
+            {x}
+          </button>
+        ))}
+      </div>
+
       <div className='fz-float'>
         <RealStack
-          active='agents'
-          shots={[shot]}
+          active={mode}
+          shots={shots}
         />
       </div>
     </WindowFrame>
