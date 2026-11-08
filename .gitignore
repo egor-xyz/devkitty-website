@@ -27,3 +27,6 @@ yarn-error.log*
 dist/
 test-results/
 playwright-report/
+
+# generated extension pages (scripts/extensionsPlugin.ts)
+/extensions/*/

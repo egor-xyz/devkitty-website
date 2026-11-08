@@ -6,7 +6,7 @@ import { AppIcon } from '../CatMark';
 
 const LINKS = [
   { href: '/#features', label: 'Features' },
-  { href: '/extensions/', label: 'Extensions' },
+  { href: '/#extensions', label: 'Extensions' },
   { href: '/#changelog', label: 'Changelog' }
 ];
 
@@ -27,7 +27,7 @@ export const SiteHeader: FC = () => {
       className='site-header'
       data-scrolled={scrolled}
     >
-      <div className='mx-auto flex w-full max-w-[1200px] items-center justify-between gap-4'>
+      <div className='mx-auto flex w-full max-w-[1200px] flex-wrap items-center justify-between gap-x-4 gap-y-1'>
         <a
           className='flex items-center gap-2 text-ink no-underline'
           href='/'
@@ -38,11 +38,11 @@ export const SiteHeader: FC = () => {
 
         <nav
           aria-label='Primary'
-          className='hidden items-center gap-6 text-[0.9375rem] md:flex'
+          className='order-last flex w-full items-center justify-center gap-2 font-fun text-lg tracking-wide md:order-none md:w-auto md:gap-6'
         >
           {LINKS.map(({ href, label }) => (
             <a
-              className='text-ink-soft no-underline hover:text-ink hover:underline'
+              className='inline-flex min-h-11 items-center px-2 text-ink-soft no-underline hover:text-ink hover:underline md:min-h-0 md:px-0'
               href={href}
               key={href}
             >
@@ -54,7 +54,7 @@ export const SiteHeader: FC = () => {
         <div className='flex items-center gap-3'>
           <button
             aria-label='Open command palette'
-            className='cursor-pointer rounded-md border border-line bg-bg-raised px-2 py-0.5 font-mono text-xs text-ink-soft transition-transform duration-120 hover:text-ink active:scale-[0.98]'
+            className='hdr-key'
             onClick={openPalette}
             type='button'
           >
@@ -62,7 +62,7 @@ export const SiteHeader: FC = () => {
           </button>
 
           <a
-            className='rounded-full bg-accent-fill px-4 py-1.5 text-sm font-medium text-accent-ink no-underline transition-transform duration-120 active:scale-[0.98]'
+            className='hdr-download'
             href={zipUrl}
           >
             Download

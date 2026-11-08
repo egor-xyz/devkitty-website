@@ -1,7 +1,6 @@
 import { type FC } from 'react';
 
 import { RELEASES_PAGE } from '../../lib/latestRelease';
-import { ThemeSwitch } from './ThemeSwitch';
 
 export const SiteFooter: FC = () => (
   <footer className='site-footer'>
@@ -17,7 +16,6 @@ export const SiteFooter: FC = () => (
       </a>
     </nav>
 
-    <ThemeSwitch />
-    <p>© 2026 Devkitty</p>
+    <p className='text-[13px]'>© {new Date().getFullYear()} devkitty.app. All rights reserved.</p>
   </footer>
 );
