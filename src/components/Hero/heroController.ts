@@ -411,12 +411,10 @@ export function mountHero(root: HTMLElement): () => void {
     if (i === 'mug') {
       all('.mug').forEach((m) => m.classList.remove('h'));
       all('.spill').forEach((s) => s.classList.remove('pouring'));
-      // when the cup stands up, the spill clears and the cup refills
-      drainTimers.m = later(() => all('.spill').forEach((s) => s.classList.add('drain')), 300);
-      drainTimers.m2 = later(() => {
-        all('.spill.drain').forEach((s) => s.classList.remove('spilled', 'drain'));
-        all('.mug').forEach((m) => m.classList.remove('empty'));
-      }, 1500);
+      // the spill fades out while the cup stands up (.5 s) and is reset once invisible; the cup then refills
+      all('.spill').forEach((s) => s.classList.add('drain'));
+      drainTimers.m = later(() => all('.spill.drain').forEach((s) => s.classList.remove('spilled', 'drain')), 600);
+      drainTimers.m2 = later(() => all('.mug').forEach((m) => m.classList.remove('empty')), 1500);
     } else byI(i).forEach((n) => n.classList.remove('h'));
   }
   function play(i: string, ms: number) {
@@ -429,6 +427,143 @@ export function mountHero(root: HTMLElement): () => void {
       leave(i);
       playing[i] = false;
     }, ms);
+  }
+
+  // ---------- the spider that lives in the plant ----------
+  // Scene units (the body's centre). It walks a wavy line along the wall to a spot left of the monitor, jumps onto
+  // the screen, loops there (the dev reacts), jumps back to the same wall spot and walks a lower line home.
+  const SPIDER_WALL: [number, number] = [326, 398];
+  const SPIDER_SCREEN: [number, number] = [514, 335];
+  const SPIDER_WALK_OUT: [number, number][] = [[116, 476], [158, 396], [232, 374], [285, 404], SPIDER_WALL];
+  const SPIDER_LOOP: [number, number][] = [SPIDER_SCREEN, [550, 312], [540, 272], [498, 268], [486, 305], SPIDER_SCREEN];
+  const SPIDER_WALK_HOME: [number, number][] = [SPIDER_WALL, [281, 420], [201, 433], [140, 451], [116, 476]];
+  // ms per phase: walk out, jump, loop, jump back, walk home
+  const SPIDER_PHASES = [1300, 350, 1500, 350, 1300];
+  const SPIDER_MS = SPIDER_PHASES.reduce((a, b) => a + b, 0);
+  const SPIDER_SCARE_MS = 1600;
+  const SPIDER_LAND_MS = 150; // the landing squash
+  type SpiderPoint = { ms: number; x: number; y: number };
+  // A Catmull-Rom curve through the points, sampled at constant speed over `ms`, starting at `t0`.
+  function spiderWalk(pts: [number, number][], t0: number, ms: number): SpiderPoint[] {
+    const out: [number, number][] = [];
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[Math.max(i - 1, 0)];
+      const p1 = pts[i];
+      const p2 = pts[i + 1];
+      const p3 = pts[Math.min(i + 2, pts.length - 1)];
+      for (let k = 0; k < 12; k++) {
+        const t = k / 12;
+        const c = (a: number, b: number, d: number, e: number) =>
+          0.5 * (2 * b + (-a + d) * t + (2 * a - 5 * b + 4 * d - e) * t * t + (-a + 3 * b - 3 * d + e) * t * t * t);
+        out.push([c(p0[0], p1[0], p2[0], p3[0]), c(p0[1], p1[1], p2[1], p3[1])]);
+      }
+    }
+    out.push(pts[pts.length - 1]);
+    const len = [0];
+    for (let i = 1; i < out.length; i++) len.push(len[i - 1] + Math.hypot(out[i][0] - out[i - 1][0], out[i][1] - out[i - 1][1]));
+
+    return out.map(([x, y], i) => ({ ms: t0 + (len[i] / len[len.length - 1]) * ms, x, y }));
+  }
+  // A short arc from one spot to another, peaking about 35 px above the straight line.
+  function spiderJump(from: [number, number], to: [number, number], t0: number, ms: number): SpiderPoint[] {
+    const cx = (from[0] + to[0]) / 2;
+    const cy = (from[1] + to[1]) / 2 - 70;
+
+    return Array.from({ length: 11 }, (_, k) => {
+      const t = k / 10;
+      const u = 1 - t;
+
+      return {
+        ms: t0 + t * ms,
+        x: u * u * from[0] + 2 * u * t * cx + t * t * to[0],
+        y: u * u * from[1] + 2 * u * t * cy + t * t * to[1],
+      };
+    });
+  }
+  // Keyframes for the whole run. The body faces the direction of travel (rot: 0 = head up, 90 = head right), unwrapped
+  // so it never spins the long way round, and squashes for a moment after each landing.
+  function spiderKeyframes() {
+    const [walkOut, jump, loop, jumpBack, walkHome] = SPIDER_PHASES;
+    const marks = [walkOut, walkOut + jump, walkOut + jump + loop, walkOut + jump + loop + jumpBack];
+    const phases = [
+      spiderWalk(SPIDER_WALK_OUT, 0, walkOut),
+      spiderJump(SPIDER_WALL, SPIDER_SCREEN, marks[0], jump),
+      spiderWalk(SPIDER_LOOP, marks[1], loop),
+      spiderJump(SPIDER_SCREEN, SPIDER_WALL, marks[2], jumpBack),
+      spiderWalk(SPIDER_WALK_HOME, marks[3], walkHome),
+    ];
+    // drop each phase's first sample: it repeats the previous phase's last one
+    const pos = phases.flatMap((ph, i) => (i === 0 ? ph : ph.slice(1)));
+    const landings = [marks[1], marks[3]];
+    let rot = 0;
+    const frames = pos.map(({ ms, x, y }, i) => {
+      const b = pos[Math.max(i - 1, 0)];
+      const f = pos[Math.min(i + 1, pos.length - 1)];
+      const heading = (Math.atan2(f.x - b.x, -(f.y - b.y)) * 180) / Math.PI;
+      rot = i === 0 ? heading : rot + ((((heading - rot) % 360) + 540) % 360) - 180;
+      const since = Math.min(...landings.map((l) => (ms >= l ? ms - l : Infinity)));
+      const squash = since < SPIDER_LAND_MS ? Math.sin((Math.PI * since) / SPIDER_LAND_MS) * 0.2 : 0;
+
+      return {
+        offset: ms / SPIDER_MS,
+        opacity: Math.max(0, Math.min(1, ms / 200, (SPIDER_MS - ms) / 250)),
+        transform: `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${rot.toFixed(1)}deg) scale(${(1 + squash).toFixed(3)}, ${(1 - squash).toFixed(3)})`,
+      };
+    });
+
+    return { frames, jumps: [[marks[0], marks[1]], [marks[2], marks[3]]], loopMs: marks[1] };
+  }
+  // Visits are counted per session. If storage is blocked the count lives in memory.
+  const VISITS_KEY = 'devkitty.hero.spiderVisits';
+  let spiderVisitsMem = 0;
+  function spiderVisit() {
+    let n = spiderVisitsMem + 1;
+    try {
+      n = Math.max(n, (Number.parseInt(sessionStorage.getItem(VISITS_KEY) ?? '', 10) || 0) + 1);
+      sessionStorage.setItem(VISITS_KEY, String(n));
+    } catch {
+      // in-memory fallback below
+    }
+    spiderVisitsMem = n;
+
+    return n;
+  }
+  function spiderRun() {
+    if (playing.spider) return;
+    const spiders = Array.from(la.querySelectorAll<SVGElement>('[data-spider]'));
+    if (!spiders.length) return;
+    const panicked = byI('dev').some((d) => d.classList.contains('panic'));
+    if (panicked) return; // the mug spill or the cat has the dev's attention: the plant only sways
+    playing.spider = true;
+    const sp = (fn: (n: SVGElement) => void) => spiders.forEach(fn);
+    if (reduce) {
+      // no travel: peek out of the leaves for a second and hide again
+      sp((n) => n.classList.add('peek'));
+      later(() => {
+        sp((n) => n.classList.remove('peek'));
+        playing.spider = false;
+      }, 1000);
+
+      return;
+    }
+    const visit = spiderVisit();
+    const friendly = visit >= 3; // the third time he knows the spider: a calm hello instead of a scare
+    const mood = friendly ? ['spiderfriend'] : ['panic', 'spider'];
+    const { frames, jumps, loopMs } = spiderKeyframes();
+    const anims = spiders.map((n) => n.animate(frames, { duration: SPIDER_MS, easing: 'linear', fill: 'both' }));
+    sp((n) => n.classList.add('run'));
+    // legs tuck in the air during each jump
+    jumps.forEach(([from, to]) => {
+      later(() => sp((n) => n.classList.add('air')), from);
+      later(() => sp((n) => n.classList.remove('air')), to);
+    });
+    later(() => byI('dev').forEach((d) => d.classList.add(...mood)), loopMs);
+    later(() => byI('dev').forEach((d) => d.classList.remove(...mood)), loopMs + SPIDER_SCARE_MS);
+    later(() => {
+      anims.forEach((a) => a.cancel());
+      sp((n) => n.classList.remove('run', 'air'));
+      playing.spider = false;
+    }, SPIDER_MS);
   }
 
   // ---------- typing into the cartoon terminal ----------
@@ -1214,7 +1349,10 @@ export function mountHero(root: HTMLElement): () => void {
         later(() => byI('dev').forEach((n) => n.classList.add('panic')), 650);
         later(() => byI('dev').forEach((n) => n.classList.remove('panic')), 2700);
       }
-      if (i === 'plant') play('plant', 2800);
+      if (i === 'plant') {
+        play('plant', 2800);
+        spiderRun();
+      }
       if (i === 'mini') void shutdown('mini');
       if (i === 'duck' || i === 'catpic') play(i, 900);
       if (i === 'curtain') {
