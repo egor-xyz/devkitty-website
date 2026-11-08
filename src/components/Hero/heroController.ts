@@ -196,6 +196,11 @@ export function mountHero(root: HTMLElement): () => void {
   };
 
   let moonUp = false;
+  // closing the curtain makes the room as dark as night (same overlay and lamp glow); the lamp it turned on itself goes out again when it opens
+  let curtainDark = false;
+  let lampByCurtain = false;
+  let nightW = 0;
+  const shade = () => night.style.setProperty('opacity', (Math.max(nightW, curtainDark ? 1 : 0) * 0.62).toFixed(3));
   const nightMask = () => {
     const lamp = la.querySelector('[data-i="lamp"]');
     night.classList.toggle('lampoff', !lamp?.classList.contains('on'));
@@ -212,7 +217,8 @@ export function mountHero(root: HTMLElement): () => void {
     h('when').textContent = `${hm(d)} ${word.toUpperCase()}`;
     root.dataset.phase = word;
     const w = pf >= 2 ? Math.max(0, 1 - Math.abs(pf - 3)) : 0;
-    night.style.opacity = (w * 0.62).toFixed(3);
+    nightW = w;
+    shade();
     // the moon rises from behind the skyline in the evening and sets behind it toward morning (a plain fade for reduced motion)
     const mk = Math.min(1, w * 1.25);
     const rise = mk * mk * (3 - 2 * mk);
@@ -222,6 +228,7 @@ export function mountHero(root: HTMLElement): () => void {
     const isNight = w > 0.5;
     if (isNight !== wasNight) {
       wasNight = isNight;
+      lampByCurtain = false;
       byI('lamp').forEach((n) => n.classList.toggle('on', isNight));
     }
     nightMask();
@@ -335,11 +342,11 @@ export function mountHero(root: HTMLElement): () => void {
       paint(g.querySelector('.sheet.under') as Element, nxt);
     });
   };
-  const nextPoster = () => {
+  const nextPoster = (byUser = false) => {
     if (tearing) return;
     tearing = true;
     posterLast = performance.now();
-    sfx('note', { volume: 0.25 });
+    if (byUser) sfx('note', { volume: 0.25 }); // the timer's tear is silent
     const tops = all('.poster .sheet.top');
     const dir = Math.random() < 0.5 ? -1 : 1;
     const ang = 25 + Math.random() * 15;
@@ -629,6 +636,23 @@ export function mountHero(root: HTMLElement): () => void {
     cats.forEach((c) => c.classList.remove('walking', 'awake')); // curls up, zz
     music.purr(true);
     catBusy = false;
+  }
+  // the terminal thanks the dev for the coffee spilled on the keyboard (once per spill, only while the screen is on)
+  let thanking = false;
+  async function thankForCoffee() {
+    const screenOn = () => isLit() && !outage && !stage.classList.contains('intro') && !stage.classList.contains('boot-login');
+    if (thanking || catBusy || !screenOn()) return;
+    thanking = true;
+    for (const line of ['thank you for the caffeine dose 😂', 'you got extra free tokens']) {
+      if (!screenOn() || catBusy) break;
+      userUntil = performance.now() + 2500; // auto typing waits; a line it already had in flight may still overwrite ours, so keep it up
+      for (let k = 0; k < 7 && screenOn() && !catBusy; k++) {
+        if (k === 0 || !all('[data-reply]').some((n) => n.textContent === line)) setReply(line);
+        await wait(250);
+      }
+    }
+    if (!catBusy && !outage) setReply('');
+    thanking = false;
   }
   async function intro() {
     const devs = byI('dev');
@@ -1163,7 +1187,7 @@ export function mountHero(root: HTMLElement): () => void {
       const i = t.dataset.i ?? '';
       if (i !== 'switch' && !isLit()) return; // b&w mode: only the switch works
       if (outage && i !== 'switch') return;
-      if (i === 'poster') return nextPoster();
+      if (i === 'poster') return nextPoster(true);
       if (i === 'lamp') {
         const t0 = performance.now();
         lampClicks = lampClicks.filter((x) => t0 - x < 2000);
@@ -1175,6 +1199,7 @@ export function mountHero(root: HTMLElement): () => void {
           return;
         }
         sfx('lamp');
+        lampByCurtain = false;
         byI('lamp').forEach((n) => n.classList.toggle('on'));
         nightMask();
       }
@@ -1185,6 +1210,7 @@ export function mountHero(root: HTMLElement): () => void {
         sfx('mug-tip');
         later(() => sfx('splash'), 300);
         later(() => sfx('zap', { volume: 0.7 }), 1100);
+        later(() => void thankForCoffee(), 1100);
         later(() => byI('dev').forEach((n) => n.classList.add('panic')), 650);
         later(() => byI('dev').forEach((n) => n.classList.remove('panic')), 2700);
       }
@@ -1194,6 +1220,19 @@ export function mountHero(root: HTMLElement): () => void {
       if (i === 'curtain') {
         sfx('curtain');
         byI('curtain').forEach((n) => n.classList.toggle('closed'));
+        curtainDark = Boolean(la.querySelector('.curtain.closed'));
+        shade();
+        const lamps = byI('lamp');
+        const lampOn = lamps[0]?.classList.contains('on') ?? false;
+        if (curtainDark && !lampOn) {
+          lampByCurtain = true;
+          lamps.forEach((n) => n.classList.add('on'));
+          sfx('lamp');
+        } else if (!curtainDark && lampByCurtain && lampOn && !wasNight) {
+          lamps.forEach((n) => n.classList.remove('on'));
+        }
+        if (!curtainDark) lampByCurtain = false;
+        nightMask();
       }
       if (i === 'clock') timelapse();
       if (i === 'moon') void moonRocket();
