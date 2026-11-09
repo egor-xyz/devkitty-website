@@ -164,6 +164,8 @@ h1 .after .ln + .ln { transition-delay: .4s; animation-delay: -1.2s; }
 .printer .dino.fx-robot .ant { animation: h-blink .3s steps(1) 5; }
 .printer .dino.fx-robot .arm { animation: h-wave .35s ease-in-out 5 alternate; }
 .printer .dino.fx-mug .steam { animation: h-steam .9s ease-out 2; }
+.printer .dino.alive .mtail { animation: h-swish .2s ease-in-out infinite alternate; }
+.printer .dino.alive .feet { animation: h-blink .16s steps(1) infinite; }
 .shelf .door { transform-box: fill-box; transform-origin: 0 50%; transition: transform .35s ease-in-out; }
 .shelf.open .door { transform: scaleX(.14); }
 .shelf .item { transform-box: fill-box; transform-origin: 50% 100%; }
@@ -182,6 +184,11 @@ h1 .after .ln + .ln { transition-delay: .4s; animation-delay: -1.2s; }
 .cat.go .wbody { animation: h-catbob .16s ease-in-out infinite alternate; }
 .cat.go .wtail { animation: h-tailwag .64s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 100% 100%; }
 
+.cat.crouch .wbody { transform: translateY(4px); }
+.cat.crouch .wtail { animation: h-tailwag .18s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 100% 100%; }
+.cat.air .legF { transform: rotate(-40deg); }
+.cat.air .leg:not(.legF) { transform: rotate(35deg); }
+.cat.pounce .wbody { animation: h-squash .3s ease-out; transform-box: fill-box; transform-origin: 50% 100%; }
 .cat.typing .legF { animation: h-knead .14s ease-in-out infinite alternate; }
 .cat.typing .legF + .legF { animation-direction: alternate-reverse; }
 

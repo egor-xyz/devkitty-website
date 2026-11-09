@@ -145,9 +145,59 @@ const PRINT_MODELS: PrintModel[] = [
     ]
   }
 ];
+/** Printed only by chance (not part of the PRINT_MODELS cycle); it comes alive and the cat hunts it. */
+const MOUSE_MODEL: PrintModel = {
+  colors: { b: '#A7A9B0', e: '#1A1220', f: '#6E7078', p: '#F2A0A0', t: '#F2A0A0' },
+  name: 'mouse',
+  parts: { f: 'feet', t: 'mtail' },
+  rows: [
+    '......pp....',
+    '.....bpbb...',
+    '....bbbbeb..',
+    't..bbbbbbbbp',
+    '.tbbbbbbbbb.',
+    '...f.f..f.f.'
+  ]
+};
 const DINO_PX = 5;
 const PRINT_ROW_MS = 320; // 13 rows ≈ 4.2 s
 const PRINT_FX_MS = 1800; // the little show after a print, then the figure rests
+const MOUSE_ODDS = 0.2; // share of eligible prints that are a mouse
+const MOUSE_WAKE_MS = 500; // the finished mouse twitches on the bed before it runs
+const MOUSE_RUN_MS = 1500; // hop off the bed + run along the floor to the catch point
+const CAT_LEAP_MS = 600; // one leap: desk to floor, and floor back to desk
+const CAT_HOLD_MS = 800; // the cat sits on its catch
+const CAT_TURN_MS = 300; // the cat turns round with the mouse in its mouth
+const CAT_DROP_MS = 250; // the mouse falls from the cat's mouth onto the desk
+// Printer-local units (printer is scale .7, scene.svg:170): floor y 744 -> +44 below the bed; catch at scene x 500 -> +343.
+const MOUSE_RUN_FRAMES: Keyframe[] = [
+  { easing: 'ease-out', offset: 0, transform: 'translate(0px, 0px)' },
+  { easing: 'ease-in', offset: 0.14, transform: 'translate(90px, -30px)' }, // up over the printer's front corner
+  { offset: 0.32, transform: 'translate(130px, 44px)' }, // lands on the floor, clear of the base (scene x 316)
+  { offset: 1, transform: 'translate(343px, 44px)' } // freezes at the catch point
+];
+// Walker-local units (walker scale 1.35 at 236,562, scene.svg:428): front paws (x~85) onto scene (500, 744).
+const CAT_LEAP_FRAMES: Keyframe[] = [
+  { easing: 'ease-out', offset: 0, transform: 'translate(0px, 0px)' },
+  { easing: 'ease-in', offset: 0.35, transform: 'translate(50px, -40px)' },
+  { offset: 1, transform: 'translate(111px, 135px)' }
+];
+const CAT_HOME_FRAMES: Keyframe[] = [
+  { easing: 'ease-out', offset: 0, transform: 'translate(111px, 135px)' },
+  { easing: 'ease-in', offset: 0.65, transform: 'translate(50px, -40px)' },
+  { offset: 1, transform: 'translate(0px, 0px)' }
+];
+// The caught mouse hangs in the cat's mouth and follows its leap home, then drops onto the desk. Printer-local units:
+// walker moves count 1.35/.7 = 1.93x. The mouth sits at (-165, -55) from the catch point (the cat faces left after the turn).
+// It lands at scene x 168-210, y 556 (free desk top between the plant and the sleeping cat): (-101, -225).
+const MOUSE_CARRY_MS = CAT_TURN_MS + CAT_LEAP_MS + CAT_DROP_MS;
+const MOUSE_CARRY_FRAMES: Keyframe[] = [
+  { easing: 'ease-out', offset: 0, transform: 'translate(343px, 44px)' },
+  { easing: 'ease-out', offset: CAT_TURN_MS / MOUSE_CARRY_MS, transform: 'translate(178px, -11px)' },
+  { easing: 'ease-in', offset: (CAT_TURN_MS + CAT_LEAP_MS * 0.65) / MOUSE_CARRY_MS, transform: 'translate(60px, -349px)' },
+  { easing: 'ease-in', offset: (CAT_TURN_MS + CAT_LEAP_MS) / MOUSE_CARRY_MS, transform: 'translate(-36px, -271px)' },
+  { offset: 1, transform: 'translate(-101px, -225px)' }
+];
 
 const CAT_TYPES = [
   "I'm hungry, give me some food meow!",
@@ -282,6 +332,7 @@ export function mountHero(root: HTMLElement): () => void {
 
   // The printer cycles through PRINT_MODELS, starting at a random one per page load.
   let modelIdx = Math.floor(Math.random() * PRINT_MODELS.length);
+  let mouseOdds = MOUSE_ODDS;
   let fxTimer = 0;
   function renderModel(m: PrintModel) {
     const top = 700 - m.rows.length * DINO_PX; // bottom row sits on the bed
@@ -588,8 +639,11 @@ export function mountHero(root: HTMLElement): () => void {
     const printers = all('.printer');
     const gantries = all('.printer .gantry');
     window.clearTimeout(fxTimer);
-    const model = PRINT_MODELS[modelIdx] as PrintModel;
-    modelIdx = (modelIdx + 1) % PRINT_MODELS.length;
+    all('.printer .dino').forEach((d) => d.getAnimations().forEach((a) => a.cancel())); // a mouse left on the desk
+    const hunt = !reduce && catAsleep() && Math.random() < mouseOdds;
+    const model = hunt ? MOUSE_MODEL : (PRINT_MODELS[modelIdx] as PrintModel);
+    if (!hunt) modelIdx = (modelIdx + 1) % PRINT_MODELS.length;
+    if (hunt) claimCat();
     renderModel(model);
     const rows = all('.printer .row');
     gantries.forEach((g) => (g.style.transform = ''));
@@ -614,7 +668,10 @@ export function mountHero(root: HTMLElement): () => void {
     printers.forEach((p) => p.classList.remove('printing'));
     gantries.forEach((g) => (g.style.transform = 'translateY(-80px)')); // park above the model
     sfx('login', { volume: 0.5 });
-    printFx(model);
+    if (hunt) {
+      await mouseHunt();
+      if (disposed) return;
+    } else printFx(model);
     playing.printer = false;
   }
 
@@ -985,6 +1042,72 @@ export function mountHero(root: HTMLElement): () => void {
     await wait(2600);
     cats.forEach((c) => c.classList.remove('go'));
     await wait(400);
+    cats.forEach((c) => c.classList.remove('walking', 'awake')); // curls up, zz
+    sound.purr(true);
+    catBusy = false;
+  }
+  /** The cat is curled up asleep on the desk: not walking in, not at the keyboard, not already hunting. */
+  function catAsleep(): boolean {
+    return !catBusy && !stage.classList.contains('intro') && !all('.cat').some((c) => c.classList.contains('walking'));
+  }
+  /** The mouse print starts: the cat wakes and watches the printer (eyes open, no purr); nothing else may use the cat. */
+  function claimCat() {
+    catBusy = true;
+    sound.purr(false);
+    byI('cat').forEach((c) => c.classList.add('awake'));
+  }
+  /** The printed mouse runs off the bed, the cat pounces, carries it up and drops it on the desk, then sleeps. */
+  async function mouseHunt() {
+    const mice = all('.printer .dino');
+    const cats = byI('cat');
+    const moves = all('.cat .wmove');
+    // the mouse comes alive and the cat stands up on the desk
+    mice.forEach((m) => m.classList.add('alive'));
+    sfx('duck', { rate: 2.2, volume: 0.3 });
+    cats.forEach((c) => c.classList.add('walking', 'crouch'));
+    await wait(MOUSE_WAKE_MS);
+    if (disposed) return;
+    // the mouse runs; the cat lands 100 ms after it reaches the catch point
+    const run = mice.map((m) => m.animate(MOUSE_RUN_FRAMES, { duration: MOUSE_RUN_MS, fill: 'forwards' }));
+    await wait(MOUSE_RUN_MS + 100 - CAT_LEAP_MS);
+    if (disposed) return;
+    // the pounce
+    cats.forEach((c) => {
+      c.classList.remove('crouch');
+      c.classList.add('air');
+    });
+    const leap = moves.map((m) => m.animate(CAT_LEAP_FRAMES, { duration: CAT_LEAP_MS, fill: 'forwards' }));
+    await wait(CAT_LEAP_MS);
+    if (disposed) return;
+    cats.forEach((c) => {
+      c.classList.remove('air');
+      c.classList.add('pounce');
+    });
+    mice.forEach((m) => {
+      m.classList.remove('alive');
+      m.classList.add('caught');
+    });
+    await wait(CAT_HOLD_MS);
+    if (disposed) return;
+    // turn around with the mouse in the mouth, leap back up to the desk with it, and drop it there
+    cats.forEach((c) => {
+      c.classList.remove('pounce');
+      c.classList.add('back');
+    });
+    run.forEach((a) => a.cancel());
+    mice.forEach((m) => m.animate(MOUSE_CARRY_FRAMES, { duration: MOUSE_CARRY_MS, fill: 'forwards' })); // stays on the desk until the next print
+    await wait(CAT_TURN_MS);
+    if (disposed) return;
+    cats.forEach((c) => c.classList.add('air'));
+    leap.forEach((a) => a.cancel());
+    const home = moves.map((m) => m.animate(CAT_HOME_FRAMES, { duration: CAT_LEAP_MS, fill: 'forwards' }));
+    await wait(CAT_LEAP_MS);
+    if (disposed) return;
+    home.forEach((a) => a.cancel());
+    cats.forEach((c) => c.classList.remove('air', 'back'));
+    sfx('meow', { volume: 0.8 });
+    await wait(CAT_DROP_MS + 250);
+    if (disposed) return;
     cats.forEach((c) => c.classList.remove('walking', 'awake')); // curls up, zz
     sound.purr(true);
     catBusy = false;
@@ -1622,6 +1745,14 @@ export function mountHero(root: HTMLElement): () => void {
     }, 8000 + Math.random() * 12000);
   };
   if (!reduce) nextStrike();
+  addEventListener(
+    'devkitty:mouse-test',
+    (e) => {
+      const odds = (e as CustomEvent<{ odds?: unknown }>).detail?.odds;
+      if (typeof odds === 'number' && odds >= 0 && odds <= 1) mouseOdds = odds;
+    },
+    { signal }
+  );
   addEventListener('devkitty:lightning-test', (e) => strike((e as CustomEvent<{ hold?: number }>).detail?.hold), { signal });
 
   stage.addEventListener(
