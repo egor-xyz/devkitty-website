@@ -119,6 +119,7 @@ h1 .after .ln + .ln { transition-delay: .4s; animation-delay: -1.2s; }
 
 .cat .earL { transform-origin: 262px 518px; }
 .cat.h .earL { animation: h-twitch .25s ease-in-out 2; }
+.cat.twitch .earL { animation: h-twitch .25s ease-in-out 2; } /* the sleeping cat hears the mouse */
 
 .cat .open { display: none; } .cat.awake .open { display: inline; } .cat.awake .shut { display: none; }
 .cat .zz { animation: h-zz 3s ease-in-out infinite; } .cat.awake .zz, .cat.walking .zz { display: none; }
@@ -182,6 +183,50 @@ h1 .after .ln + .ln { transition-delay: .4s; animation-delay: -1.2s; }
 .cat.go .wbody { animation: h-catbob .16s ease-in-out infinite alternate; }
 .cat.go .wtail { animation: h-tailwag .64s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 100% 100%; }
 
+/* the mouse hunt: crouch and wiggle, pounce, pin, bite, carry (the squash/stretch of .wsq and all moves are WAAPI) */
+.cat .wsq { transform-box: fill-box; transform-origin: 50% 100%; }
+.cat .wbody { transform-box: fill-box; transform-origin: 85% 70%; }
+.cat.crouch .wbody { transform: translateY(16px) rotate(3deg); }
+.cat.crouch .leg { transform: translateY(16px) scaleY(.45); }
+.cat.crouch .wtail { animation: h-ctail .3s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 100% 100%; }
+.cat.crouch.wiggle .wbody { animation: h-wiggle .16s ease-in-out infinite alternate; }
+.cat.crouch.wiggle .legA:not(.legF) { animation: h-tread .16s ease-in-out infinite alternate; }
+.cat.crouch.wiggle .legB:not(.legF) { animation: h-tread .16s ease-in-out infinite alternate-reverse; }
+.cat.air .legF { transform: rotate(-50deg); }
+.cat.air .leg:not(.legF) { transform: rotate(40deg); }
+.cat.pin .wbody, .cat.bite .wbody { transform-origin: 20% 70%; } /* head down, pivoting at the hips */
+.cat.pin .wbody { transform: translateY(14px) rotate(6deg); }
+.cat.pin .legF { transform: translate(6px, 12px) rotate(-55deg) scaleY(.8); }
+.cat.pin .leg:not(.legF) { transform: translateY(14px) scaleY(.52); }
+.cat.bite .wbody { transform: translateY(16px) rotate(16deg); }
+.cat.bite .legF { transform: translateY(12px) scaleY(.6); }
+.cat.bite .leg:not(.legF) { transform: translateY(12px) scaleY(.6); }
+.cat .mslot { display: none; transform: translate(104px, -52px); } /* the scruff in the mouth */ .cat.carry .mslot { display: inline; }
+.cat .mswing { animation: h-mswing .45s ease-in-out infinite alternate; }
+.cat .mslot .m-tail { transform: rotate(-75deg); } /* the tail hangs down */
+
+/* the drawn mouse (origin: the ground under its middle) */
+.cat .mouse { display: none; } .cat .mouse.on { display: inline; }
+.cat .m-shut, .cat .mstars { display: none; }
+.mouse.left .mdir { transform: scaleX(-1); }
+.mouse.pop .mpose { animation: h-mpop .4s ease-out; }
+.mouse.run .mpose { animation: h-mbob .08s ease-in-out infinite alternate; }
+.mouse.run .m-fa { animation: h-mstep .16s steps(1) infinite; }
+.mouse.run .m-fb { animation: h-mstep .16s steps(1) -.08s infinite; }
+.mouse .m-tail { transform-origin: -17px -8px; }
+.mouse.run .m-tail { animation: h-mtailwave .24s ease-in-out infinite alternate; }
+.mouse.pin .mpose { animation: h-wriggle .1s ease-in-out infinite alternate; }
+.mouse.pin .m-fa { animation: h-mstep .1s steps(1) infinite; }
+.mouse.pin .m-fb { animation: h-mstep .1s steps(1) -.05s infinite; }
+.mouse.pin .m-tail { animation: h-mtailwave .1s ease-in-out infinite alternate; }
+.mouse.out .mpose { transform: rotate(-7deg) scale(1.06, .84); }
+.mouse.out .m-open { display: none; } .mouse.out .m-shut { display: inline; }
+.mouse.out .m-fb { display: none; }
+.mouse.out .m-fa ellipse { transform-box: fill-box; transform-origin: 50% 50%; transform: translateY(-3px) rotate(75deg) scale(1.1); }
+.mouse.out .m-tail { transform: rotate(8deg) scaleY(.6); }
+.mouse.dizzy .mstars { display: inline; }
+.mouse.dizzy .mstars path { animation: h-orbit .9s linear infinite; }
+.mstars path:nth-child(2) { animation-delay: -.3s; } .mstars path:nth-child(3) { animation-delay: -.6s; }
 .cat.typing .legF { animation: h-knead .14s ease-in-out infinite alternate; }
 .cat.typing .legF + .legF { animation-direction: alternate-reverse; }
 
@@ -267,6 +312,16 @@ h1 .after .ln + .ln { transition-delay: .4s; animation-delay: -1.2s; }
 
 @keyframes h-hop { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-14px); } }
 @keyframes h-wobble { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-9deg); } 75% { transform: rotate(9deg); } }
+@keyframes h-ctail { from { transform: translateY(16px) rotate(-72deg); } to { transform: translateY(16px) rotate(-58deg); } }
+@keyframes h-wiggle { from { transform: translateY(16px) rotate(2deg); } to { transform: translateY(13px) rotate(7deg); } }
+@keyframes h-tread { from { transform: translateY(16px) scaleY(.45); } to { transform: translateY(11px) scaleY(.45); } }
+@keyframes h-mswing { from { transform: rotate(-9deg); } to { transform: rotate(9deg); } }
+@keyframes h-mpop { 0% { transform: scale(.2, .2); } 45% { transform: scale(1.25, .72); } 72% { transform: scale(.88, 1.16); } 100% { transform: none; } }
+@keyframes h-mbob { to { transform: translateY(-2px); } }
+@keyframes h-mstep { 0% { transform: translateX(-3px); } 50% { transform: translate(3px, -1.5px); } }
+@keyframes h-mtailwave { from { transform: rotate(-10deg); } to { transform: rotate(12deg); } }
+@keyframes h-wriggle { from { transform: rotate(-6deg) scale(1.04, .88); } to { transform: rotate(5deg) translateX(1.5px) scale(1.02, .92); } }
+@keyframes h-orbit { 0% { transform: translate(-11px, 0); } 25% { transform: translate(0, -4px) scale(.8); } 50% { transform: translate(11px, 0); } 75% { transform: translate(0, 4px) scale(1.15); } 100% { transform: translate(-11px, 0); } }
 @keyframes h-swish { from { transform: translateX(0); } to { transform: translateX(5px) translateY(-3px); } }
 @keyframes h-blink { 50% { opacity: .15; } }
 @keyframes h-wave { from { transform: translateY(0); } to { transform: translateY(-8px); } }

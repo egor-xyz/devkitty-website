@@ -24,6 +24,7 @@ async function open(mode, at, { width = 1440, height = 900, reducedMotion = 'no-
   page.on('pageerror', (e) => !noise(String(e)) && errs.push(String(e)));
   await page.goto(URL);
   await page.waitForTimeout(17500); // intro
+  await page.evaluate(() => dispatchEvent(new CustomEvent('devkitty:mouse-test', { detail: { odds: 0 } }))); // no random mouse
   return { ctx, page, errs };
 }
 const NIGHT = '2026-11-08T23:00:00';
