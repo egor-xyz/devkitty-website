@@ -1,5 +1,6 @@
 // Run with the dev server up: node scripts/hero-mouse.check.mjs [url] [shotDir]
-// The printer sometimes prints a mouse; it runs, the cat pounces, carries it up and drops it on the desk.
+// The printer sometimes prints a mouse. It pops into a drawn mouse and runs; the cat crouches, wiggles, pounces and
+// pins it, carries it up to the desk by the scruff and curls up next to it; the dazed mouse comes round and runs off.
 import { mkdirSync } from 'node:fs';
 import { chromium } from '@playwright/test';
 
@@ -14,7 +15,7 @@ const ok = (c, m) => {
 };
 
 async function open(mode, at, { width = 1440, height = 900, reducedMotion = 'no-preference' } = {}) {
-  const ctx = await browser.newContext({ viewport: { width, height }, reducedMotion });
+  const ctx = await browser.newContext({ deviceScaleFactor: 2, viewport: { width, height }, reducedMotion });
   await ctx.addInitScript((m) => sessionStorage.setItem('devkitty-mode', m), mode);
   const page = await ctx.newPage();
   await page.clock.setFixedTime(new Date(at));
@@ -30,7 +31,9 @@ async function open(mode, at, { width = 1440, height = 900, reducedMotion = 'no-
 const NIGHT = '2026-11-08T23:00:00';
 const DAY = '2026-11-08T12:00:00';
 const stage = (page) => page.locator('[data-hero-stage]');
-const shot = (page, name) => stage(page).screenshot({ path: `${DIR}/${name}.png` });
+// a plain page screenshot clipped to the stage: much quicker than a locator shot, so fast phases (the pounce) are caught
+const shot = async (page, name) =>
+  page.screenshot({ clip: await stage(page).boundingBox(), path: `${DIR}/${name}.png` });
 const BTN = '[data-h="printer"]';
 const CYCLE = ['cat', 'dino', 'duck', 'mug', 'robot'];
 const MOUSE_ROWS = 6;
@@ -52,137 +55,238 @@ const until = async (fn, ms) => {
   }
   return false;
 };
-const rect = (page, sel) =>
-  page.evaluate((s) => {
-    const r = document.querySelector(`[data-h="la"] ${s}`).getBoundingClientRect();
-    return { bottom: r.bottom, left: r.left, right: r.right, top: r.top };
-  }, sel);
 const overlap = (a, b, pad = 0) =>
   a.left < b.right + pad && a.right > b.left - pad && a.top < b.bottom + pad && a.bottom > b.top - pad;
 const catAnims = (page) =>
-  page.evaluate(() =>
-    [...document.querySelectorAll('.cat .wmove')].reduce((n, m) => n + m.getAnimations().length, 0)
-  );
+  page.evaluate(() => [...document.querySelectorAll('.cat .wmove')].reduce((n, m) => n + m.getAnimations().length, 0));
 
-// the mouse's box in scene units (viewBox 1200x760) of the lit layer
-const sceneBox = (page, sel) =>
-  page.evaluate((q) => {
-    const svg = document.querySelector('[data-h="la"] svg') ?? document.querySelector('[data-h="la"]');
-    const s = svg.getBoundingClientRect();
-    const r = document.querySelector(`[data-h="la"] ${q}`).getBoundingClientRect();
+// One snapshot of the hunt in a layer: classes, and boxes in scene units (viewBox 1200x760); null = not rendered.
+const snap = (page, l = 'la') =>
+  page.evaluate((l) => {
+    const q = (s) => document.querySelector(`[data-h="${l}"] ${s}`);
+    const s = q('svg').getBoundingClientRect();
     const k = 1200 / s.width;
-    return { bottom: (r.bottom - s.top) * k, left: (r.left - s.left) * k, right: (r.right - s.left) * k, top: (r.top - s.top) * k };
-  }, sel);
+    const box = (n) => {
+      const r = n?.getBoundingClientRect();
+      if (!r || r.width === 0) return null;
+      return {
+        bottom: (r.bottom - s.top) * k,
+        left: (r.left - s.left) * k,
+        right: (r.right - s.left) * k,
+        top: (r.top - s.top) * k
+      };
+    };
+    return {
+      cat: q('.cat').getAttribute('class'),
+      catBox: box(q('.cat.walking .wmove')),
+      head: box(q('.cat.walking .wbody ellipse')),
+      mouse: q('.cat .mouse').getAttribute('class'),
+      mouseArt: box(q('.cat .mouse.on .mart')),
+      paw: box(q('.cat.walking .legA.legF')),
+      pixels: q('.printer .dino').querySelectorAll('rect').length,
+      slot: box(q('.cat.carry .mslot .mart')),
+      tail: box(q('.cat .curl .tail'))
+    };
+  }, l);
+const near = (a, b, d = 1) => ['bottom', 'left', 'right', 'top'].every((k) => Math.abs(a[k] - b[k]) <= d);
+const fmt = (b) =>
+  b ? `x ${b.left.toFixed(0)}-${b.right.toFixed(0)}, y ${b.top.toFixed(0)}-${b.bottom.toFixed(0)}` : 'none';
+// a 2x crop of the drawn mouse (the free one or the one in the cat's mouth)
+const crop = async (page, name, b, pad = 26) => {
+  const s = await page.evaluate(() => {
+    const r = document.querySelector('[data-h="la"] svg').getBoundingClientRect();
+    return { k: r.width / 1200, x: r.left, y: r.top };
+  });
+  const clip = {
+    height: (b.bottom - b.top + 2 * pad) * s.k,
+    width: (b.right - b.left + 2 * pad) * s.k,
+    x: s.x + (b.left - pad) * s.k,
+    y: s.y + (b.top - pad) * s.k
+  };
+  await page.screenshot({ clip, path: `${DIR}/${name}.png` });
+};
 
-// One full hunt: print, run, pounce, carry up, drop on the desk. Screenshots are prefixed with `tag`.
+// One full hunt: print, pop, run, crouch+wiggle, pounce, pin, carry, drop, rest, escape. Shots are prefixed with `tag`.
 async function hunt(page, tag) {
   const label = `${tag} hunt`;
+  const tail0 = { la: (await snap(page)).tail, lb: (await snap(page, 'lb')).tail };
   await hook(page, { odds: 1 });
   await page.click(BTN);
   await page.waitForTimeout(400);
   ok((await model(page)) === 'mouse', `${label}: the printer prints a mouse`);
-  ok((await has(page, '.cat.awake')) === 1 && (await printing(page)) === 1, `${label}: the cat wakes and the print runs`);
-  ok(await until(async () => (await printing(page)) === 0, 4000), `${label}: print finished`);
-  ok((await rows(page)) === MOUSE_ROWS, `${label}: the mouse has ${MOUSE_ROWS} rows`);
   ok(
-    await until(async () => (await has(page, '.printer .dino.alive')) === 1 && (await has(page, '.cat.walking')) === 1, 3000),
-    `${label}: the mouse comes alive and the cat stands up`
+    (await has(page, '.cat.awake')) === 1 && (await printing(page)) === 1,
+    `${label}: the cat wakes and the print runs`
   );
-  await until(async () => (await has(page, '.cat.crouch')) === 1, 1000);
-  await page.waitForTimeout(1000);
-  await shot(page, `${tag}-mouse-run`);
-  // the tail swishes in place: its pixels stay within a few px of the body (scene units)
-  const tail = await page.evaluate(async () => {
-    const svg = document.querySelector('[data-h="la"] svg');
-    const k = 1200 / svg.getBoundingClientRect().width;
-    let min = Infinity;
-    let max = -Infinity;
-    for (let i = 0; i < 12; i++) {
-      const body = document.querySelector('[data-h="la"] .printer .dino .row:not(:has(.mtail)) rect').getBoundingClientRect();
-      for (const t of document.querySelectorAll('[data-h="la"] .printer .dino .mtail')) {
-        const x = (t.getBoundingClientRect().left - body.left) * k; // same sample: the mouse itself is running
-        min = Math.min(min, x);
-        max = Math.max(max, x);
-      }
-      await new Promise((r) => setTimeout(r, 40));
-    }
-    return { max, min };
-  });
-  console.log(`tail x relative to a body pixel, scene units: ${tail.min.toFixed(1)}..${tail.max.toFixed(1)}`);
-  ok(tail.max - tail.min < 12, `${label}: the tail swishes in place (spread ${(tail.max - tail.min).toFixed(1)})`);
+  // the pixel model only while printing
+  const seen = {};
+  const once = async (key, fn) => {
+    if (seen[key]) return;
+    seen[key] = true;
+    await fn();
+  };
+  let full = false; // the last row goes on as the print ends and pops at once, so count the rows while printing
+  let drawnWhilePrinting = false;
+  ok(
+    await until(async () => {
+      const r = await rows(page);
+      if (r === MOUSE_ROWS - 1 && (await page.locator('[data-h="la"] .printer .row').count()) === MOUSE_ROWS)
+        full = true;
+      if ((await printing(page)) === 1 && (await has(page, '.cat .mouse.on')) > 0) drawnWhilePrinting = true;
+      if (r >= 3) await once('printing', () => shot(page, `${tag}-1-printing`)); // the pixel model, half printed
+      return (await printing(page)) === 0;
+    }, 4000),
+    `${label}: print finished`
+  );
+  ok(
+    full && !drawnWhilePrinting,
+    `${label}: the pixel mouse prints its ${MOUSE_ROWS} rows, no drawn mouse while printing`
+  );
+  ok(
+    await until(async () => (await has(page, '.cat .mouse.on')) === 1, 300),
+    `${label}: the print pops into the drawn mouse at once`
+  );
+  const popped = await snap(page);
+  ok(
+    popped.pixels === 0 && popped.mouseArt !== null,
+    `${label}: the pixel model is gone, the drawn mouse shows (${fmt(popped.mouseArt)})`
+  );
+  await shot(page, `${tag}-2-pop`);
+  await crop(page, `${tag}-mouse-pop-2x`, popped.mouseArt);
   // clicks during the hunt change nothing
   await clickCat(page);
   await page.click(BTN, { force: true });
   let busyUse = 0;
-  let pounce = null;
-  let carried = false;
-  let shotPounce = false;
-  let sawCaught = false;
+  let pin = null;
+  let carry = [];
+  let rest = null;
+  let layers = null;
   const done = await until(async () => {
-    if ((await has(page, '.cat.go')) + (await has(page, '.cat.typing')) > 0) busyUse++;
-    if (!shotPounce && (await has(page, '.cat.pounce')) === 1) {
-      shotPounce = true;
-      pounce = { cat: await rect(page, '.cat .wmove'), catScene: await sceneBox(page, '.cat .wmove'), dino: await rect(page, '.printer .dino') };
-      await shot(page, `${tag}-pounce`);
+    const s = await snap(page);
+    const cat = s.cat.split(' ');
+    const mouse = s.mouse.split(' ');
+    if (cat.includes('go') || cat.includes('typing')) busyUse++;
+    if (mouse.includes('run') && !mouse.includes('left') && s.mouseArt?.bottom > 740)
+      await once('run', async () => {
+        await shot(page, `${tag}-3-run`);
+        await crop(page, `${tag}-mouse-run-2x`, (await snap(page)).mouseArt ?? s.mouseArt, 50);
+      });
+    if (cat.includes('crouch') && cat.includes('wiggle'))
+      await once('wiggle', () => shot(page, `${tag}-4-crouch-wiggle`));
+    if (cat.includes('air') && !cat.includes('carry')) await once('pounce', () => shot(page, `${tag}-5-pounce`));
+    if (cat.includes('pin') && mouse.includes('pin') && !pin) {
+      pin = s;
+      await shot(page, `${tag}-6-pin`);
+      await crop(page, `${tag}-mouse-pinned-2x`, s.mouseArt);
     }
-    if ((await has(page, '.printer .dino.caught')) === 1) sawCaught = true;
-    if (shotPounce && !carried && (await has(page, '.cat.air')) === 1) {
-      carried = true;
-      await page.waitForTimeout(200);
-      await shot(page, `${tag}-carry`);
+    if (cat.includes('carry') && s.slot) {
+      carry.push(s);
+      if (cat.includes('air'))
+        await once('carry', async () => {
+          await crop(page, `${tag}-mouse-carried-2x`, (await snap(page)).slot ?? s.slot, 50); // it moves fast: a fresh box, more room
+          await shot(page, `${tag}-7-carry`);
+        });
     }
-    return shotPounce && (await has(page, '.cat.walking')) === 0;
-  }, 14000);
+    if (mouse.includes('out') && mouse.includes('dizzy') && !cat.includes('walking') && !rest) {
+      rest = s;
+      layers = await snap(page, 'lb');
+      await shot(page, `${tag}-8-rest-dazed`);
+      await crop(page, `${tag}-mouse-dazed-2x`, s.mouseArt);
+    }
+    if (mouse.includes('out') && !mouse.includes('dizzy')) await once('rest2', () => shot(page, `${tag}-9-rest`));
+    if (mouse.includes('run') && mouse.includes('left') && s.mouseArt?.left > 60)
+      await once('escape', async () => {
+        await shot(page, `${tag}-10-escape`);
+        await crop(page, `${tag}-mouse-escape-2x`, (await snap(page)).mouseArt ?? s.mouseArt, 50);
+      });
+    return seen.escape && !mouse.includes('on');
+  }, 16000);
   ok(busyUse === 0, `${label}: clicking the cat during the hunt does not start a takeover`);
-  ok((await model(page)) === 'mouse' && (await printing(page)) === 0, `${label}: clicking the printer during the hunt prints nothing`);
-  ok(shotPounce && pounce !== null, `${label}: the cat pounces`);
-  if (pounce) {
-    ok(pounce.catScene.right < 580, `${label}: the cat stays left of the chair back, scene x 580 (cat right edge ${pounce.catScene.right.toFixed(0)})`);
-    ok(overlap(pounce.cat, pounce.dino), `${label}: the cat landed on the mouse`);
+  ok(seen.run && seen.wiggle, `${label}: the mouse runs while the cat crouches and wiggles`);
+  ok(seen.pounce, `${label}: the cat pounces`);
+  ok(pin !== null, `${label}: the cat pins the mouse`);
+  if (pin) {
+    ok(
+      pin.catBox.right < 580,
+      `${label}: the cat stays left of the chair back, scene x 580 (cat right edge ${pin.catBox.right.toFixed(0)})`
+    );
+    ok(
+      overlap(pin.paw, pin.mouseArt),
+      `${label}: a front paw is on the mouse (paw ${fmt(pin.paw)}, mouse ${fmt(pin.mouseArt)})`
+    );
   }
-  ok(sawCaught && carried, `${label}: the mouse is caught and carried`);
-  ok(done, `${label}: hunt over, the cat is curled up again`);
-  ok((await has(page, '.cat.awake')) === 0, `${label}: cat not awake`);
+  // carried: the mouse hangs at the cat's head and moves with it, the free mouse is hidden
+  const up = carry.filter((c) => c.cat.split(' ').includes('back')); // head up, turned round: the leap home
+  const c0 = up[0];
+  const c1 = up.at(-1);
+  ok(
+    carry.length > 2 && carry.every((c) => c.mouseArt === null),
+    `${label}: the mouse is carried (${carry.length} samples), the free mouse hidden`
+  );
+  if (c0 && c1) {
+    ok(
+      carry.every((c) => overlap(c.slot, c.head, 4)),
+      `${label}: the carried mouse is at the cat's mouth`
+    );
+    const dCat = c1.catBox.top - c0.catBox.top;
+    const dMouse = c1.slot.top - c0.slot.top;
+    ok(
+      Math.abs(dCat) > 50 && Math.abs(dCat - dMouse) < 25,
+      `${label}: the mouse goes up to the desk with the cat (cat ${dCat.toFixed(0)}, mouse ${dMouse.toFixed(0)})`
+    );
+  }
+  ok(rest !== null, `${label}: the mouse rests on the desk, dazed, next to the sleeping cat`);
+  if (rest) {
+    const m = rest.mouseArt;
+    ok(
+      m && m.bottom > 552 && m.bottom < 572 && m.left > 140 && m.right < 290,
+      `${label}: the drawn mouse lies on the desk top, visible (${fmt(m)})`
+    );
+    ok(
+      layers.mouse === rest.mouse && layers.cat === rest.cat && layers.mouseArt && near(layers.mouseArt, m),
+      `${label}: grey layer matches (${layers.mouse} / ${fmt(layers.mouseArt)})`
+    );
+  }
+  ok(seen.rest2 && seen.escape && done, `${label}: the mouse comes round and runs off the desk, out of the scene`);
+  ok(done && (await has(page, '.cat .mouse.on')) === 0, `${label}: the desk is empty`);
+  ok(
+    (await page.evaluate(() =>
+      [...document.querySelectorAll('.cat .mouse')].reduce((n, m) => n + m.getAnimations({ subtree: true }).length, 0)
+    )) === 0,
+    `${label}: no leftover animations on the mouse`
+  );
+  ok(
+    await page.evaluate(() =>
+      [...document.querySelectorAll('.cat .mouse')].every((m) => m.getAttribute('class') === 'mouse')
+    ),
+    `${label}: no leftover mouse classes, both layers`
+  );
+  ok(
+    done && (await has(page, '.cat.walking')) === 0 && (await has(page, '.cat.awake')) === 0,
+    `${label}: the cat is curled up asleep`
+  );
   ok((await catAnims(page)) === 0, `${label}: no leftover animations on the cat`);
   ok(
-    (await has(page, '.cat.crouch, .cat.air, .cat.pounce, .cat.back, .cat.go')) === 0,
+    (await has(
+      page,
+      '.cat.crouch, .cat.wiggle, .cat.air, .cat.pin, .cat.bite, .cat.carry, .cat.back, .cat.go, .cat.twitch'
+    )) === 0,
     `${label}: no leftover cat classes`
   );
-  ok((await has(page, '.printer .dino.alive')) === 0, `${label}: the mouse no longer twitches`);
-  // the mouse lies on the desk top, between the plant and the sleeping cat, and stays there
-  await page.waitForTimeout(600);
-  const m1 = await sceneBox(page, '.printer .dino');
+  const tail1 = { la: (await snap(page)).tail, lb: (await snap(page, 'lb')).tail };
   ok(
-    m1.bottom > 520 && m1.bottom < 570 && m1.left > 140 && m1.right < 235,
-    `${label}: the mouse lies on the desk top (scene x ${m1.left.toFixed(0)}-${m1.right.toFixed(0)}, y ${m1.top.toFixed(0)}-${m1.bottom.toFixed(0)})`
+    near(tail0.la, tail1.la) && near(tail0.lb, tail1.lb),
+    `${label}: the sleeping cat's tail is unchanged (${fmt(tail0.la)} / ${fmt(tail1.la)})`
   );
-  ok((await rows(page)) === MOUSE_ROWS, `${label}: the mouse is still fully drawn`);
-  // the grey layer is in the same state as the lit one
-  const layer = (l) =>
-    page.evaluate((l) => {
-      const q = (s) => document.querySelector(`[data-h="${l}"] ${s}`);
-      const r = q('.printer .dino').getBoundingClientRect();
-      return { cat: q('.cat').getAttribute('class'), dino: [r.left, r.top, r.width, r.height].map((v) => Math.round(v)) };
-    }, l);
-  const [la, lb] = [await layer('la'), await layer('lb')];
-  ok(la.cat === lb.cat && la.dino.join() === lb.dino.join(), `${label}: grey layer matches (${lb.cat} / ${lb.dino})`);
-  await shot(page, `${tag}-mouse-on-desk`);
-  await page.waitForTimeout(2500);
-  const m2 = await sceneBox(page, '.printer .dino');
-  ok(Math.abs(m2.left - m1.left) < 1 && Math.abs(m2.bottom - m1.bottom) < 1 && (await has(page, '.printer .dino.alive')) === 0, `${label}: and it stays there`);
-  // the next print clears it; both guards are free again
+  // the printer is free again: a normal print
   await hook(page, { odds: 0 });
   await page.click(BTN);
-  await page.waitForTimeout(300);
-  ok((await rows(page)) < MOUSE_ROWS && (await model(page)) !== 'mouse', `${label}: the next click clears the desk mouse`);
+  await page.waitForTimeout(5800);
+  const p = await snap(page);
   ok(
-    (await page.evaluate(() => document.querySelector('[data-h="la"] .printer .dino').getAnimations().length)) === 0,
-    `${label}: no leftover animations on the mouse group`
+    CYCLE.includes(await model(page)) && (await rows(page)) > 0 && p.mouseArt === null,
+    `${label}: the printer is free again (${await model(page)})`
   );
-  await page.waitForTimeout(5500);
-  const b = await sceneBox(page, '.printer .dino');
-  ok(CYCLE.includes(await model(page)) && (await rows(page)) > 0 && b.top > 600, `${label}: the printer is free again (${await model(page)})`);
-  ok((await catAnims(page)) === 0, `${label}: still no animations on the cat`);
 }
 
 // day
@@ -191,7 +295,10 @@ async function hunt(page, tag) {
   await hunt(page, 'day');
   // the cat is free again: a click makes it walk to the keyboard
   await clickCat(page);
-  ok(await until(async () => (await has(page, '.cat.go')) === 1, 2000), 'day: the cat can be taken over after the hunt');
+  ok(
+    await until(async () => (await has(page, '.cat.go')) === 1, 2000),
+    'day: the cat can be taken over after the hunt'
+  );
   ok(errs.length === 0, 'no console errors (day) ' + errs.join('|'));
   await ctx.close();
 }

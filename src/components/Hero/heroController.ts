@@ -145,58 +145,71 @@ const PRINT_MODELS: PrintModel[] = [
     ]
   }
 ];
-/** Printed only by chance (not part of the PRINT_MODELS cycle); it comes alive and the cat hunts it. */
+/** Printed only by chance (not part of the PRINT_MODELS cycle); then it pops into the drawn mouse (scene.svg) and the cat hunts it. */
 const MOUSE_MODEL: PrintModel = {
-  colors: { b: '#A7A9B0', e: '#1A1220', f: '#6E7078', p: '#F2A0A0', t: '#F2A0A0' },
+  colors: { b: '#A7A9B0', e: '#1A1220', f: '#F2A0A0', n: '#E07A8A', p: '#F2A0A0', t: '#F2A0A0' },
   name: 'mouse',
-  parts: { f: 'feet', t: 'mtail' },
   rows: [
-    '......pp....',
-    '.....bpbb...',
-    '....bbbbeb..',
-    't..bbbbbbbbp',
-    '.tbbbbbbbbb.',
-    '...f.f..f.f.'
+    '......bb....',
+    '.....bppb...',
+    't...bbbbbeb.',
+    't..bbbbbbbbn',
+    '.ttbbbbbbbb.',
+    '....f...f...'
   ]
 };
 const DINO_PX = 5;
 const PRINT_ROW_MS = 320; // 13 rows ≈ 4.2 s
 const PRINT_FX_MS = 1800; // the little show after a print, then the figure rests
 const MOUSE_ODDS = 0.2; // share of eligible prints that are a mouse
-const MOUSE_WAKE_MS = 500; // the finished mouse twitches on the bed before it runs
-const MOUSE_RUN_MS = 1500; // hop off the bed + run along the floor to the catch point
-const CAT_LEAP_MS = 600; // one leap: desk to floor, and floor back to desk
-const CAT_HOLD_MS = 800; // the cat sits on its catch
-const CAT_TURN_MS = 300; // the cat turns round with the mouse in its mouth
-const CAT_DROP_MS = 250; // the mouse falls from the cat's mouth onto the desk
-// Printer-local units (printer is scale .7, scene.svg:170): floor y 744 -> +44 below the bed; catch at scene x 500 -> +343.
+// The hunt, in ms. The cat crouches and wiggles while the mouse runs, and lands on it as it reaches the catch point.
+const MOUSE_POP_MS = 450; // the print pops into the drawn mouse, which sniffs around on the bed
+const MOUSE_RUN_MS = 1600; // hop off the bed + run along the floor to the catch point
+const CAT_LEAP_MS = 650; // the pounce: desk to floor
+const CAT_PIN_MS = 900; // front paws on the mouse; it squeaks and wriggles
+const CAT_BITE_MS = 420; // head down, picks the mouse up by the scruff
+const CAT_TURN_MS = 250;
+const CAT_HOME_MS = 700; // the leap back up to the desk, the mouse dangling from its mouth
+const MOUSE_DROP_MS = 320; // dropped from the mouth onto the desk
+const MOUSE_DAZED_MS = 2000; // lies on its side next to the sleeping cat (dizzy stars for the first part)
+const MOUSE_ESCAPE_MS = 1150; // gets up and runs off the left end of the desk, out of the scene
+// Scene units: the live mouse's origin is the ground under its middle (scene.svg, .mouse).
+const MOUSE_BED = 'translate(261px, 713px)'; // where the printed model stood (printer bed, scene.svg:170)
 const MOUSE_RUN_FRAMES: Keyframe[] = [
-  { easing: 'ease-out', offset: 0, transform: 'translate(0px, 0px)' },
-  { easing: 'ease-in', offset: 0.14, transform: 'translate(90px, -30px)' }, // up over the printer's front corner
-  { offset: 0.32, transform: 'translate(130px, 44px)' }, // lands on the floor, clear of the base (scene x 316)
-  { offset: 1, transform: 'translate(343px, 44px)' } // freezes at the catch point
+  { easing: 'ease-out', offset: 0, transform: MOUSE_BED },
+  { easing: 'ease-in', offset: 0.12, transform: 'translate(300px, 690px)' }, // up over the printer's front corner
+  { offset: 0.28, transform: 'translate(338px, 748px)' }, // lands on the floor, clear of the base
+  { offset: 1, transform: 'translate(505px, 748px)' } // the catch point: the cat still clears the chair (x 580)
 ];
-// Walker-local units (walker scale 1.35 at 236,562, scene.svg:428): front paws (x~85) onto scene (500, 744).
+const MOUSE_DESK = 'translate(204px, 563px)'; // on the desk top, between the plant pot and the sleeping cat's head
+const MOUSE_ESCAPE_FRAMES: Keyframe[] = [
+  { offset: 0, transform: MOUSE_DESK },
+  { easing: 'ease-out', offset: 0.8, transform: 'translate(14px, 563px)' }, // scurries to the desk's left end
+  { easing: 'ease-in', offset: 0.88, transform: 'translate(-14px, 548px)' }, // hops off
+  { offset: 1, transform: 'translate(-110px, 760px)' } // gone past the scene's left edge
+];
+// Walker units (the walker is scale 1.35 at 236,562, scene.svg): front paws just behind the catch point, on the floor.
 const CAT_LEAP_FRAMES: Keyframe[] = [
   { easing: 'ease-out', offset: 0, transform: 'translate(0px, 0px)' },
-  { easing: 'ease-in', offset: 0.35, transform: 'translate(50px, -40px)' },
-  { offset: 1, transform: 'translate(111px, 135px)' }
+  { easing: 'ease-in', offset: 0.35, transform: 'translate(42px, -34px)' },
+  { offset: 1, transform: 'translate(94px, 138px)' }
 ];
 const CAT_HOME_FRAMES: Keyframe[] = [
-  { easing: 'ease-out', offset: 0, transform: 'translate(111px, 135px)' },
-  { easing: 'ease-in', offset: 0.65, transform: 'translate(50px, -40px)' },
+  { easing: 'ease-out', offset: 0, transform: 'translate(94px, 138px)' },
+  { easing: 'ease-in', offset: 0.65, transform: 'translate(40px, -36px)' },
   { offset: 1, transform: 'translate(0px, 0px)' }
 ];
-// The caught mouse hangs in the cat's mouth and follows its leap home, then drops onto the desk. Printer-local units:
-// walker moves count 1.35/.7 = 1.93x. The mouth sits at (-165, -55) from the catch point (the cat faces left after the turn).
-// It lands at scene x 168-210, y 556 (free desk top between the plant and the sleeping cat): (-101, -225).
-const MOUSE_CARRY_MS = CAT_TURN_MS + CAT_LEAP_MS + CAT_DROP_MS;
-const MOUSE_CARRY_FRAMES: Keyframe[] = [
-  { easing: 'ease-out', offset: 0, transform: 'translate(343px, 44px)' },
-  { easing: 'ease-out', offset: CAT_TURN_MS / MOUSE_CARRY_MS, transform: 'translate(178px, -11px)' },
-  { easing: 'ease-in', offset: (CAT_TURN_MS + CAT_LEAP_MS * 0.65) / MOUSE_CARRY_MS, transform: 'translate(60px, -349px)' },
-  { easing: 'ease-in', offset: (CAT_TURN_MS + CAT_LEAP_MS) / MOUSE_CARRY_MS, transform: 'translate(-36px, -271px)' },
-  { offset: 1, transform: 'translate(-101px, -225px)' }
+// squash on take-off, stretch in the air, back to round on arrival; then a landing squash
+const CAT_STRETCH_FRAMES: Keyframe[] = [
+  { offset: 0, transform: 'scale(1.12, .8)' },
+  { offset: 0.25, transform: 'scale(1.2, .86)' },
+  { offset: 0.85, transform: 'scale(1.1, .92)' },
+  { offset: 1, transform: 'scale(1, 1)' }
+];
+const CAT_LAND_FRAMES: Keyframe[] = [
+  { offset: 0, transform: 'scale(1, 1)' },
+  { offset: 0.35, transform: 'scale(1.18, .8)' },
+  { offset: 1, transform: 'scale(1, 1)' }
 ];
 
 const CAT_TYPES = [
@@ -329,6 +342,8 @@ export function mountHero(root: HTMLElement): () => void {
       }
     g.innerHTML = s;
   }
+  // the cat carries the drawn mouse in its mouth: a copy of it in the walker (scene.svg .mslot), shown with .carry
+  for (const slot of all('.cat .mhang')) slot.innerHTML = slot.closest('.cat')?.querySelector('.mouse .mart')?.outerHTML ?? '';
 
   // The printer cycles through PRINT_MODELS, starting at a random one per page load.
   let modelIdx = Math.floor(Math.random() * PRINT_MODELS.length);
@@ -639,7 +654,6 @@ export function mountHero(root: HTMLElement): () => void {
     const printers = all('.printer');
     const gantries = all('.printer .gantry');
     window.clearTimeout(fxTimer);
-    all('.printer .dino').forEach((d) => d.getAnimations().forEach((a) => a.cancel())); // a mouse left on the desk
     const hunt = !reduce && catAsleep() && Math.random() < mouseOdds;
     const model = hunt ? MOUSE_MODEL : (PRINT_MODELS[modelIdx] as PrintModel);
     if (!hunt) modelIdx = (modelIdx + 1) % PRINT_MODELS.length;
@@ -1056,61 +1070,117 @@ export function mountHero(root: HTMLElement): () => void {
     sound.purr(false);
     byI('cat').forEach((c) => c.classList.add('awake'));
   }
-  /** The printed mouse runs off the bed, the cat pounces, carries it up and drops it on the desk, then sleeps. */
+  /**
+   * The printed mouse pops into the drawn mouse and runs; the cat crouches, wiggles, pounces and pins it, carries it
+   * up by the scruff and drops it on the desk, then curls up asleep next to it. The dazed mouse comes round and runs
+   * off the left end of the desk. Ends with the bed and the desk empty and the cat asleep.
+   */
   async function mouseHunt() {
-    const mice = all('.printer .dino');
+    const mice = all('.cat .mouse');
     const cats = byI('cat');
     const moves = all('.cat .wmove');
-    // the mouse comes alive and the cat stands up on the desk
-    mice.forEach((m) => m.classList.add('alive'));
-    sfx('duck', { rate: 2.2, volume: 0.3 });
-    cats.forEach((c) => c.classList.add('walking', 'crouch'));
-    await wait(MOUSE_WAKE_MS);
-    if (disposed) return;
-    // the mouse runs; the cat lands 100 ms after it reaches the catch point
-    const run = mice.map((m) => m.animate(MOUSE_RUN_FRAMES, { duration: MOUSE_RUN_MS, fill: 'forwards' }));
-    await wait(MOUSE_RUN_MS + 100 - CAT_LEAP_MS);
-    if (disposed) return;
-    // the pounce
-    cats.forEach((c) => {
-      c.classList.remove('crouch');
-      c.classList.add('air');
+    const squash = all('.cat .wsq');
+    const swap = (nodes: (HTMLElement | SVGElement)[], add: string[], remove: string[] = []) =>
+      nodes.forEach((n) => {
+        n.classList.remove(...remove);
+        n.classList.add(...add);
+      });
+    // one WAAPI animation per node at a time, held at its end until the next one replaces it
+    const move = (nodes: (HTMLElement | SVGElement)[], frames: Keyframe[], ms: number) =>
+      nodes.forEach((n) => {
+        n.getAnimations().forEach((a) => a.cancel());
+        n.animate(frames, { duration: ms, fill: 'forwards' });
+      });
+    const still = (nodes: (HTMLElement | SVGElement)[]) => nodes.forEach((n) => n.getAnimations().forEach((a) => a.cancel()));
+    // the print pops into the live mouse; the cat's ear twitches
+    all('.printer .dino').forEach((d) => {
+      d.innerHTML = '';
+      d.setAttribute('class', 'dino');
     });
-    const leap = moves.map((m) => m.animate(CAT_LEAP_FRAMES, { duration: CAT_LEAP_MS, fill: 'forwards' }));
+    move(mice, [{ transform: MOUSE_BED }, { transform: MOUSE_BED }], 1);
+    swap(mice, ['on', 'pop']);
+    swap(cats, ['twitch']);
+    sfx('duck', { rate: 2.2, volume: 0.3 });
+    await wait(150);
+    if (disposed) return;
+    swap(cats, ['walking', 'crouch'], ['twitch']); // stands up on the desk and crouches low, watching
+    await wait(MOUSE_POP_MS - 150);
+    if (disposed) return;
+    // the mouse runs; the cat wiggles its rear, then pounces so that it lands as the mouse reaches the catch point
+    swap(mice, ['run'], ['pop']);
+    move(mice, MOUSE_RUN_FRAMES, MOUSE_RUN_MS);
+    swap(cats, ['wiggle']);
+    await wait(MOUSE_RUN_MS - CAT_LEAP_MS);
+    if (disposed) return;
+    swap(cats, ['air'], ['crouch', 'wiggle']);
+    move(moves, CAT_LEAP_FRAMES, CAT_LEAP_MS);
+    move(squash, CAT_STRETCH_FRAMES, CAT_LEAP_MS);
     await wait(CAT_LEAP_MS);
     if (disposed) return;
-    cats.forEach((c) => {
-      c.classList.remove('air');
-      c.classList.add('pounce');
-    });
-    mice.forEach((m) => {
-      m.classList.remove('alive');
-      m.classList.add('caught');
-    });
-    await wait(CAT_HOLD_MS);
+    // pinned: front paws on the mouse, which squeaks and wriggles
+    swap(cats, ['pin'], ['air']);
+    move(squash, CAT_LAND_FRAMES, 260);
+    swap(mice, ['pin'], ['run']);
+    sfx('duck', { rate: 2.4, volume: 0.3 });
+    await wait(CAT_PIN_MS / 2);
     if (disposed) return;
-    // turn around with the mouse in the mouth, leap back up to the desk with it, and drop it there
-    cats.forEach((c) => {
-      c.classList.remove('pounce');
-      c.classList.add('back');
-    });
-    run.forEach((a) => a.cancel());
-    mice.forEach((m) => m.animate(MOUSE_CARRY_FRAMES, { duration: MOUSE_CARRY_MS, fill: 'forwards' })); // stays on the desk until the next print
+    sfx('duck', { rate: 2.6, volume: 0.25 });
+    await wait(CAT_PIN_MS / 2);
+    if (disposed) return;
+    // picks it up by the scruff: the mouse now hangs from the cat's mouth (.mslot) and swings
+    swap(cats, ['bite'], ['pin']);
+    await wait(CAT_BITE_MS / 2);
+    if (disposed) return;
+    swap(mice, [], ['on', 'pin']);
+    swap(cats, ['carry']);
+    await wait(120);
+    if (disposed) return;
+    swap(cats, [], ['bite']); // lifts its head, the mouse dangling
+    await wait(CAT_BITE_MS / 2);
+    if (disposed) return;
+    swap(cats, ['back']);
     await wait(CAT_TURN_MS);
     if (disposed) return;
-    cats.forEach((c) => c.classList.add('air'));
-    leap.forEach((a) => a.cancel());
-    const home = moves.map((m) => m.animate(CAT_HOME_FRAMES, { duration: CAT_LEAP_MS, fill: 'forwards' }));
-    await wait(CAT_LEAP_MS);
+    swap(cats, ['air']);
+    move(moves, CAT_HOME_FRAMES, CAT_HOME_MS);
+    move(squash, CAT_STRETCH_FRAMES, CAT_HOME_MS);
+    await wait(CAT_HOME_MS);
     if (disposed) return;
-    home.forEach((a) => a.cancel());
-    cats.forEach((c) => c.classList.remove('air', 'back'));
+    // back on the desk: drop the mouse next to the cat's sleeping spot
+    still(moves);
+    swap(cats, [], ['air']);
+    move(squash, CAT_LAND_FRAMES, 220);
+    await wait(150);
+    if (disposed) return;
+    swap(cats, [], ['carry']);
+    swap(mice, ['on', 'left', 'out']);
+    move(mice, [{ easing: 'ease-in', transform: 'translate(226px, 500px)' }, { transform: MOUSE_DESK }], MOUSE_DROP_MS);
     sfx('meow', { volume: 0.8 });
-    await wait(CAT_DROP_MS + 250);
+    await wait(MOUSE_DROP_MS);
     if (disposed) return;
-    cats.forEach((c) => c.classList.remove('walking', 'awake')); // curls up, zz
+    swap(mice, ['dizzy']);
+    still(squash);
+    swap(cats, [], ['walking', 'back', 'awake']); // curls up, zz
     sound.purr(true);
     catBusy = false;
+    // dazed, then it comes round and runs off; the cat sleeps on (an ear twitch)
+    await wait(MOUSE_DAZED_MS * 0.65);
+    if (disposed) return;
+    swap(mice, [], ['dizzy']);
+    await wait(MOUSE_DAZED_MS * 0.35);
+    if (disposed) return;
+    swap(mice, ['pop'], ['out']);
+    await wait(300);
+    if (disposed) return;
+    swap(mice, ['run'], ['pop']);
+    sfx('duck', { rate: 2.2, volume: 0.2 });
+    move(mice, MOUSE_ESCAPE_FRAMES, MOUSE_ESCAPE_MS);
+    if (catAsleep()) swap(cats, ['twitch']);
+    await wait(MOUSE_ESCAPE_MS);
+    if (disposed) return;
+    still(mice);
+    swap(mice, [], ['on', 'left', 'run']);
+    cats.forEach((c) => c.classList.remove('twitch'));
   }
   // the terminal thanks the dev for the coffee spilled on the keyboard (once per spill, only while the screen is on)
   let thanking = false;

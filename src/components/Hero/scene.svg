@@ -397,6 +397,26 @@
 
   <!-- cat: a ginger tabby, curled up asleep, left of the keyboard -->
   <g data-i="cat" class="cat hot">
+    <!-- a mouse, printed by the printer, that comes alive (shown and moved from heroController; origin = the ground under its middle, facing right) -->
+    <g class="mouse" pointer-events="none"><g class="mdir">
+      <ellipse class="m-shadow" cx="0" cy="0" rx="22" ry="3" fill="#000" opacity=".18"/>
+      <g class="mpose"><g class="mart">
+        <g class="m-tail"><path d="M-17 -8 C -30 -4, -32 -20, -44 -18 C -54 -16, -54 -4, -64 -6" fill="none" stroke="#1A1220" stroke-width="5" stroke-linecap="round"/><path d="M-17 -8 C -30 -4, -32 -20, -44 -18 C -54 -16, -54 -4, -64 -6" fill="none" stroke="#F2A0A0" stroke-width="2.2" stroke-linecap="round"/></g>
+        <g class="m-fb"><ellipse cx="-11" cy="-1.5" rx="4.6" ry="2.6" fill="#D98A8A" stroke="#1A1220" stroke-width="1.8"/><ellipse cx="9" cy="-1.5" rx="3.8" ry="2.3" fill="#D98A8A" stroke="#1A1220" stroke-width="1.8"/></g>
+        <circle class="m-earF" cx="4" cy="-25" r="6.5" fill="#8E9098" stroke="#1A1220" stroke-width="3"/>
+        <path class="m-body" d="M-19 -9 C -20 -21, -6 -27, 6 -24 C 14 -22, 20 -15, 26 -8 C 28 -5, 26 -3, 22 -2.5 C 12 -1, -2 -1, -10 -1.5 C -16 -2, -19 -4, -19 -9Z" fill="#A7A9B0" stroke="#1A1220" stroke-width="3.2" stroke-linejoin="round"/>
+        <path d="M-12 -21 C -6 -24, 0 -25, 6 -24" fill="none" stroke="#7E8088" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+        <path d="M-13 -5 C -3 -3.5, 8 -3.5, 18 -5.5" fill="none" stroke="#E2E3E7" stroke-width="3.2" stroke-linecap="round" opacity=".8"/>
+        <g class="m-fa"><ellipse cx="-7" cy="-1" rx="5" ry="2.8" fill="#F2A0A0" stroke="#1A1220" stroke-width="1.8"/><ellipse cx="13" cy="-1" rx="4.2" ry="2.5" fill="#F2A0A0" stroke="#1A1220" stroke-width="1.8"/></g>
+        <g class="m-ear"><circle cx="10" cy="-24" r="8.5" fill="#A7A9B0" stroke="#1A1220" stroke-width="3"/><circle cx="10.5" cy="-23.5" r="5" fill="#F2A0A0"/></g>
+        <ellipse cx="18.5" cy="-8.5" rx="3" ry="1.8" fill="#F2A0A0" opacity=".7"/>
+        <g class="m-open"><ellipse cx="17" cy="-13.5" rx="2.6" ry="3.2" fill="#1A1220"/><circle cx="17.9" cy="-14.8" r="1.1" fill="#FFFFFF"/></g>
+        <path class="m-shut" d="M14.2 -13.2 q2.8 2.4 5.6 0" fill="none" stroke="#1A1220" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="26.5" cy="-5.5" r="2.4" fill="#E07A8A" stroke="#1A1220" stroke-width="1.2"/>
+        <path d="M23 -6.5 l10 -3.5 M23.5 -5 l10.5 0.5 M23 -3.8 l9 3.5" stroke="#1A1220" stroke-width=".9" stroke-linecap="round" opacity=".55"/>
+      </g></g>
+      <g class="mstars" transform="translate(9 0)" fill="#FFD166" stroke="#1A1220" stroke-width="1" stroke-linejoin="round"><path d="M0 -42 l1.6 3.4 l3.4 1.6 l-3.4 1.6 l-1.6 3.4 l-1.6 -3.4 l-3.4 -1.6 l3.4 -1.6Z"/><path d="M0 -42 l1.6 3.4 l3.4 1.6 l-3.4 1.6 l-1.6 3.4 l-1.6 -3.4 l-3.4 -1.6 l3.4 -1.6Z"/><path d="M0 -42 l1.6 3.4 l3.4 1.6 l-3.4 1.6 l-1.6 3.4 l-1.6 -3.4 l-3.4 -1.6 l3.4 -1.6Z"/></g>
+    </g></g>
     <g class="curl">
     <ellipse cx="320" cy="560" rx="78" ry="7" fill="#000" opacity=".18"/>
     <g class="body vb">
@@ -425,7 +445,7 @@
     <path d="M262 545 l-18 -2 M262 548 l-17 3 M280 545 l18 -2 M280 548 l17 3" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round" opacity=".9"/>
     </g>
     <!-- the same cat, standing and walking (side view, facing right) -->
-    <g class="walker" transform="translate(236 562) scale(1.35)"><g class="wmove"><g class="flip">
+    <g class="walker" transform="translate(236 562) scale(1.35)"><g class="wmove"><g class="wsq"><g class="flip">
       <g class="wtail"><path d="M14 -44 C -6 -52, -14 -82, 2 -98" fill="none" stroke="#1A1220" stroke-width="14" stroke-linecap="round"/><path d="M14 -44 C -6 -52, -14 -82, 2 -98" fill="none" stroke="#E39A5B" stroke-width="8" stroke-linecap="round"/><path d="M-9.5 -75 l6 -1 M-8 -87.5 l6 1" stroke="#A85A2A" stroke-width="3" stroke-linecap="butt"/></g>
       <g class="leg legB"><path d="M24 -32 L22 -3" stroke="#1A1220" stroke-width="13" stroke-linecap="round"/><path d="M24 -32 L22 -3" stroke="#C97E45" stroke-width="7" stroke-linecap="round"/></g>
       <g class="leg legB legF"><path d="M84 -32 L86 -3" stroke="#1A1220" stroke-width="13" stroke-linecap="round"/><path d="M84 -32 L86 -3" stroke="#C97E45" stroke-width="7" stroke-linecap="round"/></g>
@@ -443,10 +463,11 @@
         <path d="M106 -60 l3 3 l3 -3Z" fill="#E07A8A" stroke="#1A1220" stroke-width="1.1" stroke-linejoin="round"/>
         <path d="M109 -57 v2.5 M109 -54.5 q-3 2.5 -6 0 M109 -54.5 q3 2.5 6 0" stroke="#1A1220" stroke-width="1.2" fill="none" stroke-linecap="round"/>
         <path d="M100 -58 l-16 -2 M100 -55 l-15 3 M118 -58 l16 -2 M118 -55 l15 3" stroke="#FFFFFF" stroke-width="1.1" stroke-linecap="round"/>
+        <g class="mslot"><g class="mswing"><g class="mhang" transform="rotate(10) scale(.74) translate(4 23)"></g></g></g><!-- the caught mouse, held by the scruff -->
       </g>
       <g class="leg legA"><path d="M34 -32 L36 -3" stroke="#1A1220" stroke-width="13" stroke-linecap="round"/><path d="M34 -32 L36 -3" stroke="#E39A5B" stroke-width="7" stroke-linecap="round"/></g>
       <g class="leg legA legF"><path d="M94 -32 L92 -3" stroke="#1A1220" stroke-width="13" stroke-linecap="round"/><path d="M94 -32 L92 -3" stroke="#E39A5B" stroke-width="7" stroke-linecap="round"/></g>
-    </g></g></g>
+    </g></g></g></g>
     <g class="zz" fill="#1A1220" style="font-family: var(--text); font-weight: 700"><text x="300" y="492" font-size="18">z</text><text x="312" y="478" font-size="14">z</text></g>
     <g class="bubble"><rect x="214" y="462" width="66" height="28" rx="12" fill="#fff" class="thin"/><text x="224" y="482" class="hand" font-size="18" fill="#1A1220">mrrp!</text></g>
   </g>
