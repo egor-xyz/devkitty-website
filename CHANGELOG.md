@@ -1,3 +1,10 @@
+# [1.23.0](https://github.com/egor-xyz/devkitty-website/compare/v1.22.0...v1.23.0) (2026-11-09)
+
+
+### Features
+
+* **hero:** the printer sometimes prints a mouse and the cat hunts it; no chair squeak ([#67](https://github.com/egor-xyz/devkitty-website/issues/67)) ([882f896](https://github.com/egor-xyz/devkitty-website/commit/882f89687af1d04cca01f42c03b4a4f211f123b8))
+
 # [1.22.0](https://github.com/egor-xyz/devkitty-website/compare/v1.21.0...v1.22.0) (2026-11-08)
 
 
