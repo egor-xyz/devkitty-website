@@ -1114,7 +1114,6 @@ export function mountHero(root: HTMLElement): () => void {
       await gripPull(toggleCurtain);
       await devTo(0, Math.max(500, Math.abs(devXAt(curEdge())) * 1.6));
       devs.forEach((d) => d.classList.remove('standing'));
-      sfx('sit', { volume: 0.7 });
       await wait(700);
       devs.forEach((d) => (d.style.transition = ''));
     } finally {
@@ -1147,7 +1146,6 @@ export function mountHero(root: HTMLElement): () => void {
     });
     await devTo(0, 1500); // back to the desk
     devs.forEach((d) => d.classList.remove('standing')); // sit down
-    sfx('sit', { volume: 0.7 });
     await iwait(700);
     devs.forEach((d) => (d.style.transition = ''));
     if (dark) {
@@ -1213,7 +1211,7 @@ export function mountHero(root: HTMLElement): () => void {
     const SFX = [
       'meow', 'purr', 'key-1', 'key-2', 'key-3', 'key-enter',
       'mug-tip', 'splash', 'zap', 'curtain', 'lamp', 'clock-whoosh', 'clock-tick', 'plant', 'duck', 'note', 'switch',
-      'boot', 'login', 'sit', 'outage'
+      'boot', 'login', 'outage'
     ];
     // Sound effects play only with sound on, a running context and a visible, focused tab.
     const canPlay = () =>

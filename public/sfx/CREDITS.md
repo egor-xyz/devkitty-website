@@ -20,7 +20,6 @@ All files processed: mono, silence trimmed, peak -3 dBFS, MP3 96 kbps.
 - note.mp3 | RPG Audio https://kenney.nl/assets/rpg-audio | Kenney Vleugels | CC0 | original: bookFlip2.ogg
 - plant.mp3 | https://opengameart.org/content/20-rustles-dry-leaves | qubodup | CC0 | original: rustle02.flac
 - purr.mp3 | https://opengameart.org/content/cat-purr-meow | Kerzoven | CC0 | original: cat_purrsleepy_loop.wav
-- sit.mp3 | RPG Audio https://kenney.nl/assets/rpg-audio | Kenney Vleugels | CC0 | original: creak3.ogg
 - splash.mp3 | https://opengameart.org/content/40-cc0-water-splash-slime-sfx | rubberduck | CC0 | original: splash_02.ogg
 - switch.mp3 | Interface Sounds https://kenney.nl/assets/interface-sounds | Kenney Vleugels | CC0 | original: toggle_001.ogg
 - zap.mp3 | Digital Audio https://kenney.nl/assets/digital-audio | Kenney Vleugels | CC0 | original: zap1.ogg
