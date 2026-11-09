@@ -91,6 +91,25 @@ async function hunt(page, tag) {
   await until(async () => (await has(page, '.cat.crouch')) === 1, 1000);
   await page.waitForTimeout(1000);
   await shot(page, `${tag}-mouse-run`);
+  // the tail swishes in place: its pixels stay within a few px of the body (scene units)
+  const tail = await page.evaluate(async () => {
+    const svg = document.querySelector('[data-h="la"] svg');
+    const k = 1200 / svg.getBoundingClientRect().width;
+    let min = Infinity;
+    let max = -Infinity;
+    for (let i = 0; i < 12; i++) {
+      const body = document.querySelector('[data-h="la"] .printer .dino .row:not(:has(.mtail)) rect').getBoundingClientRect();
+      for (const t of document.querySelectorAll('[data-h="la"] .printer .dino .mtail')) {
+        const x = (t.getBoundingClientRect().left - body.left) * k; // same sample: the mouse itself is running
+        min = Math.min(min, x);
+        max = Math.max(max, x);
+      }
+      await new Promise((r) => setTimeout(r, 40));
+    }
+    return { max, min };
+  });
+  console.log(`tail x relative to a body pixel, scene units: ${tail.min.toFixed(1)}..${tail.max.toFixed(1)}`);
+  ok(tail.max - tail.min < 12, `${label}: the tail swishes in place (spread ${(tail.max - tail.min).toFixed(1)})`);
   // clicks during the hunt change nothing
   await clickCat(page);
   await page.click(BTN, { force: true });
@@ -138,6 +157,15 @@ async function hunt(page, tag) {
     `${label}: the mouse lies on the desk top (scene x ${m1.left.toFixed(0)}-${m1.right.toFixed(0)}, y ${m1.top.toFixed(0)}-${m1.bottom.toFixed(0)})`
   );
   ok((await rows(page)) === MOUSE_ROWS, `${label}: the mouse is still fully drawn`);
+  // the grey layer is in the same state as the lit one
+  const layer = (l) =>
+    page.evaluate((l) => {
+      const q = (s) => document.querySelector(`[data-h="${l}"] ${s}`);
+      const r = q('.printer .dino').getBoundingClientRect();
+      return { cat: q('.cat').getAttribute('class'), dino: [r.left, r.top, r.width, r.height].map((v) => Math.round(v)) };
+    }, l);
+  const [la, lb] = [await layer('la'), await layer('lb')];
+  ok(la.cat === lb.cat && la.dino.join() === lb.dino.join(), `${label}: grey layer matches (${lb.cat} / ${lb.dino})`);
   await shot(page, `${tag}-mouse-on-desk`);
   await page.waitForTimeout(2500);
   const m2 = await sceneBox(page, '.printer .dino');

@@ -164,7 +164,7 @@ h1 .after .ln + .ln { transition-delay: .4s; animation-delay: -1.2s; }
 .printer .dino.fx-robot .ant { animation: h-blink .3s steps(1) 5; }
 .printer .dino.fx-robot .arm { animation: h-wave .35s ease-in-out 5 alternate; }
 .printer .dino.fx-mug .steam { animation: h-steam .9s ease-out 2; }
-.printer .dino.alive .mtail { animation: h-swish .2s ease-in-out infinite alternate; }
+.printer .dino.alive .mtail { animation: h-mtail .2s ease-in-out infinite alternate; }
 .printer .dino.alive .feet { animation: h-blink .16s steps(1) infinite; }
 .shelf .door { transform-box: fill-box; transform-origin: 0 50%; transition: transform .35s ease-in-out; }
 .shelf.open .door { transform: scaleX(.14); }
@@ -274,6 +274,7 @@ h1 .after .ln + .ln { transition-delay: .4s; animation-delay: -1.2s; }
 
 @keyframes h-hop { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-14px); } }
 @keyframes h-wobble { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-9deg); } 75% { transform: rotate(9deg); } }
+@keyframes h-mtail { to { transform: translate(-2px, -2px); } }
 @keyframes h-swish { from { transform: translateX(0); } to { transform: translateX(5px) translateY(-3px); } }
 @keyframes h-blink { 50% { opacity: .15; } }
 @keyframes h-wave { from { transform: translateY(0); } to { transform: translateY(-8px); } }

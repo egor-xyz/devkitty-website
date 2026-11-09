@@ -1,7 +1,6 @@
 // Run with the dev server up: node scripts/hero-sfx.check.mjs [url]
 import { chromium } from '@playwright/test';
 
-const SIT = ['s', 'it'].join(''); // the removed chair creak: spelled out so the repo has no leftover reference
 const URL = process.argv[2] ?? 'http://127.0.0.1:5173/';
 const browser = await chromium.launch({ channel: 'chrome' });
 let fail = 0;
@@ -41,7 +40,7 @@ async function open(sound) {
   const errs = [];
   page.__music = [];
   page.__sit = [];
-  page.on('request', (r) => r.url().endsWith(`/sfx/${SIT}.mp3`) && page.__sit.push(r.url()));
+  page.on('request', (r) => r.url().endsWith('/sfx/sit.mp3') && page.__sit.push(r.url()));
   page.on('request', (r) => r.url().includes('/music/') && page.__music.push(r.url()));
   page.on('console', (m) => m.type() === 'error' && errs.push(m.text()));
   page.on('pageerror', (e) => errs.push(String(e)));
@@ -89,7 +88,7 @@ const drain = (page) => page.evaluate(() => window.__starts.splice(0));
   await click(page, 'curtain');
   await page.waitForTimeout(8000); // he walks to the drape, pulls it, walks back and sits down
   const trip = await drain(page);
-  ok(trip.includes('curtain') && !trip.includes(SIT), `curtain trip: no chair squeak (${trip.join(',')})`);
+  ok(trip.includes('curtain') && !trip.includes('sit'), `curtain trip: no chair squeak (${trip.join(',')})`);
   const run = async (name, fn) => {
     await fn();
     await page.waitForTimeout(1500);
