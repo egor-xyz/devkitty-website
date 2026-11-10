@@ -359,17 +359,6 @@
   outline-offset: -2px;
 }
 
-@media (max-width: 480px) {
-  .fz-row {
-    grid-template-columns: 1.4ch minmax(0, 1fr);
-  }
-
-  .fz-row .fz-sum {
-    grid-column: 2;
-    font-size: 12px;
-  }
-}
-
 .fz-hint {
   margin-top: 8px;
   color: #ffffff80;
@@ -979,6 +968,91 @@
 
   .fz-float {
     animation: none;
+  }
+}
+
+/* Phones and narrow windows: one scroll column, and the list becomes a grid of chips so every option is visible.
+   The selected item's description prints right under the chips; the preview follows. */
+@media (max-width: 759px) {
+  .fz-body {
+    display: block;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .fz-scroll {
+    height: auto;
+    overflow: visible;
+  }
+
+  .fz-term .fz-scroll {
+    padding-bottom: 8px;
+  }
+
+  .fz-preview {
+    border-inline-start: 0;
+    border-top: 1px solid #ffffff1f;
+  }
+
+  .fz-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .fz-row {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-inline: 0;
+    padding: 0 14px;
+    border: 1px solid #ffffff38;
+    border-radius: 8px;
+    background: #ffffff0f;
+    color: var(--fz-ink);
+  }
+
+  .fz-row .fz-caret,
+  .fz-row .fz-sum {
+    display: none;
+  }
+
+  .fz-row .fz-id {
+    font-weight: 500;
+  }
+
+  .fz-row[aria-current='true'] {
+    border-color: var(--fz-orange);
+    background: #ff6a3d33;
+  }
+
+  .fz-row[aria-current='true'] .fz-id {
+    font-weight: 700;
+  }
+
+  /* Demo tabs wrap instead of being cut off; 1px room so the selected tab's outline is not clipped. */
+  .fz-gtabs {
+    flex-wrap: wrap;
+    row-gap: 4px;
+    padding-block: 1px;
+  }
+
+  .fz-url-field {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .fz .fz-win-body .fz-win-dim {
+    font-size: 12px;
+  }
+
+  .fz-preview button.fz-chip,
+  .fz-preview button.fz-gtab,
+  .fz-seg button {
+    min-height: 44px;
   }
 }
 
