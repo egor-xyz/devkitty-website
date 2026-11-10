@@ -41,7 +41,8 @@
   border-radius: 24px;
   transition:
     transform 300ms ease-in,
-    opacity 280ms ease-in;
+    opacity 280ms ease-in,
+    border-radius 300ms ease-in;
 }
 
 @media (prefers-reduced-motion: reduce) {

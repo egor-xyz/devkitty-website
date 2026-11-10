@@ -132,7 +132,7 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
     // The zoom lands on the lit (Devkitty) monitor: switch the hero first, as the switch button does.
     if (!isHeroLit() && setHeroMode(true)) {
       await sleep(HERO_SWITCH_MS);
-      if (!openRef.current) return;
+      if (!openRef.current || busyRef.current) return; // closed (or closing) during the switch
     }
 
     // The room stays still; only the window grows out of the monitor. Scaling the live room flickered in Chrome on big Retina screens.

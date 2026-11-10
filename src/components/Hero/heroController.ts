@@ -251,8 +251,15 @@ export function mountHero(root: HTMLElement): () => void {
     zoomPaused = v;
     if (!v) zoomWaiters.splice(0).forEach((r) => r());
   };
+  /** Holds while a zoom covers the hero; true when it had to wait. */
   const zoomReady = async () => {
-    while (zoomPaused && !disposed) await new Promise<void>((r) => zoomWaiters.push(r));
+    let waited = false;
+    while (zoomPaused && !disposed) {
+      waited = true;
+      await new Promise<void>((r) => zoomWaiters.push(r));
+    }
+
+    return waited;
   };
   /** A wait for the intro timeline: it also holds while a zoom covers the hero. */
   const iwait = async (ms: number) => {
@@ -869,7 +876,7 @@ export function mountHero(root: HTMLElement): () => void {
   addEventListener(
     'keydown',
     (e) => {
-      if (e.metaKey || e.ctrlKey || e.altKey || outage) return;
+      if (e.metaKey || e.ctrlKey || e.altKey || outage || zoomPaused) return; // keys typed in the zoom window are not for the hidden terminal
       if (e.target instanceof Element && e.target.closest('input,textarea,button,a')) return;
       const r = stage.getBoundingClientRect();
       if (r.bottom < 0 || r.top > innerHeight) return;
@@ -933,7 +940,7 @@ export function mountHero(root: HTMLElement): () => void {
     typed = '';
     setTyped();
     for (const ch of line) {
-      await zoomReady(); // hold mid-line while the zoom covers the hero: each key press repaints the scaled room
+      if (await zoomReady()) return false; // the zoom window covered the hero: start the line again, the terminal may have changed
       if (performance.now() < userUntil || outage) return false;
       typed += ch;
       setTyped();
