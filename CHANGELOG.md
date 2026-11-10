@@ -1,3 +1,10 @@
+## [1.23.1](https://github.com/egor-xyz/devkitty-website/compare/v1.23.0...v1.23.1) (2026-11-10)
+
+
+### Bug Fixes
+
+* **hero:** no page jumps or flicker around the Features zoom; grey-mode curtain arm ([#68](https://github.com/egor-xyz/devkitty-website/issues/68)) ([cdccf94](https://github.com/egor-xyz/devkitty-website/commit/cdccf94e2dfdcd684672f6903d2eb80113064f26))
+
 # [1.23.0](https://github.com/egor-xyz/devkitty-website/compare/v1.22.0...v1.23.0) (2026-11-09)
 
 
