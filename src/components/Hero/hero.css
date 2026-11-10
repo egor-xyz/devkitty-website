@@ -74,7 +74,7 @@ h1 .after .ln + .ln { transition-delay: .4s; animation-delay: -1.2s; }
 .L-before.gone { visibility: hidden; }
 .L-after { z-index: 3; clip-path: circle(0px at 50% 50%); }
 .L-before .after-only, .L-after .before-only { display: none; }
-.soundbtn { position: fixed; z-index: 50; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); width: 60px; height: 60px; padding: 0; border-radius: 50%; border: 2.5px solid var(--h-edge); background: #fff; color: var(--h-dark); cursor: pointer; box-shadow: 4px 4px 0 var(--h-edge); display: grid; place-items: center; transition: transform .15s, box-shadow .15s; }
+.soundbtn { position: fixed; z-index: 50; right: calc(16px + env(safe-area-inset-right, 0px) + var(--lock-pad, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); width: 60px; height: 60px; padding: 0; border-radius: 50%; border: 2.5px solid var(--h-edge); background: #fff; color: var(--h-dark); cursor: pointer; box-shadow: 4px 4px 0 var(--h-edge); display: grid; place-items: center; transition: transform .15s, box-shadow .15s; }
 @media (max-width: 599px) { .soundbtn { width: 52px; height: 52px; } }
 .soundbtn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--h-edge); }
 .soundbtn .on { display: none; } .soundbtn[aria-pressed="true"] .on { display: inline; } .soundbtn[aria-pressed="true"] .off { display: none; }

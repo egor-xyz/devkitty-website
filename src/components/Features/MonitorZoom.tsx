@@ -2,13 +2,12 @@ import { type CSSProperties, type FC, Fragment, type KeyboardEvent as ReactKeybo
 import { createPortal } from 'react-dom';
 
 import { useLatestRelease } from '../../lib/latestRelease';
+import { lockScroll } from '../../lib/scrollLock';
 import { isHeroLit, setHeroMode } from '../Hero/heroMode';
 import { getMonitorScreenRect } from '../Hero/monitorRect';
 import { type ZoomProgram } from './programs';
 import './features.css';
 
-const ZOOM_MS = 900;
-const OVERLAY_DELAY_MS = 450;
 const OUT_MS = 320;
 /** Time the hero's reveal gets to show before the zoom starts. */
 const HERO_SWITCH_MS = 1100;
@@ -17,34 +16,6 @@ type Phase = 'in' | 'open' | 'out';
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const sleep = (ms: number) => new Promise<void>((resolve) => window.setTimeout(resolve, ms));
-const stageEl = () => document.querySelector<HTMLElement>('[data-hero-stage]');
-
-function unzoomStage(stage: HTMLElement) {
-  stage.style.transition = `transform ${ZOOM_MS - 100}ms cubic-bezier(0.65, 0, 0.35, 1)`;
-  stage.style.transform = '';
-  window.setTimeout(() => {
-    stage.style.transition = '';
-    stage.style.transformOrigin = '';
-    stage.style.willChange = '';
-  }, ZOOM_MS);
-}
-
-/** Scale the hero stage toward the monitor screen (or the viewport centre when it is missing). */
-function zoomStage(stage: HTMLElement, rect: DOMRect | null) {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const box = stage.getBoundingClientRect();
-  const cx = rect ? rect.left + rect.width / 2 : vw / 2;
-  const cy = rect ? rect.top + rect.height / 2 : vh / 2;
-  const scale = rect ? Math.max(vw / rect.width, vh / rect.height) : 2.4;
-  stage.style.transformOrigin = `${cx - box.left}px ${cy - box.top}px`;
-  stage.style.transition = `transform ${ZOOM_MS}ms cubic-bezier(0.65, 0, 0.35, 1)`;
-  stage.style.willChange = 'transform';
-  document.documentElement.dataset.zoomed = '';
-  void stage.offsetWidth;
-  stage.style.transform = `translate(${vw / 2 - cx}px, ${vh / 2 - cy}px) scale(${scale})`;
-}
-
 /** The hero's timed loops (poster cycle, auto-typing) idle while the zoom covers it. */
 const heroEvent = (name: 'pause' | 'resume') => window.dispatchEvent(new Event(`devkitty:hero-${name}`));
 
@@ -85,8 +56,7 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
   const busyRef = useRef(false);
   const openerRef = useRef<HTMLElement | null>(null);
   const loadedWithHashRef = useRef(false);
-  const stageDirtyRef = useRef(false);
-  const resumeTimerRef = useRef<number>(0);
+  const unlockRef = useRef<(() => void) | null>(null);
   /** Row a deep link or palette action asked for; used once when the list has printed, else the first row. */
   const wantedRef = useRef<null | string>(null);
 
@@ -94,12 +64,11 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
     setMounted(false);
     openRef.current = false;
     busyRef.current = false;
-    document.documentElement.style.overflow = '';
+    unlockRef.current?.();
+    unlockRef.current = null;
     delete document.documentElement.dataset.zoomed;
     document.getElementById('root')?.removeAttribute('inert');
-    // Resume once the un-zoom has settled, so the hero's loops do not compete with it.
-    window.clearTimeout(resumeTimerRef.current);
-    resumeTimerRef.current = window.setTimeout(() => heroEvent('resume'), reducedMotion() ? 0 : ZOOM_MS);
+    heroEvent('resume');
     const opener = openerRef.current;
     // A fragment jump to an in-page section (`#extensions`) leaves focus on <body>; that is not a place to return to.
     const usable = opener && opener !== document.body && document.contains(opener);
@@ -122,22 +91,13 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
         }
       }
 
-      const el = stageEl();
       if (reducedMotion()) {
-        if (el && stageDirtyRef.current) {
-          el.style.transition = '';
-          el.style.transform = '';
-          el.style.transformOrigin = '';
-        }
-        stageDirtyRef.current = false;
         finishClose();
 
         return;
       }
 
-      setPhase('out');
-      if (el && stageDirtyRef.current) unzoomStage(el);
-      stageDirtyRef.current = false;
+      setPhase('out'); // the window shrinks back into the monitor
       await sleep(OUT_MS);
       finishClose();
     },
@@ -147,8 +107,9 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
   const open = useCallback(async () => {
     if (openRef.current) return;
     openRef.current = true;
-    window.clearTimeout(resumeTimerRef.current);
     heroEvent('pause');
+    // Marks the zoom for CSS: the hero's animations freeze under the window.
+    document.documentElement.dataset.zoomed = '';
     openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setTyped('');
     setPrinted(0);
@@ -158,7 +119,7 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
 
     if (reducedMotion()) {
       setFrom(null);
-      document.documentElement.style.overflow = 'hidden';
+      if (!unlockRef.current) unlockRef.current = lockScroll();
       document.getElementById('root')?.setAttribute('inert', '');
       setMounted(true);
       requestAnimationFrame(() => setPhase('open'));
@@ -174,16 +135,9 @@ export const MonitorZoom: FC<{ programs: ZoomProgram[] }> = ({ programs }) => {
       if (!openRef.current) return;
     }
 
-    const el = stageEl();
-    if (el) {
-      zoomStage(el, getMonitorScreenRect());
-      stageDirtyRef.current = true;
-    }
-
-    await sleep(OVERLAY_DELAY_MS);
-    if (!openRef.current) return;
+    // The room stays still; only the window grows out of the monitor. Scaling the live room flickered in Chrome on big Retina screens.
     setFrom(getMonitorScreenRect());
-    document.documentElement.style.overflow = 'hidden';
+    if (!unlockRef.current) unlockRef.current = lockScroll();
     document.getElementById('root')?.setAttribute('inert', '');
     setMounted(true);
     requestAnimationFrame(() => requestAnimationFrame(() => setPhase('open')));
