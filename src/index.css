@@ -234,11 +234,16 @@ main {
     .hdr-download {
       height: 44px;
     }
+
+    .site-footer a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
   }
 
-  /* Long paths and URLs in legal text wrap instead of widening the page. */
-  .legal code,
-  .legal a {
+  /* Long words, paths and URLs in legal text wrap instead of widening the page. */
+  .legal {
     overflow-wrap: anywhere;
   }
 

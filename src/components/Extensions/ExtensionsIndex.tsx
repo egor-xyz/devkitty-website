@@ -48,7 +48,7 @@ export const ExtensionsIndex: FC = () => {
         {filters.map((f) => (
           <button
             aria-pressed={filter === f}
-            className='cursor-pointer rounded-full border border-line bg-bg-raised px-3 py-1 text-sm text-ink-soft transition-colors duration-120 hover:text-ink aria-pressed:border-transparent aria-pressed:bg-accent-fill aria-pressed:text-accent-ink'
+            className='inline-flex min-h-11 cursor-pointer items-center rounded-full border border-line bg-bg-raised px-3 py-1 text-sm text-ink-soft transition-colors duration-120 hover:text-ink aria-pressed:border-transparent aria-pressed:bg-accent-fill aria-pressed:text-accent-ink sm:min-h-0'
             key={f}
             onClick={() => choose(f)}
             type='button'
