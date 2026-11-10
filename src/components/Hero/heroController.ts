@@ -933,6 +933,7 @@ export function mountHero(root: HTMLElement): () => void {
     typed = '';
     setTyped();
     for (const ch of line) {
+      await zoomReady(); // hold mid-line while the zoom covers the hero: each key press repaints the scaled room
       if (performance.now() < userUntil || outage) return false;
       typed += ch;
       setTyped();
@@ -1223,11 +1224,12 @@ export function mountHero(root: HTMLElement): () => void {
   async function gripPull(toggle: () => void) {
     const [dev] = byI('dev');
     const arm = la.querySelector<SVGGElement>('.curarm');
-    const outline = arm?.querySelector<SVGPathElement>('.curarm-o');
-    const sleeve = arm?.querySelector<SVGPathElement>('.curarm-s');
-    const hand = arm?.querySelector<SVGGElement>('.curarm-h');
     const sidearms = la.querySelector<SVGGraphicsElement>('.dev .sidearms');
-    if (reduce || !dev || !arm || !outline || !sleeve || !hand || !sidearms) {
+    // Both layers carry the stretched arm: the grey layer shows before the switch, the lit one after.
+    const arms = all('.curarm');
+    const paths = all('.curarm-o, .curarm-s');
+    const hands = all('.curarm-h');
+    if (reduce || !dev || !arm || !hands.length || !sidearms) {
       toggle();
       await wait(1500);
       return;
@@ -1243,9 +1245,8 @@ export function mountHero(root: HTMLElement): () => void {
       const x = s.x + (e.x - s.x) * k;
       const y = s.y + (e.y - s.y) * k;
       const d = `M${s.x.toFixed(1)} ${s.y.toFixed(1)} Q${((s.x + x) / 2).toFixed(1)} ${((s.y + y) / 2 - 0.05 * Math.hypot(x - s.x, y - s.y)).toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`;
-      outline.setAttribute('d', d);
-      sleeve.setAttribute('d', d);
-      hand.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(-90)`);
+      paths.forEach((n) => n.setAttribute('d', d));
+      hands.forEach((n) => n.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(-90)`));
     };
     const devs = byI('dev');
     const follow = () =>
@@ -1255,7 +1256,7 @@ export function mountHero(root: HTMLElement): () => void {
       });
     own.forEach((n) => (n.style.visibility = 'hidden'));
     draw(0);
-    arm.removeAttribute('display');
+    arms.forEach((n) => n.removeAttribute('display'));
     try {
       await frames(250, (p) => draw(ease(p))); // reach out to the edge
       toggle(); // the curtain starts moving only once he holds it
@@ -1267,7 +1268,7 @@ export function mountHero(root: HTMLElement): () => void {
       devs.forEach((d) => d.classList.remove('walkin'));
       await frames(250, (p) => draw(1 - ease(p))); // let go, the arm snaps back
     } finally {
-      arm.setAttribute('display', 'none');
+      arms.forEach((n) => n.setAttribute('display', 'none'));
       own.forEach((n) => (n.style.visibility = ''));
       devs.forEach((d) => d.classList.remove('walkin'));
     }

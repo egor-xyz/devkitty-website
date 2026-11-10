@@ -37,7 +37,8 @@
 
 .fz[data-phase='out'] {
   opacity: 0;
-  transform: scale(0.94);
+  transform: translate(var(--fx), var(--fy)) scale(var(--fs));
+  border-radius: 24px;
   transition:
     transform 300ms ease-in,
     opacity 280ms ease-in;
@@ -980,7 +981,9 @@
   }
 }
 
-/* The scaled hero stage must not widen the page while the zoom is open. */
-html[data-zoomed] body {
-  overflow-x: clip;
+/* Freeze the hero (room and headline glow) while the window covers it: nothing under the window needs to repaint during the zoom. */
+html[data-zoomed] .hero *,
+html[data-zoomed] .hero *::before,
+html[data-zoomed] .hero *::after {
+  animation-play-state: paused !important;
 }

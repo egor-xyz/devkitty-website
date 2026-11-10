@@ -81,6 +81,9 @@ html {
   background-color: var(--page-bg2);
   scroll-behavior: smooth;
   scroll-padding-top: 72px;
+  /* Always keep the scrollbar track: the home page is about one screen tall, so with "auto" the bar comes and goes and the page jumps sideways.
+     (Chrome on macOS ignores scrollbar-gutter on the page, so this is the reliable form. Overlay scrollbars are not affected.) */
+  overflow-y: scroll;
 }
 
 @media (prefers-reduced-motion: reduce) {

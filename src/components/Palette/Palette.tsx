@@ -1,9 +1,10 @@
 import { AnimatePresence, m } from 'motion/react';
-import { type FC, type ReactNode, useCallback, useEffect, useId, useMemo, useRef } from 'react';
+import { type FC, type ReactNode, useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef } from 'react';
 
 import { buildPaletteActions, type Category, type PaletteAction, type PaletteIcon } from '../../content/paletteActions';
 import { useLatestRelease } from '../../lib/latestRelease';
 import { SPRING_UI } from '../../lib/motion';
+import { lockScroll } from '../../lib/scrollLock';
 import { attachPaletteListeners, type PaletteRow, usePaletteOpen, usePaletteState } from './usePaletteState';
 
 type PanelProps = {
@@ -169,20 +170,13 @@ export const Palette: FC = () => {
   const state = usePaletteState({ actions, onRun: run });
   const { reset } = state;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isOpen) return;
 
     opener.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     input.current?.focus();
-    const root = document.documentElement;
-    const prev = { gutter: root.style.scrollbarGutter, overflow: root.style.overflow };
-    root.style.scrollbarGutter = 'stable';
-    root.style.overflow = 'hidden';
 
-    return () => {
-      root.style.scrollbarGutter = prev.gutter;
-      root.style.overflow = prev.overflow;
-    };
+    return lockScroll();
   }, [isOpen]);
 
   const activeId = state.rows.length ? `${listId}-opt-${state.active}` : undefined;
