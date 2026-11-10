@@ -270,6 +270,17 @@
     max(16px, env(safe-area-inset-left));
 }
 
+/* Side by side (iPhones in landscape too): only the outer edges need the notch inset, not the gap between panes. */
+@media (min-width: 760px) {
+  .fz-term .fz-scroll {
+    padding-right: 16px;
+  }
+
+  .fz-preview .fz-scroll {
+    padding-left: 16px;
+  }
+}
+
 .fz p {
   margin: 0;
 }

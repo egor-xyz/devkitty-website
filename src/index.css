@@ -349,12 +349,18 @@ main {
   }
 
   .legal table {
-    display: block;
-    overflow-x: auto;
     width: 100%;
     margin: 0 0 24px;
     border-collapse: collapse;
     font-size: 0.9375rem;
+  }
+
+  /* Phones: a wide table scrolls inside itself, not the page. Desktop keeps real table display for screen readers. */
+  @media (max-width: 639px) {
+    .legal table {
+      display: block;
+      overflow-x: auto;
+    }
   }
 
   .legal th,
