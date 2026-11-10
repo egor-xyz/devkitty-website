@@ -1,3 +1,10 @@
+## [1.23.2](https://github.com/egor-xyz/devkitty-website/compare/v1.23.1...v1.23.2) (2026-11-10)
+
+
+### Bug Fixes
+
+* **hero:** clean terminal line after the Features zoom; no flash when closed mid-switch ([#69](https://github.com/egor-xyz/devkitty-website/issues/69)) ([5ea2300](https://github.com/egor-xyz/devkitty-website/commit/5ea23008750444aaa466b06a6baa1366faaea0e7))
+
 ## [1.23.1](https://github.com/egor-xyz/devkitty-website/compare/v1.23.0...v1.23.1) (2026-11-10)
 
 
