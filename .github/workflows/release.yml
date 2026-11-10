@@ -5,7 +5,8 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 6 * * *'
+    # Hourly, off the top of the hour (GitHub delays :00 jobs): bakes a new app release into the site within ~1 h.
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 permissions:
