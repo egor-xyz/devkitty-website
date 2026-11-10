@@ -61,7 +61,7 @@ export const ExtensionPage: FC<{ id: string }> = ({ id }) => {
         className='mb-8 font-mono text-xs text-ink-mute'
       >
         <a
-          className='hover:text-ink'
+          className='inline-flex min-h-11 items-center hover:text-ink sm:min-h-0'
           href='/'
         >
           Devkitty
@@ -70,7 +70,7 @@ export const ExtensionPage: FC<{ id: string }> = ({ id }) => {
         {' / '}
 
         <a
-          className='hover:text-ink'
+          className='inline-flex min-h-11 items-center hover:text-ink sm:min-h-0'
           href='/extensions/'
         >
           Extensions
@@ -148,7 +148,7 @@ export const ExtensionPage: FC<{ id: string }> = ({ id }) => {
       >
         {prev ? (
           <a
-            className='text-accent underline underline-offset-4'
+            className='inline-flex min-h-11 items-center text-accent underline underline-offset-4 sm:min-h-0'
             href={`/extensions/${prev.id}/`}
           >
             ← {prev.name}
@@ -159,7 +159,7 @@ export const ExtensionPage: FC<{ id: string }> = ({ id }) => {
 
         {next && (
           <a
-            className='text-right text-accent underline underline-offset-4'
+            className='inline-flex min-h-11 items-center text-right text-accent underline underline-offset-4 sm:min-h-0'
             href={`/extensions/${next.id}/`}
           >
             {next.name} →

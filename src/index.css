@@ -81,9 +81,18 @@ html {
   background-color: var(--page-bg2);
   scroll-behavior: smooth;
   scroll-padding-top: 72px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   /* Always keep the scrollbar track: the home page is about one screen tall, so with "auto" the bar comes and goes and the page jumps sideways.
      (Chrome on macOS ignores scrollbar-gutter on the page, so this is the reliable form. Overlay scrollbars are not affected.) */
   overflow-y: scroll;
+}
+
+@media (max-width: 639px) {
+  html {
+    /* the phone header is two rows (~97px) */
+    scroll-padding-top: 112px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -234,12 +243,22 @@ main {
     .hdr-download {
       height: 44px;
     }
+
+    .site-footer a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
   }
 
-  /* Long paths and URLs in legal text wrap instead of widening the page. */
-  .legal code,
-  .legal a {
+  /* Long words, paths and URLs in legal text wrap instead of widening the page. */
+  .legal :is(p, li, h1, h2, h3, code, a) {
     overflow-wrap: anywhere;
+  }
+
+  /* The static legal pages mount the header into this wrapper, which is exactly as tall as the header and would stop it sticking. */
+  #site-header {
+    display: contents;
   }
 
   .site-footer {
@@ -267,8 +286,9 @@ main {
 
   .legal {
     margin-inline: auto;
+    width: 100%;
     max-width: 68ch;
-    padding: 72px 16px;
+    padding: 72px max(16px, env(safe-area-inset-right)) 72px max(16px, env(safe-area-inset-left));
     color: var(--ink-soft);
     font-size: 1.0625rem;
     line-height: 1.65;
@@ -333,6 +353,14 @@ main {
     margin: 0 0 24px;
     border-collapse: collapse;
     font-size: 0.9375rem;
+  }
+
+  /* Phones: a wide table scrolls inside itself, not the page. Desktop keeps real table display for screen readers. */
+  @media (max-width: 639px) {
+    .legal table {
+      display: block;
+      overflow-x: auto;
+    }
   }
 
   .legal th,

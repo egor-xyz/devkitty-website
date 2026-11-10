@@ -32,7 +32,7 @@ export const SiteHeader: FC = () => {
           className='flex items-center gap-2 text-ink no-underline'
           href='/'
         >
-          <AppIcon className='h-16 w-16' />
+          <AppIcon className='h-12 w-12 sm:h-16 sm:w-16' />
           <span className='font-display text-xl'>Devkitty</span>
         </a>
 
