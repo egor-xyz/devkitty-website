@@ -1,3 +1,10 @@
+## [1.23.3](https://github.com/egor-xyz/devkitty-website/compare/v1.23.2...v1.23.3) (2026-11-10)
+
+
+### Bug Fixes
+
+* **site:** usable on phones and mobile Safari; every Features/Extensions option visible as a chip ([#70](https://github.com/egor-xyz/devkitty-website/issues/70)) ([f9246aa](https://github.com/egor-xyz/devkitty-website/commit/f9246aa8cde2a80d303eb34a0dd132732a0bc1fd))
+
 ## [1.23.2](https://github.com/egor-xyz/devkitty-website/compare/v1.23.1...v1.23.2) (2026-11-10)
 
 
