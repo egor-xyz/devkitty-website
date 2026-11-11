@@ -61,14 +61,15 @@
 
     <main class="legal">
       <h1>Privacy</h1>
-      <p><em>Last updated 2026-11-08.</em></p>
+      <p><em>Last updated 2026-11-11.</em></p>
 
       <h2>Summary</h2>
       <p>
         Devkitty works on your Mac. It sends two kinds of data by default: anonymous usage analytics and crash
         reports. Both are <strong>on by default</strong>, and you can turn each one off in
         <strong>Settings &rsaquo; Privacy</strong>. Devkitty has no session replay and does not send your terminal
-        content, your commands or your repository source.
+        content, your commands or your repository source to us. Only when you ask Quick AI a question does Devkitty
+        give context to the AI command-line tool you chose (see <a href="#quick-ai">Quick AI</a>).
       </p>
 
       <table>
@@ -160,9 +161,9 @@
 
       <h2>Updates</h2>
       <p>
-        Devkitty checks for updates once a day by fetching a signed feed from
+        Devkitty checks for updates once an hour by default (you can choose from one hour to seven days) by fetching a signed feed from
         <code>raw.githubusercontent.com/egor-xyz/devkitty-releases</code>. It sends no system profile, and it requires
-        a signed feed and verifies updates. GitHub receives the request, including your IP address and user agent, like
+        a signed feed and verifies updates. Updates install automatically. GitHub receives the request, including your IP address and user agent, like
         any download.
       </p>
 
@@ -181,12 +182,47 @@
         redirects refused and no cookies stored. Usage numbers are not part of the analytics events listed above.
       </p>
 
-      <h2>Browser sign-in import</h2>
+      <h2 id="quick-ai">Quick AI</h2>
       <p>
-        If you choose to, Devkitty copies sign-in cookies from Chrome-type browsers, Firefox or Safari into its
-        built-in browser. History and bookmarks are not copied. For Chrome-type browsers, macOS asks you to allow
+        Quick AI (Cmd+J) lets you ask a question with the <code>claude</code>, <code>codex</code> or
+        <code>cursor-agent</code> command-line tool that you installed and signed in to. Devkitty runs that tool on your
+        Mac and does not contact any AI server itself. The tool sends your question and the attached context to its
+        own provider (Anthropic, OpenAI or Cursor) under that provider&rsquo;s terms and privacy policy, with your
+        own account.
+      </p>
+      <ul>
+        <li>
+          Before you send, the attached context shows as chips that you can remove: the folder and Git branch, the
+          visible terminal screen, selected text, and the page address and title. Browser page text is
+          <strong>off by default</strong>. You can switch the terminal screen and page text off in
+          <strong>Settings &rsaquo; Quick AI</strong>. Nothing is sent until you press Send.
+        </li>
+        <li>
+          Quick AI reads only the visible terminal screen, not older terminal output above it. Context is limited to
+          64&nbsp;KB per question.
+        </li>
+        <li>
+          To show which account is in use, Devkitty asks each tool for its sign-in status
+          (<code>claude auth status</code>, <code>cursor-agent status</code> and the Codex account request). It does
+          not read their credential files, and it keeps the account email only in memory.
+        </li>
+        <li>
+          Saved chats stay on your Mac in Devkitty&rsquo;s Application Support folder, readable only by you. They hold
+          your questions and the answers, not the terminal or page text you attached. Chats are deleted after 30 days
+          by default (you can choose 1 to 365 days), and you can delete one or all of them. &ldquo;Delete all&rdquo;
+          also asks Codex to delete its copies; Claude Code and Cursor keep their own history.
+        </li>
+        <li>Quick AI adds nothing to the analytics events above beyond whether the extension is on.</li>
+      </ul>
+
+      <h2>Browser import</h2>
+      <p>
+        If you choose to, Devkitty imports sign-in cookies, bookmarks and history from Chrome-type browsers (Chrome,
+        Arc, Brave, Edge, Opera, Vivaldi, Chromium), Firefox or Safari into its built-in browser. You choose what to
+        import for each browser; sign-ins are not selected by default. For Chrome-type browsers, macOS asks you to allow
         reading that browser&rsquo;s &ldquo;Safe Storage&rdquo; Keychain item. Devkitty uses it to read the cookies, does
-        not keep it, and writes nothing to your Keychain.
+        not keep it, and writes nothing to your Keychain. Reading Safari data needs Full Disk Access. Imported data
+        stays on your Mac and is not sent anywhere.
       </p>
 
       <h2>Built-in browser</h2>
@@ -194,10 +230,23 @@
         Sites you open see your requests as in any browser. &ldquo;Translate page&rdquo; sends the page address to
         <code>translate.google.com</code>, and only when you use it.
       </p>
+      <ul>
+        <li>
+          Browser history and bookmarks are stored on your Mac only. History keeps your last 500 pages (address,
+          title, last visit and visit count). Cmd+P can search them.
+        </li>
+        <li>
+          Location: when a secure (HTTPS) site asks for your location, Devkitty asks you first. If you allow it, macOS
+          may also ask for Location access. Your location goes only to that site. Devkitty remembers your answer per
+          site until you quit, and <strong>Settings &rsaquo; Browser &rsaquo; Location</strong> lets you forget it.
+        </li>
+        <li>Plain HTTP addresses are opened over HTTPS, unless you list the host as an HTTP host.</li>
+      </ul>
 
       <h2>Your terminal</h2>
       <p>
-        Devkitty does not send your terminal content or commands anywhere. The analytics and crash reports above carry
+        Devkitty does not send your terminal content or commands to us or to any service, except the visible screen
+        and selected text that you attach to a Quick AI question (see <a href="#quick-ai">Quick AI</a>). The analytics and crash reports above carry
         only the fixed fields described there. Devkitty&rsquo;s session helper opens no network listener.
       </p>
 
@@ -221,11 +270,12 @@
         <li><a href="https://posthog.com/privacy" rel="noreferrer">PostHog Inc.</a> (US): analytics, crash reports, feature flags.</li>
         <li><a href="https://policies.google.com/privacy" rel="noreferrer">Google</a> (Firebase): usage analytics.</li>
         <li><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noreferrer">GitHub</a>: updates, downloads and this website.</li>
+        <li>The AI provider of the tool you choose in Quick AI (Anthropic, OpenAI or Cursor): your Quick AI questions and the context you attach, through that tool and your own account.</li>
       </ul>
 
       <h2>Changes</h2>
       <p>
-        This page was last updated on 2026-11-08. See also the <a href="/terms/">Terms</a>.
+        This page was last updated on 2026-11-11. See also the <a href="/terms/">Terms</a>.
       </p>
     </main>
 
