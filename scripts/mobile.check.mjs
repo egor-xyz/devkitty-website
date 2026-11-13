@@ -122,7 +122,7 @@ for (const mode of ['bw', 'devkitty']) {
     }
 
     // 4. preview buttons are tappable (the quick-terminal close is deferred)
-    for (const hash of ['/#features/tab-groups', '/#extensions/quick-terminal']) {
+    for (const hash of ['/#features/tab-groups', '/#extensions/quick-terminal', '/#extensions/quick-ai']) {
       const { ctx, page } = await open(hash, { w, h, mode });
       const small = await page.evaluate(() =>
         [...document.querySelectorAll('.fz-preview button')]

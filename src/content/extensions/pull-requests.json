@@ -31,7 +31,9 @@
       "bullets": [
         "GitHub, GitLab.com and Bitbucket Cloud",
         "GitLab uses your existing glab sign-in",
-        "Bitbucket uses an Atlassian email and scoped API token kept in Keychain; review and merge open Bitbucket's website"
+        "Bitbucket uses an Atlassian email and scoped API token kept in Keychain; review and merge open Bitbucket's website",
+        "Works in jj (Jujutsu) repositories, using the nearest bookmark that is not main",
+        "The toolbar button shows a red bubble for unresolved comments, and cards show a red icon when checks fail"
       ]
     }
   ]

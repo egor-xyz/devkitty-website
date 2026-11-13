@@ -54,7 +54,7 @@ export const Hero: FC = () => {
 
           <div className='side'>
             <p>
-              Devkitty puts your Git worktrees, pull requests, terminals and coding agents in one native Mac window.
+              Devkitty puts your Git worktrees, pull requests, terminals, a built-in browser, your coding agents and Quick AI in one native Mac window.
             </p>
 
             <div className='ctas'>

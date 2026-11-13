@@ -1,4 +1,4 @@
-/** Content for the `devkitty features list` terminal. Claims mirror shipped behaviour (build 283). */
+/** Content for the `devkitty features list` terminal. Claims mirror shipped behaviour (build 338). */
 
 export type Feature = {
   /** Longer description printed under the `show` command. */
@@ -27,13 +27,37 @@ export const FEATURES: Feature[] = [
     summary: 'Group tabs, collapse them into a chip'
   },
   {
-    details: ['The terminal runs on the Ghostty engine, embedded in the app.'],
+    details: [
+      'Press Cmd+J, or the sparkles button in the toolbar, to ask Claude Code, Codex or Cursor about what you are working on.',
+      'It runs the command-line tool you already use, with your own sign-in.',
+      'Attach the terminal, browser page, folder or branch (Cursor: folder and branch). Each workspace keeps its own chat; History keeps the rest.'
+    ],
+    id: 'quick-ai',
+    preview: {
+      kind: 'text',
+      lines: [
+        ['open', 'Cmd+J or the sparkles button'],
+        ['asks', 'Claude Code, Codex or Cursor, with your own sign-in'],
+        ['context', 'terminal, browser page, folder, branch'],
+        ['chats', 'one per workspace, plus a shared Chat tab']
+      ]
+    },
+    summary: 'Quick AI: ask your own coding agent'
+  },
+  {
+    details: [
+      'The terminal runs on the Ghostty engine, embedded in the app.',
+      'Cmd+F searches the focused pane, with a match count and next and previous.',
+      'Sessions keep running when you quit Devkitty and reconnect when you open it. A Mac restart still ends them.'
+    ],
     id: 'ghostty-engine',
     preview: {
       kind: 'text',
       lines: [
         ['engine', 'Ghostty, embedded (libghostty)'],
-        ['runs in', 'the Devkitty window, one engine for every terminal tab']
+        ['runs in', 'the Devkitty window, one engine for every terminal tab'],
+        ['search', 'Cmd+F in the focused pane'],
+        ['sessions', 'keep running when you quit Devkitty']
       ]
     },
     summary: 'Ghostty terminal engine, embedded'
@@ -42,7 +66,8 @@ export const FEATURES: Feature[] = [
     details: [
       'Split a tab to the right or below.',
       'Terminals and the built-in browser sit side by side.',
-      'The split commands are in ⌘P.'
+      'The split commands are in ⌘P.',
+      'Cmd-Option-Up and Down move focus between panes; Control-Command-arrows resize them.'
     ],
     id: 'split-view',
     preview: {
@@ -56,9 +81,11 @@ export const FEATURES: Feature[] = [
   },
   {
     details: [
-      'A browser tab per page, with back, forward and bookmarks.',
-      'Open http(s) links from the terminal in it.',
-      'Translate a page, and use Web Inspector where supported.'
+      'A browser tab per page, with back, forward, bookmark folders and history.',
+      'Open http(s) links from the terminal in it. Pages load over HTTPS unless you allow a host in Settings.',
+      'Mute a tab from its menu, Cmd+P or its speaker icon; it stays muted after a restart.',
+      'Picture in Picture, find in page, translate and Inspect Element. Sites ask before they get your location.',
+      'A Google Meet call floats in a small window when you switch away, with Return to Tab.'
     ],
     id: 'built-in-browser',
     preview: { kind: 'mock', mock: 'browser' },
@@ -93,7 +120,8 @@ export const FEATURES: Feature[] = [
   {
     details: [
       'Coding-agent sessions sit in tabs and the sidebar next to your shells.',
-      'Switch between them without leaving the window.'
+      'Switch between them without leaving the window.',
+      'After a Force Quit, each tab resumes its own Claude conversation.'
     ],
     id: 'agent-tabs',
     preview: {
@@ -108,7 +136,9 @@ export const FEATURES: Feature[] = [
   {
     details: [
       'Press Cmd+P for one palette with browsable categories and nested actions.',
-      'Type to search every action, or the category you are in.'
+      'Type to search every action, or the category you are in.',
+      'Type a web address to open it in the browser; the Browser category opens pages from your history.',
+      'On/off settings have a switch right in the list; Return toggles it.'
     ],
     id: 'cmd-p',
     preview: {
@@ -122,21 +152,21 @@ export const FEATURES: Feature[] = [
   },
   {
     details: [
-      'Import Browser Sessions copies only sign-in cookies from Chrome-type browsers, Firefox or Safari.',
-      'History and bookmarks are not copied.',
-      'New in build 283, and not yet tested with real browser profiles.'
+      'Pick sign-in cookies, bookmarks and history for each browser: Chrome-type browsers, Firefox and Safari.',
+      'Bookmarks keep their folders under "Imported from <browser>"; history keeps the newest 500 pages.',
+      'Sign-in cookies start unchecked, so nothing sensitive is copied unless you choose it.'
     ],
-    id: 'session-import',
+    id: 'browser-import',
     preview: {
       kind: 'text',
       lines: [
         ['from', 'Chrome-type browsers, Firefox, Safari'],
-        ['copies', 'sign-in cookies only'],
-        ['skips', 'history, bookmarks'],
-        ['macOS may ask', 'Keychain password, Full Disk Access (Safari)'],
-        ['status', 'new, and not yet tested with real browser profiles']
+        ['choose', 'sign-in cookies, bookmarks, history, per browser'],
+        ['bookmarks', 'folders kept, under "Imported from <browser>"'],
+        ['history', 'newest 500 pages'],
+        ['macOS may ask', 'Keychain password, Full Disk Access (Safari)']
       ]
     },
-    summary: 'Bring your browser sign-ins over'
+    summary: 'Import from your other browsers'
   }
 ];

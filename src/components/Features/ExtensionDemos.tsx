@@ -198,6 +198,67 @@ const ImageCropperDemo: FC = () => {
   );
 };
 
+/* ───────── quick-ai ───────── */
+
+const QA_MODES = ['Chat', 'Workspace'] as const;
+const QA_CHIPS: Record<(typeof QA_MODES)[number], string[]> = { Chat: ['~'], Workspace: ['~/shop', 'main', 'terminal'] };
+const QA_ANSWER = [
+  'The test waits for "Pay now" before the cart loads.',
+  'It passes when you await the cart request first.',
+  'Want me to make that change?'
+];
+
+const QuickAIDemo: FC = () => {
+  const [mode, setMode] = useState<(typeof QA_MODES)[number]>('Workspace');
+  const [shown, setShown] = useState(() => (reducedMotion() ? QA_ANSWER.length : 1));
+
+  // One extra tick keeps the full answer on screen before the loop restarts.
+  useTick(900, () => setShown((n) => (n >= QA_ANSWER.length + 1 ? 1 : n + 1)));
+
+  return (
+    <WindowFrame strip={<SingleTab name='agent' />}>
+      <p className='fz-win-dim'>sample data · Cmd+J</p>
+
+      <div className='fz-qa'>
+        <div className='fz-qa-head'>
+          {QA_MODES.map((m) => (
+            <button
+              aria-pressed={mode === m}
+              key={m}
+              onClick={() => setMode(m)}
+              type='button'
+            >
+              {m}
+            </button>
+          ))}
+        </div>
+
+        <div className='fz-qa-chips'>
+          {QA_CHIPS[mode].map((c) => (
+            <span key={c}>{c}</span>
+          ))}
+        </div>
+
+        <p className='fz-qa-user'>why does the checkout test fail?</p>
+
+        <div className='fz-qa-answer'>
+          {/* Every line is laid out, so the height never changes while the answer types in. */}
+          {QA_ANSWER.map((line, i) => (
+            <p
+              data-on={i < shown}
+              key={line}
+            >
+              {line}
+            </p>
+          ))}
+        </div>
+
+        <p className='fz-qa-foot'>Claude Code · Opus 5.5 · high</p>
+      </div>
+    </WindowFrame>
+  );
+};
+
 /* ───────── real renders of the app's own views (sample data) ───────── */
 
 type RealShot = { alt: string; height: number; id: string; src: string; width: number };
@@ -359,6 +420,7 @@ export const EXTENSION_DEMOS: Partial<Record<string, FC>> = {
   'agents-widget': AgentsWidgetDemo,
   'image-cropper': ImageCropperDemo,
   'pull-requests': PullRequestsDemo,
+  'quick-ai': QuickAIDemo,
   'quick-terminal': QuickTerminalDemo,
   'system-health': SystemHealthDemo
 };

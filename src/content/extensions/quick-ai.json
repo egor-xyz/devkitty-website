@@ -1,0 +1,35 @@
+{
+  "id": "quick-ai",
+  "name": "Quick AI",
+  "tagline": "Ask Claude Code, Codex or Cursor about what you are working on, from any window.",
+  "icon": "/extensions/quick-ai/icon.svg",
+  "group": "Development",
+  "status": "new",
+  "minBuild": 308,
+  "defaultOn": true,
+  "order": 70,
+  "screenshots": [],
+  "sections": [
+    {
+      "heading": "Ask about what is in front of you",
+      "body": "Press Cmd+J, or click the sparkles button in the toolbar, to open the Quick AI panel. It sends your question to the Claude Code, Codex or Cursor command-line tool you already use, with your own sign-in, and streams the answer as Markdown.",
+      "bullets": [
+        "Attach the terminal, browser page, folder or branch as context chips, or type @ to add one (Cursor gets the folder and branch)",
+        "Pick the provider, model and effort in the footer, which also shows your account",
+        "Type / for your Claude commands and skills, or $ for your Codex skills",
+        "Start a message with ! to pass a command to the AI exactly as you typed it",
+        "Press Return while it replies to queue your next message"
+      ]
+    },
+    {
+      "heading": "A chat for every workspace",
+      "body": "Each workspace keeps its own chat and reopens it after a relaunch. The Chat tab is one conversation shared by every workspace, working in your home folder or any folder you choose.",
+      "bullets": [
+        "Saved chats are in History: questions, answers and tool summaries, never the attached text. Delete one or all",
+        "Up arrow brings back earlier messages",
+        "Requests that need your approval are declined",
+        "Set transparency, blur, text size and panel size in Settings › Quick AI"
+      ]
+    }
+  ]
+}
