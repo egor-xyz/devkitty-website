@@ -26,7 +26,8 @@
         "Pin up to 10 workflows",
         "Click a workflow to see its jobs and steps; re-run all jobs or only failed ones",
         "A failed run puts a red dot on the toolbar button; a macOS alert is optional",
-        "Pin from the built-in browser with the Add to Devkitty button on a GitHub workflow or run page"
+        "Pin from the built-in browser with the Add to Devkitty button on a GitHub workflow or run page",
+        "Move pinned workflows up or down from the row menu"
       ]
     }
   ]
