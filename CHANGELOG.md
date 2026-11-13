@@ -1,3 +1,10 @@
+# [1.24.0](https://github.com/egor-xyz/devkitty-website/compare/v1.23.3...v1.24.0) (2026-11-13)
+
+
+### Features
+
+* **site:** Quick AI extension, browser import and latest app features ([#73](https://github.com/egor-xyz/devkitty-website/issues/73)) ([1f5cae5](https://github.com/egor-xyz/devkitty-website/commit/1f5cae5fc38b753246d80bff50e38540917e771b))
+
 ## [1.23.3](https://github.com/egor-xyz/devkitty-website/compare/v1.23.2...v1.23.3) (2026-11-10)
 
 
