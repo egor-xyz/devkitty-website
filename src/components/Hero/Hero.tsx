@@ -26,8 +26,7 @@ export const Hero: FC = () => {
         <div className='hero-text'>
           <div className='h1box'>
             <p className='eyebrow'>
-              NATIVE FOR macOS · <span>{`v${version} (build ${build})`}</span> ·{' '}
-              <span data-h='when'>YOUR TIME</span>
+              NATIVE FOR macOS · <span>{`v${version} (build ${build})`}</span>
             </p>
 
             <h1>
