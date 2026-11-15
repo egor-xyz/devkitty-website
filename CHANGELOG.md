@@ -1,3 +1,10 @@
+## [1.24.1](https://github.com/egor-xyz/devkitty-website/compare/v1.24.0...v1.24.1) (2026-11-15)
+
+
+### Bug Fixes
+
+* **hero:** drop the time from the eyebrow; room darkens with the sky ([#74](https://github.com/egor-xyz/devkitty-website/issues/74)) ([07e42be](https://github.com/egor-xyz/devkitty-website/commit/07e42be8f9d8f867646dc3ec792b7e1167882a67))
+
 # [1.24.0](https://github.com/egor-xyz/devkitty-website/compare/v1.23.3...v1.24.0) (2026-11-13)
 
 
