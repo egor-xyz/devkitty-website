@@ -21,6 +21,8 @@ export type RevealState = { anim: number; cx: number; cy: number; on: boolean; r
 
 const BASE = import.meta.env.BASE_URL;
 const WORD = ['morning', 'afternoon', 'evening', 'night'];
+/** How dark the sky is in each phase (0 = full sun, 1 = night); the room shade follows it. */
+const SKY_DARK = [0, 0, 0.7, 1];
 
 const TASKS: [string, string, string, string][] = [
   ['claude', 'do all my tasks for today', '● 4 worktrees, 9 tabs. Which one is "today"?', '✓ 3 agents · 3 worktrees · 1 window'],
@@ -225,8 +227,6 @@ const CAT_TYPES = [
 
 const LEFT = new Set('qwertasdfgzxcvb12345`~'.split(''));
 
-const hm = (d: Date) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
 export function mountHero(root: HTMLElement): () => void {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   // remember the last mode on this device; applied first, before any layout read, so there is no transition at load
@@ -428,10 +428,10 @@ export function mountHero(root: HTMLElement): () => void {
     shared.phase = pf;
     h('phw').textContent = word;
     h('pha').textContent = word;
-    h('when').textContent = `${hm(d)} ${word.toUpperCase()}`;
     root.dataset.phase = word;
     const w = pf >= 2 ? Math.max(0, 1 - Math.abs(pf - 3)) : 0;
-    nightW = w;
+    // the room is as dark as the sky: it dims as the sky darkens toward evening, not only at night
+    nightW = SKY_DARK[p]! + (SKY_DARK[(p + 1) % 4]! - SKY_DARK[p]!) * (pf - Math.floor(pf));
     followClock();
     shade();
     // the moon rises from behind the skyline in the evening and sets behind it toward morning (a plain fade for reduced motion)
