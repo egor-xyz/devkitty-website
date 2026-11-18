@@ -1,4 +1,4 @@
-/** Content for the `devkitty features list` terminal. Claims mirror shipped behaviour (build 338). */
+/** Content for the `devkitty features list` terminal. Claims mirror shipped behaviour (build 411). */
 
 export type Feature = {
   /** Longer description printed under the `show` command. */
@@ -168,5 +168,96 @@ export const FEATURES: Feature[] = [
       ]
     },
     summary: 'Import from your other browsers'
+  },
+  {
+    details: [
+      'An optional extension (off by default): lists and cards for your workspaces, agent sessions, pull requests, links and files.',
+      'A card follows its workspace: it moves to In Progress, Review and Done as the agent and its pull request do, and a session can report its own status.',
+      'Drag cards between lists, collapse the Board AI panel, and drop a card in the Trash (kept 30 days, then deleted).',
+      'Board data is stored on your Mac. Cmd+1 opens the Board.'
+    ],
+    id: 'work-board',
+    preview: {
+      kind: 'text',
+      lines: [
+        ['cards', 'workspaces, agent sessions, PRs, links, files'],
+        ['moves', 'In Progress, Review, Done, from session reports and PRs'],
+        ['trash', 'restore within 30 days'],
+        ['stored', 'on this Mac']
+      ]
+    },
+    summary: 'Work Board: cards for your workspaces and agents'
+  },
+  {
+    details: [
+      'A chat in the Board that keeps it true: it moves cards, answers questions and points to quick wins.',
+      'It can message your agent sessions ("ask all sessions for a status") and start a Claude or Codex session for a card. Both can be turned off in Settings.',
+      'It remembers lasting preferences in one memory file you can read, edit or clear.',
+      'It runs through your own Claude Code or Codex sign-in.'
+    ],
+    id: 'board-ai',
+    preview: {
+      kind: 'text',
+      lines: [
+        ['asks', 'Claude Code or Codex, with your own sign-in'],
+        ['can do', 'move cards, message sessions, start sessions'],
+        ['memory', 'one file, yours to read, edit or clear'],
+        ['commands', '/new session, /new card, /memory, /clear']
+      ]
+    },
+    summary: 'Board AI: a manager chat for your Board'
+  },
+  {
+    details: [
+      'A floating player for YouTube Music, opened from the Music button in the toolbar or Cmd+P.',
+      'Choose a theme: Glass, Tiger, Grey or Old Is New. It remembers its place and comes back after a relaunch.',
+      'The volume slider sets the Mac system volume.',
+      'Part of the Music Player extension, which also adds play, next and previous commands to Cmd+P.'
+    ],
+    id: 'mini-player',
+    preview: {
+      kind: 'text',
+      lines: [
+        ['plays', 'the YouTube Music tab you have open'],
+        ['themes', 'Glass, Tiger, Grey, Old Is New'],
+        ['volume', 'the Mac system volume'],
+        ['keys', 'play, next, previous in Cmd+P']
+      ]
+    },
+    summary: 'Mini Player for YouTube Music'
+  },
+  {
+    details: [
+      'Keep separate sign-ins, bookmarks and history in browser profiles, for example two Claude accounts side by side.',
+      'Switch, add, rename or delete profiles from the browser bar, the page menu or Cmd+P. Each profile has its own icon and colour.',
+      'Remove website data clears only the active profile.'
+    ],
+    id: 'browser-profiles',
+    preview: {
+      kind: 'text',
+      lines: [
+        ['keeps apart', 'sign-ins, bookmarks, history'],
+        ['switch', 'browser bar, right-click menu, Cmd+P'],
+        ['default', 'your existing data becomes the Default profile']
+      ]
+    },
+    summary: 'Browser profiles with their own sign-ins'
+  },
+  {
+    details: [
+      'A soft mid-2000s Mac look: brushed aluminium in light mode, graphite in dark mode.',
+      'It only changes how things look; every button and panel stays where it is.',
+      'Turn it on in Settings, Appearance, or with Cmd+P.'
+    ],
+    id: 'nostalgia-theme',
+    preview: {
+      kind: 'text',
+      lines: [
+        ['look', 'brushed aluminium (light), graphite (dark)'],
+        ['layout', 'unchanged'],
+        ['turn on', 'Settings, Appearance, or Cmd+P']
+      ]
+    },
+    summary: 'Nostalgia theme'
   }
 ];

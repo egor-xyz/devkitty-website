@@ -1,0 +1,34 @@
+{
+  "id": "board",
+  "name": "Work Board",
+  "tagline": "A board of lists and cards for your workspaces and agents, kept on this Mac.",
+  "icon": "/extensions/board/icon.svg",
+  "group": "Development",
+  "status": "new",
+  "minBuild": 397,
+  "defaultOn": false,
+  "order": 80,
+  "settingsPath": "Settings › Integrations › Board",
+  "screenshots": [],
+  "sections": [
+    {
+      "heading": "Your work as cards",
+      "body": "The Board is a Trello-like board with a tab of its own (Cmd+1). A card follows a workspace, an agent session or something you add yourself, and carries its pull requests, links, files, checklist and notes.",
+      "bullets": [
+        "Cards move to In Progress, Review and Done from agent activity, pull requests and the reports your Claude and Codex sessions end their replies with",
+        "Links and Files on each card; sessions add the links and files their task uses",
+        "Drag cards and lists; drop a card in the Trash to remove it, with Undo. Removed cards stay 30 days, then are deleted",
+        "Board data is stored on your Mac"
+      ]
+    },
+    {
+      "heading": "Board AI",
+      "body": "An optional chat that keeps the Board true. It runs through your own Claude Code or Codex sign-in and stays paused until you choose an account.",
+      "bullets": [
+        "Ask it to move cards, message your agent sessions or start a session for a card; each can be turned off in settings",
+        "Memory: one plain file of your preferences and corrections, which you can read, edit, clear or turn off",
+        "Slash commands such as /new session, /new card, /memory and /clear"
+      ]
+    }
+  ]
+}

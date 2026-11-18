@@ -61,15 +61,16 @@
 
     <main class="legal">
       <h1>Privacy</h1>
-      <p><em>Last updated 2026-11-11.</em></p>
+      <p><em>Last updated 2026-11-18.</em></p>
 
       <h2>Summary</h2>
       <p>
         Devkitty works on your Mac. It sends two kinds of data by default: anonymous usage analytics and crash
         reports. Both are <strong>on by default</strong>, and you can turn each one off in
         <strong>Settings &rsaquo; Privacy</strong>. Devkitty has no session replay and does not send your terminal
-        content, your commands or your repository source to us. Only when you ask Quick AI a question does Devkitty
-        give context to the AI command-line tool you chose (see <a href="#quick-ai">Quick AI</a>).
+        content, your commands, your repository source or your Board content to us. Only when you use Quick AI or Board
+        AI does Devkitty give context to the AI command-line tool you chose (see <a href="#quick-ai">Quick AI</a> and
+        <a href="#work-board">Work Board</a>).
       </p>
 
       <table>
@@ -215,6 +216,53 @@
         <li>Quick AI adds nothing to the analytics events above beyond whether the extension is on.</li>
       </ul>
 
+      <h2 id="work-board">Work Board and Board AI</h2>
+      <p>
+        The Work Board is an optional extension, off by default: a board of lists and cards for your workspaces, agent
+        sessions, pull requests, links and files. It is stored on your Mac. Devkitty has no sync for it and does not
+        send it to us.
+      </p>
+      <ul>
+        <li>
+          Cards, lists, notes, links, attached files and images, and the Trash are kept in a <code>board</code> folder
+          inside Devkitty&rsquo;s folder in <code>~/Library/Application Support</code>. Removed cards stay in the Trash
+          for 30 days and are then deleted.
+        </li>
+        <li>
+          Board AI is an optional chat in the Board. It runs through the <code>claude</code> or <code>codex</code>
+          command-line tool you installed and chose in <strong>Settings &rsaquo; Board</strong>, with your own account;
+          it stays paused until you choose one. Devkitty does not contact any AI server itself. The tool sends what
+          Board AI gives it to its provider (Anthropic or OpenAI) under that provider&rsquo;s terms and privacy policy.
+        </li>
+        <li>
+          That is your messages and a snapshot of the Board it needs to answer: card titles, folders, short excerpts of
+          descriptions and notes, agent summaries, link titles and file names, pull request and issue references, tab
+          names and agent status. Links that carry a token or key are not included. The contents of attached files and
+          images are not part of it.
+        </li>
+        <li>
+          Board AI memory is one plain text file, <code>memory.md</code>, in that folder, readable only by you. It holds
+          short notes of preferences and corrections you gave Board AI. Devkitty adds it to each new Board AI chat.
+          You can read, edit or clear it, or turn it off, in <strong>Settings &rsaquo; Board</strong>; the notes also
+          show in the chat with a Forget button.
+        </li>
+        <li>
+          Session reports: unless you turn it off in Settings &rsaquo; Board, Devkitty asks the Claude and Codex sessions
+          you start in its terminals to end a reply with a short status block, which updates the card. Devkitty reads
+          that block, and for card summaries a short text excerpt of the session&rsquo;s saved conversation (recent
+          prompts and replies, no tool output or file contents), on your Mac. An excerpt goes only to the AI tool you
+          chose for Board AI, never to us.
+        </li>
+        <li>
+          Board AI can message your agent sessions and start new ones. Both are on by default and can be turned off in
+          Settings &rsaquo; Board.
+        </li>
+        <li>
+          The analytics events above carry only whether the Work Board extension is on. They never contain card, link
+          or memory content.
+        </li>
+      </ul>
+
       <h2>Browser import</h2>
       <p>
         If you choose to, Devkitty imports sign-in cookies, bookmarks and history from Chrome-type browsers (Chrome,
@@ -246,7 +294,8 @@
       <h2>Your terminal</h2>
       <p>
         Devkitty does not send your terminal content or commands to us or to any service, except the visible screen
-        and selected text that you attach to a Quick AI question (see <a href="#quick-ai">Quick AI</a>). The analytics and crash reports above carry
+        and selected text that you attach to a Quick AI question (see <a href="#quick-ai">Quick AI</a>), and the short
+        session excerpts Board AI may read for card summaries (see <a href="#work-board">Work Board</a>). The analytics and crash reports above carry
         only the fixed fields described there. Devkitty&rsquo;s session helper opens no network listener.
       </p>
 
@@ -271,11 +320,12 @@
         <li><a href="https://policies.google.com/privacy" rel="noreferrer">Google</a> (Firebase): usage analytics.</li>
         <li><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noreferrer">GitHub</a>: updates, downloads and this website.</li>
         <li>The AI provider of the tool you choose in Quick AI (Anthropic, OpenAI or Cursor): your Quick AI questions and the context you attach, through that tool and your own account.</li>
+        <li>The AI provider of the tool you choose for Board AI (Anthropic or OpenAI): your Board AI messages and the Board details described above, through that tool and your own account.</li>
       </ul>
 
       <h2>Changes</h2>
       <p>
-        This page was last updated on 2026-11-11. See also the <a href="/terms/">Terms</a>.
+        This page was last updated on 2026-11-18. See also the <a href="/terms/">Terms</a>.
       </p>
     </main>
 

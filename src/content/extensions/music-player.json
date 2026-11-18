@@ -1,0 +1,33 @@
+{
+  "id": "music-player",
+  "name": "Music Player",
+  "tagline": "Control YouTube Music from the toolbar, or in a floating Mini Player.",
+  "icon": "/extensions/music-player/icon.svg",
+  "group": "Toolbar",
+  "status": "stable",
+  "minBuild": 357,
+  "defaultOn": true,
+  "order": 65,
+  "settingsPath": "Settings › Music Player",
+  "screenshots": [],
+  "sections": [
+    {
+      "heading": "Music without leaving your work",
+      "body": "A music button appears in the toolbar while a YouTube Music tab is open. Its card shows the song, artwork and time bar, with play and pause, next, previous and 10-second skip buttons. Controls play in that tab; nothing runs while the player is closed.",
+      "bullets": [
+        "Play, next, previous and 10-second skips are also in Cmd+P",
+        "Starting music in one tab pauses the others (you can turn this off in settings)",
+        "Optional notification when the song changes, with the cover art"
+      ]
+    },
+    {
+      "heading": "Mini Player",
+      "body": "Open a floating player from the Music card or Cmd+P. It never takes focus, remembers its place and screen, and can stay above other windows.",
+      "bullets": [
+        "Themes: Glass, Tiger, Grey and Old Is New",
+        "The volume slider sets the Mac system volume",
+        "It hides while there is no YouTube Music tab"
+      ]
+    }
+  ]
+}
