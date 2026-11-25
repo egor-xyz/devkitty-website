@@ -88,7 +88,7 @@ export const POSTERS: Poster[] = [
   { art: ARTS.bug, bw: ["it's a", 'feature'], lit: ['found it.', 'fixed.'] },
   { art: ARTS.git, bw: ['who rebased', 'main?'], lit: ['clean', 'history.'] },
   { bw: ["it's", 'always', 'DNS'], lit: ['CI', 'is', 'green'] },
-  { art: ARTS.crown, bw: ['works on', 'my machine'], lit: ['works on', 'every machine'] },
+  { art: ARTS.crown, bw: ['works on', 'my machine'], lit: ['works on', 'macOS 27+'] },
   { art: ARTS.drip, bw: ['coffee', '> sleep'], lit: ['coffee +', 'devkitty'] },
   { art: ARTS.sleep, bw: ['pair', 'programming'], lit: ['best pair', 'programmer'] },
   { art: ARTS.net, bw: ['Tomas, dive', 'into .NET'], lit: ['Tomas caught', 'bugs in .NET'] }
