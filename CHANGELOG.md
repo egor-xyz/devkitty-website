@@ -1,3 +1,10 @@
+## [1.24.2](https://github.com/egor-xyz/devkitty-website/compare/v1.24.1...v1.24.2) (2026-11-25)
+
+
+### Bug Fixes
+
+* **hero:** poster says works on macOS 27+, not every machine ([#75](https://github.com/egor-xyz/devkitty-website/issues/75)) ([f34e562](https://github.com/egor-xyz/devkitty-website/commit/f34e562f32c4de413246e527138c6338c7ba5226))
+
 ## [1.24.1](https://github.com/egor-xyz/devkitty-website/compare/v1.24.0...v1.24.1) (2026-11-15)
 
 
